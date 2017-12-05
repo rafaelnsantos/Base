@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4256197358107428}
   - component: {fileID: 82446467109516822}
   - component: {fileID: 82895809519452684}
-  - component: {fileID: 114053768475971984}
+  - component: {fileID: 114625321488849360}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -202,7 +202,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &114053768475971984
+--- !u!114 &114625321488849360
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
