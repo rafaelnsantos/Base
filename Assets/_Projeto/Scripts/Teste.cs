@@ -4,10 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Teste : MonoBehaviour {
-	private Text asdd;
 
 	// Use this for initialization
 	void Start () {
+		AudioManager.Instance.SetEffectVolume(0.5f);
 	}
 
 	// Update is called once per frame
