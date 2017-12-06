@@ -4,7 +4,7 @@ public class Teste : MonoBehaviour {
 
 	private AudioManager audioManager;
 	public AudioClip AudioClip;
-	
+
 	// Use this for initialization
 	void Start () {
 		audioManager = AudioManager.Instance;
