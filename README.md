@@ -6,3 +6,4 @@ Features:
 - [x] Git LFS
 - [x] Unity Smart Merge
 - [x] Scene Fusion
+- [x] Audio Manager
