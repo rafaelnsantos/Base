@@ -1,21 +1,14 @@
 ﻿using UnityEngine;
 
 public class AudioManager : MonoBehaviour {
+
 	private AudioSource musicSource, effectSource;
 
-	private bool musicOn, effectOn;
+	public bool MusicOn { get; private set; }
+	public bool EffectOn { get; private set; }
+	public static AudioManager Instance { get; private set; }
 
-	public bool MusicOn {
-		get { return musicOn; }
-	}
-
-	public bool EffectOn {
-		get { return effectOn; }
-	}
-
-	public static AudioManager Instance;
-
-	void Awake () {
+	private void Awake () {
 		// Singleton Patter
 		if (Instance == null) {
 			Instance = this;
@@ -29,8 +22,8 @@ public class AudioManager : MonoBehaviour {
 	}
 
 	private void Start () {
-		musicOn = true;
-		effectOn = true;
+		MusicOn = true;
+		EffectOn = true;
 	}
 
 	/// <summary>
@@ -41,7 +34,7 @@ public class AudioManager : MonoBehaviour {
 	/// <param name="volume">Volume, default 1.</param>
 	/// <param name="pitch">Pitch, default 1.</param>
 	public void PlayEffect (AudioClip clip, float duration = 1f, float volume = 1f, float pitch = 1f) {
-		if (!effectOn) return;
+		if (!EffectOn) return;
 
 		effectSource.volume = volume;
 		effectSource.pitch = pitch;
@@ -69,7 +62,7 @@ public class AudioManager : MonoBehaviour {
 	/// </summary>
 	/// <param name="clip">Music to play.</param>
 	public void PlayMusic (AudioClip clip) {
-		if (!musicOn) return;
+		if (!MusicOn) return;
 
 		musicSource.clip = clip;
 		musicSource.Play();
@@ -79,23 +72,23 @@ public class AudioManager : MonoBehaviour {
 	/// Switch music on or off. Returns actual state.
 	/// </summary>
 	public bool SwitchMusic () {
-		musicOn = !musicOn;
+		MusicOn = !MusicOn;
 
-		if (!musicOn) {
+		if (!MusicOn) {
 			musicSource.Stop();
 		} else {
 			musicSource.Play();
 		}
 
-		return musicOn;
+		return MusicOn;
 	}
 
 	/// <summary>
 	/// Switch effects on or off. Returns actual state.
 	/// </summary>
 	public bool SwitchEffect () {
-		effectOn = !effectOn;
-		return effectOn;
+		EffectOn = !EffectOn;
+		return EffectOn;
 	}
 
 	/// <summary>
