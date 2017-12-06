@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class RotateEffect : MonoBehaviour {
     [Range(5f, 200f)] public float Speed;
-    public bool clockwise;
+    public bool Clockwise;
 
     private void Update () {
-        transform.Rotate(clockwise ? Vector3.back : Vector3.forward, Speed * Time.deltaTime);
+        transform.Rotate(Clockwise ? Vector3.back : Vector3.forward, Speed * Time.deltaTime);
     }
 }
