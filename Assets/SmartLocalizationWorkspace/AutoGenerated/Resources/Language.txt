@@ -117,12 +117,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
 	<data name="Settings.EffectVolume" xml:space="preserve">
-		<value>New Value</value>
-	</data>
-	<data name="Settings.MusicVolume" xml:space="preserve">
-		<value>MyFirstValue</value>
+		<value>Effect volume</value>
 	</data>
 	<data name="Settings.Language" xml:space="preserve">
-		<value>New Value</value>
+		<value>Language</value>
+	</data>
+	<data name="Settings.MusicVolume" xml:space="preserve">
+		<value>Music Volume</value>
 	</data>
 </root>

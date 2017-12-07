@@ -120,7 +120,7 @@
 		<value>Effect Volume</value>
 	</data>
 	<data name="Settings.Language" xml:space="preserve">
-		<value>English</value>
+		<value>Português</value>
 	</data>
 	<data name="Settings.MusicVolume" xml:space="preserve">
 		<value>Music Volume</value>
