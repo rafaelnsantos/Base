@@ -23,7 +23,7 @@ namespace KS.SceneFusion.Menus
         [MenuItem(MENU_PATH + "Lock Objects %l", false, PRIORITY)]
         private static void Lock()
         {
-            SceneFusionAPI.Lock(Selection.gameObjects);
+            sfObjectUtility.Lock(Selection.gameObjects);
         }
 
         /**
@@ -32,7 +32,7 @@ namespace KS.SceneFusion.Menus
         [MenuItem(MENU_PATH + "Lock Objects and Children %#l", false, PRIORITY)]
         private static void RecursiveLock()
         {
-            SceneFusionAPI.RecursiveLock(Selection.gameObjects);
+            sfObjectUtility.RecursiveLock(Selection.gameObjects);
         }
 
         /**
@@ -41,7 +41,7 @@ namespace KS.SceneFusion.Menus
         [MenuItem(MENU_PATH + "Unlock Objects %u", false, PRIORITY)]
         private static void Unlock()
         {
-            SceneFusionAPI.Unlock(Selection.gameObjects);
+            sfObjectUtility.Unlock(Selection.gameObjects);
         }
 
         /**
@@ -50,7 +50,7 @@ namespace KS.SceneFusion.Menus
         [MenuItem(MENU_PATH + "Unlock Objects and Children %#u", false, PRIORITY)]
         private static void RecursiveUnlock()
         {
-            SceneFusionAPI.RecursiveUnlock(Selection.gameObjects);
+            sfObjectUtility.RecursiveUnlock(Selection.gameObjects);
         }
     }
 }

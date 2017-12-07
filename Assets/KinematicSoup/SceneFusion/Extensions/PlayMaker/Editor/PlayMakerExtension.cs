@@ -47,28 +47,28 @@ namespace KS.SceneFusion.Extensions.Editor
         static PlayMakerExtension()
         {
             // Don't sync PlayMakerGUI because PlayMaker can create it automatically.
-            SceneFusionAPI.DontSyncObjectsWith<PlayMakerGUI>();
+            sfUtility.DontSyncObjectsWith<PlayMakerGUI>();
 
             // Register property change handlers
-            SceneFusionAPI.RegisterPropertyChangeHandler<PlayMakerFSM>(OnPropertyChange);
+            sfObjectUtility.RegisterPropertyChangeHandler<PlayMakerFSM>(OnPropertyChange);
 
             // Register on connect/disconnect handler
-            SceneFusionAPI.OnConnect += OnConnect;
-            SceneFusionAPI.OnDisconnect += OnDisconnect;
+            sfUtility.OnConnect += OnConnect;
+            sfUtility.OnDisconnect += OnDisconnect;
 
             // Register on spawn request handler
-            SceneFusionAPI.OnSpawn += OnSpawn;
+            sfObjectUtility.OnSpawn += OnSpawn;
 
             // Register on lock/unlock handler
-            SceneFusionAPI.OnLock += OnLock;
-            SceneFusionAPI.OnUnlock += OnUnlock;
+            sfObjectUtility.OnLock += OnLock;
+            sfObjectUtility.OnUnlock += OnUnlock;
 
             // Register on add/remove component handler
-            SceneFusionAPI.OnAddComponent += OnAddComponent;
-            SceneFusionAPI.OnRemoveComponent += OnRemoveComponent;
+            sfObjectUtility.OnAddComponent += OnAddComponent;
+            sfObjectUtility.OnRemoveComponent += OnRemoveComponent;
 
             // Sync hidden property fsm on PlayMakerFSM
-            SceneFusionAPI.SyncHiddenProperties<PlayMakerFSM>("fsm");
+            sfUtility.SyncHiddenProperties<PlayMakerFSM>("fsm");
 
             EditorApplication.update += Update;
         }
@@ -377,7 +377,7 @@ namespace KS.SceneFusion.Extensions.Editor
             // Set SF_PLAYMAKER define to compile PlayMaker-dependant code if PlayMaker is detected.
             if (DetectPlayMaker())
             {
-                SceneFusionAPI.SetDefineSymbol("SF_PLAYMAKER");
+                sfUtility.SetDefineSymbol("SF_PLAYMAKER");
             }
         }
 

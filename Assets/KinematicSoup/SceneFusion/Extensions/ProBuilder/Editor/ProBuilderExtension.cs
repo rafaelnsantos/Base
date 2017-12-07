@@ -32,10 +32,10 @@ namespace KS.SceneFusion.Extensions
         static ProBuilderExtension()
         {
             // Register property change handler
-            SceneFusionAPI.RegisterPropertyChangeHandler<pb_Object>(OnPropertyChange);
+            sfObjectUtility.RegisterPropertyChangeHandler<pb_Object>(OnPropertyChange);
 
             // Register before spawn request handler
-            SceneFusionAPI.BeforeFirstSync += BeforeSpawnRequest;
+            sfObjectUtility.BeforeFirstSync += BeforeSpawnRequest;
 
             // Register on selection update handler. This is also invoked when geometry changes which is what we want
             // it for.
@@ -70,7 +70,7 @@ namespace KS.SceneFusion.Extensions
                 {
                     // The game object has a mesh whose data is controlled by ProBuilder. Tell Scene Fusion not to
                     // upload the mesh data since Probuilder will be generating it.
-                    SceneFusionAPI.DontUploadSceneAsset(filter.sharedMesh);
+                    sfObjectUtility.DontUploadSceneAsset(filter.sharedMesh);
                 }
             }
         }
@@ -103,7 +103,7 @@ namespace KS.SceneFusion.Extensions
             {
                 foreach (pb_Object obj in objects)
                 {
-                    SceneFusionAPI.InvalidateChangeCheck(obj);
+                    sfObjectUtility.InvalidateChangeCheck(obj);
                 }
             }
         }
@@ -117,7 +117,7 @@ namespace KS.SceneFusion.Extensions
          */
         private static void OnMeshCompiled(pb_Object obj, Mesh mesh)
         {
-            SceneFusionAPI.InvalidateChangeCheck(obj);
+            sfObjectUtility.InvalidateChangeCheck(obj);
         }
 
 #else
@@ -129,7 +129,7 @@ namespace KS.SceneFusion.Extensions
             // Set SF_ProBuilder define to compile ProBuilder-dependant code if ProBuilder is detected.
             if (DetectProBuilder())
             {
-                SceneFusionAPI.SetDefineSymbol("SF_PROBUILDER");
+                sfUtility.SetDefineSymbol("SF_PROBUILDER");
             }
         }
 

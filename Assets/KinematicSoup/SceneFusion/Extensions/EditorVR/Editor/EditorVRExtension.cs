@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 
@@ -9,7 +9,6 @@ using UnityEditor.Experimental.EditorVR.Tools;
 #endif
 
 using KS.SceneFusion.API;
-using KS.SceneFusion.API.Utility;
 using KS.Reactor;
 
 namespace KS.SceneFusion.Extensions.Editor
@@ -36,6 +35,8 @@ namespace KS.SceneFusion.Extensions.Editor
 
         private static Material m_annotationMaterial = null;
 
+        static readonly List<MeshFilter> m_MeshFiltersToRemove = new List<MeshFilter>();
+
         /**
          * Initialization
          */
@@ -46,12 +47,12 @@ namespace KS.SceneFusion.Extensions.Editor
             AnnotationTool.AnnotationUpdated += UploadMesh;
             AnnotationTool.AnnotationFinished += UploadMeshAndSendChanges;
 
-            CustomProperties.OnCreateCustomProperty += OnCreateCustomProperty;
-            CustomProperties.OnChangeCustomProperty += OnChangeCustomProperty;
-            CustomProperties.OnChangeCustomPropertyFailed += OnChangeCustomProperty;
-            SceneFusionAPI.OnDisconnect += OnDisconnect;
+            sfCustomProperties.OnCreateCustomProperty += OnCreateCustomProperty;
+            sfCustomProperties.OnChangeCustomProperty += OnChangeCustomProperty;
+            sfCustomProperties.OnChangeCustomPropertyFailed += OnChangeCustomProperty;
+            sfUtility.OnDisconnect += OnDisconnect;
 
-            SceneFusionAPI.SuppressAssetDatabaseWarningFor<Material, MeshRenderer>();
+            sfUtility.SuppressAssetDatabaseWarningFor<Material, MeshRenderer>();
         }
 
         /**
@@ -74,9 +75,21 @@ namespace KS.SceneFusion.Extensions.Editor
         {
             RemoveDestroyedProperties();
 
+            m_MeshFiltersToRemove.Clear();
             foreach (MeshFilter meshFilter in m_pendingMeshes)
             {
+                if (!meshFilter)
+                {
+                    m_MeshFiltersToRemove.Add(meshFilter);
+                    continue;
+                }
+
                 UploadMesh(meshFilter);
+            }
+
+            foreach (var meshFilter in m_MeshFiltersToRemove)
+            {
+                m_pendingMeshes.Remove(meshFilter);
             }
 
             foreach (string id in m_pendingServerChanges)
@@ -105,9 +118,9 @@ namespace KS.SceneFusion.Extensions.Editor
                     continue;
                 }
                 renderers.Add(pair.Key);
-                if (CustomProperties.CanEdit(pair.Value))
+                if (sfCustomProperties.CanEdit(pair.Value))
                 {
-                    CustomProperties.RemoveCustomProperty(pair.Value);
+                    sfCustomProperties.RemoveCustomProperty(pair.Value);
                 }
             }
             foreach (MeshRenderer renderer in renderers)
@@ -123,9 +136,9 @@ namespace KS.SceneFusion.Extensions.Editor
                     continue;
                 }
                 filters.Add(pair.Key);
-                if (CustomProperties.CanEdit(pair.Value))
+                if (sfCustomProperties.CanEdit(pair.Value))
                 {
-                    CustomProperties.RemoveCustomProperty(pair.Value);
+                    sfCustomProperties.RemoveCustomProperty(pair.Value);
                 }
             }
             foreach (MeshFilter filter in filters)
@@ -143,12 +156,12 @@ namespace KS.SceneFusion.Extensions.Editor
         private static void UploadMesh(MeshFilter meshFilter)
         {
             GameObject go = meshFilter.gameObject;
-            uint entityId = SceneFusionAPI.GetGameObjectId(go);
+            uint entityId = sfObjectUtility.GetGameObjectId(go);
             if (entityId != 0)
             {
                 m_pendingMeshes.Remove(meshFilter);
                 string meshPropertyId = PREFIX + MESH + entityId;
-                if (!CustomProperties.HasProperty(meshPropertyId))
+                if (!sfCustomProperties.HasProperty(meshPropertyId))
                 {
                     if (meshFilter.sharedMesh == null && !m_pendingMeshes.Contains(meshFilter))
                     {
@@ -161,12 +174,12 @@ namespace KS.SceneFusion.Extensions.Editor
                     float[] colorArray = new float[] { color.r, color.g, color.b, color.a };
                     var byteArray = new byte[colorArray.Length * 4];
                     Buffer.BlockCopy(colorArray, 0, byteArray, 0, byteArray.Length);
-                    CustomProperties.CreateCustomProperty(materialPropertyId, byteArray, false);
+                    sfCustomProperties.CreateCustomProperty(materialPropertyId, byteArray, false);
                     List<byte> meshBuffer = new List<byte>();
                     ksBitOStream output = new ksBitOStream(meshBuffer);
                     try
                     {
-                        MeshSerializer.Serialize(output, meshFilter.sharedMesh);
+                        sfMeshSerializer.Serialize(output, meshFilter.sharedMesh);
                         output.Align();
                     }
                     catch (Exception e)
@@ -174,11 +187,11 @@ namespace KS.SceneFusion.Extensions.Editor
                         ksLog.Error(CHANNEL, "Error serializing " + meshFilter.sharedMesh, e);
                         return;
                     }
-                    CustomProperties.CreateCustomProperty(meshPropertyId, meshBuffer, false);
+                    sfCustomProperties.CreateCustomProperty(meshPropertyId, meshBuffer, false);
                 }
                 else
                 {
-                    if (CustomProperties.IsPropertyCreationPending(meshPropertyId))
+                    if (sfCustomProperties.IsPropertyCreationPending(meshPropertyId))
                     {
                         m_pendingMeshes.Add(meshFilter);
                         return;
@@ -187,7 +200,7 @@ namespace KS.SceneFusion.Extensions.Editor
                     ksBitOStream output = new ksBitOStream(meshBuffer);
                     try
                     {
-                        MeshSerializer.Serialize(output, meshFilter.sharedMesh);
+                        sfMeshSerializer.Serialize(output, meshFilter.sharedMesh);
                         output.Align();
                     }
                     catch (Exception e)
@@ -195,7 +208,7 @@ namespace KS.SceneFusion.Extensions.Editor
                         ksLog.Error(CHANNEL, "Error serializing " + meshFilter.sharedMesh, e);
                         return;
                     }
-                    CustomProperties.SetCustomProperty(meshPropertyId, meshBuffer);
+                    sfCustomProperties.SetCustomProperty(meshPropertyId, meshBuffer);
                 }
             }
             else if (!m_pendingMeshes.Contains(meshFilter))
@@ -225,10 +238,10 @@ namespace KS.SceneFusion.Extensions.Editor
         private static void SendChanges(GameObject gameObject)
         {
             Transform group = gameObject.transform.parent;
-            SceneFusionAPI.SendChanges(group.gameObject);
+            sfObjectUtility.SendChanges(group.gameObject);
             foreach (Transform child in group)
             {
-                SceneFusionAPI.SendChanges(child.gameObject);
+                sfObjectUtility.SendChanges(child.gameObject);
             }
         }
 
@@ -286,7 +299,7 @@ namespace KS.SceneFusion.Extensions.Editor
                 m_pendingServerChanges.Remove(id);
                 return;
             }
-            GameObject gameObject = SceneFusionAPI.GetGameObjectById(gameObjectId);
+            GameObject gameObject = sfObjectUtility.GetGameObjectById(gameObjectId);
             if (gameObject != null)
             {
                 MeshRenderer renderer = gameObject.GetComponent<MeshRenderer>();
@@ -295,7 +308,7 @@ namespace KS.SceneFusion.Extensions.Editor
                     m_materials[renderer] = id;
                     renderer.sharedMaterial = Material.Instantiate<Material>(m_annotationMaterial);
                     byte[] colorData = null;
-                    if (CustomProperties.TryGetCustomProperty(id, ref colorData) && colorData != null)
+                    if (sfCustomProperties.TryGetCustomProperty(id, ref colorData) && colorData != null)
                     {
                         float[] colorArray = new float[4];
                         Buffer.BlockCopy(colorData, 0, colorArray, 0, colorData.Length);
@@ -329,7 +342,7 @@ namespace KS.SceneFusion.Extensions.Editor
                 m_pendingServerChanges.Remove(id);
                 return;
             }
-            GameObject gameObject = SceneFusionAPI.GetGameObjectById(gameObjectId);
+            GameObject gameObject = sfObjectUtility.GetGameObjectById(gameObjectId);
             bool updated = false;
             if (gameObject != null)
             {
@@ -339,9 +352,9 @@ namespace KS.SceneFusion.Extensions.Editor
                 {
                     m_meshes[meshFilter] = id;
                     List<byte> meshData = null;
-                    if (CustomProperties.TryGetCustomProperty(id, ref meshData) && meshData != null)
+                    if (sfCustomProperties.TryGetCustomProperty(id, ref meshData) && meshData != null)
                     {
-                        MeshSerializer.Deserialize(new ksBitIStream(meshData), meshFilter.sharedMesh);
+                        sfMeshSerializer.Deserialize(new ksBitIStream(meshData), meshFilter.sharedMesh);
                     }
                     m_pendingServerChanges.Remove(id);
                     updated = true;
@@ -361,7 +374,7 @@ namespace KS.SceneFusion.Extensions.Editor
             // Set DetectEditorVR define to compile EditorVR-dependant code if EditorVR is detected.
             if (DetectEditorVR())
             {
-                SceneFusionAPI.SetDefineSymbol("SF_EDITORVR");
+                sfUtility.SetDefineSymbol("SF_EDITORVR");
             }
         }
 
