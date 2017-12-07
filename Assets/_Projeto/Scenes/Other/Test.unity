@@ -375,7 +375,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 19
-  clockwise: 1
+  Clockwise: 0
 --- !u!114 &1557748890
 MonoBehaviour:
   m_ObjectHideFlags: 0
