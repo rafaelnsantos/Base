@@ -6,7 +6,7 @@ public class LanguageSettings : MonoBehaviour {
     private List<SmartCultureInfo> availableLanguages;
     private LanguageManager languageManager;
 
-    public SmartCultureInfo ActualLanguage;
+    private SmartCultureInfo actualLanguage;
 
     public static LanguageSettings Instance { get; private set; }
 
@@ -28,25 +28,24 @@ public class LanguageSettings : MonoBehaviour {
         if (languageManager.NumberOfSupportedLanguages > 0) {
             availableLanguages = languageManager.GetSupportedLanguages();
         } else {
-            Debug.LogError(
-                "No languages are created!, Open the Smart Localization plugin at Window->Smart Localization and create your language!");
+            Debug.LogError("Open the Smart Localization plugin and create your language!");
         }
 
         if (deviceCulture != null) {
             SetLanguage(deviceCulture);
         } else {
-            Debug.Log("The device language is not available in the current application. Loading default.");
+            Debug.Log("The device language is not available in the current application. Loading portuguese.");
             SetLanguage(availableLanguages[1]);
         }
     }
 
     private void SetLanguage (SmartCultureInfo language) {
-        ActualLanguage = language;
+        actualLanguage = language;
         languageManager.ChangeLanguage(language);
     }
 
     public void SwitchLanguage () {
-        int actual = ActualLanguage == availableLanguages[0] ? 1 : 0;
+        int actual = actualLanguage == availableLanguages[0] ? 1 : 0;
         SetLanguage(availableLanguages[actual]);
     }
 }
