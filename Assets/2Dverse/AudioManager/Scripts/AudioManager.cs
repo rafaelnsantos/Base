@@ -8,7 +8,7 @@ public class AudioManager : MonoBehaviour {
     public static AudioManager Instance { get; private set; }
 
     private void Awake () {
-        // Singleton Patter
+        // Singleton Pattern
         if (Instance == null) {
             Instance = this;
         } else if (Instance != this) {

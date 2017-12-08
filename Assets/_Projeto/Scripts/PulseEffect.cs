@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using DG.Tweening;
+﻿using DG.Tweening;
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
 
 public class PulseEffect : MonoBehaviour {
     [Range(0.1f, 5f)] public float ApproachSpeed = 0.02f;
