@@ -2,22 +2,22 @@
 using UnityEngine;
 
 public class PulseEffect : MonoBehaviour {
-    [Range(0.1f, 5f)] public float ApproachSpeed = 0.02f;
-    [Range(1f, 5f)] public float GrowthBound = 2f;
-    [Range(0f, 1f)] public float ShrinkBound = 0.5f;
+    [Range(1f, 5f)] public float ApproachSpeed;
+    [Range(1f, 5f)] public float GrowthBound;
+    [Range(0f, 1f)] public float ShrinkBound;
 
-    private bool go = true;
+    private bool finished = true;
 
     private void Update () {
-        if (!go) return;
+        if (!finished) return;
 
-        go = false;
+        finished = false;
 
         Shrink();
     }
 
     private void Grow () {
-        transform.DOScale(Vector3.one * GrowthBound, ApproachSpeed).OnComplete(() => go = true);
+        transform.DOScale(Vector3.one * GrowthBound, ApproachSpeed).OnComplete(() => finished = true);
     }
 
     private void Shrink () {

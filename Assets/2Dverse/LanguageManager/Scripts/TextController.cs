@@ -21,8 +21,6 @@ public class TextController : MonoBehaviour {
 	}
 	
 	private void OnDestroy () {
-		if (LanguageManager.HasInstance) {
-			LanguageManager.Instance.OnChangeLanguage -= OnLanguageChanged;
-		}
+		LanguageManager.Instance.OnChangeLanguage -= OnLanguageChanged;
 	}
 }

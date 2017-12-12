@@ -30,7 +30,6 @@ public class AudioManager : MonoBehaviour {
     /// </summary>
     /// <param name="clip">Clip to play.</param>
     /// <param name="duration">Duration, default 1.</param>
-    /// <param name="volume">Volume, default 1.</param>
     /// <param name="pitch">Pitch, default 1.</param>
     public void PlayEffect (AudioClip clip, float duration = 1f, float pitch = 1f) {
         if (!EffectOn) return;
@@ -44,7 +43,6 @@ public class AudioManager : MonoBehaviour {
     /// </summary>
     /// <param name="clips">Array of Clips to play.</param>
     /// <param name="duration">Duration, default 1.</param>
-    /// <param name="volume">Volume, default 1.</param>
     /// <param name="lowPitchRange">Low Pitch, defalt 0.95</param>
     /// <param name="highPitchRange">High Pitch, defaltt 1.05</param>
     public void PlayRandomEffect (AudioClip[] clips, float duration = 1f,
