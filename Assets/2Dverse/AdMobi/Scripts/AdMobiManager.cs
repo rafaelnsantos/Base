@@ -33,7 +33,9 @@ public class AdMobiManager : MonoBehaviour {
     }
 
     private void Start () {
-#if UNITY_ANDROID
+#if UNITY_EDITOR
+        string appId = "unused";
+#elif UNITY_ANDROID
         string appId = AndroidAppId;
 #elif UNITY_IPHONE
         string appId = IphoneAppId;
@@ -60,11 +62,9 @@ public class AdMobiManager : MonoBehaviour {
     // Returns an ad request with custom ad targeting.
     private AdRequest CreateAdRequest () {
         return new AdRequest.Builder()
-            .AddTestDevice(AdRequest.TestDeviceSimulator)
-            .AddTestDevice("0123456789ABCDEF0123456789ABCDEF")
             .AddKeyword("game")
             .SetGender(Gender.Male)
-            .SetBirthday(new DateTime(1985, 1, 1))
+            .SetBirthday(new DateTime(1991, 1, 1))
             .TagForChildDirectedTreatment(false)
             .AddExtra("color_bg", "9B30FF")
             .Build();
@@ -93,7 +93,7 @@ public class AdMobiManager : MonoBehaviour {
         }
 
         // Create a 320x50 banner at the top of the screen.
-        this.bannerView = new BannerView(adUnitId, AdSize.SmartBanner, AdPosition.Top);
+        this.bannerView = new BannerView(adUnitId, AdSize.Banner, AdPosition.Top);
 
         // Register for ad events.
         this.bannerView.OnAdLoaded += this.HandleAdLoaded;
