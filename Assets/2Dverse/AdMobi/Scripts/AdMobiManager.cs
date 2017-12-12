@@ -70,7 +70,7 @@ public class AdMobiManager : MonoBehaviour {
             .Build();
     }
 
-    private void RequestBanner () {
+    public void RequestBanner () {
         // These ad units are configured to always serve test ads.
 #if UNITY_EDITOR
         string adUnitId = "unused";
@@ -84,6 +84,11 @@ public class AdMobiManager : MonoBehaviour {
 
         // Clean up banner ad before creating a new one.
         if (this.bannerView != null) {
+            this.bannerView.OnAdLoaded -= this.HandleAdLoaded;
+            this.bannerView.OnAdFailedToLoad -= this.HandleAdFailedToLoad;
+            this.bannerView.OnAdOpening -= this.HandleAdOpened;
+            this.bannerView.OnAdClosed -= this.HandleAdClosed;
+            this.bannerView.OnAdLeavingApplication -= this.HandleAdLeftApplication;
             this.bannerView.Destroy();
         }
 
@@ -101,7 +106,7 @@ public class AdMobiManager : MonoBehaviour {
         this.bannerView.LoadAd(this.CreateAdRequest());
     }
 
-    private void RequestInterstitial () {
+    public void RequestInterstitial () {
         // These ad units are configured to always serve test ads.
 #if UNITY_EDITOR
         string adUnitId = "unused";
@@ -115,6 +120,11 @@ public class AdMobiManager : MonoBehaviour {
 
         // Clean up interstitial ad before creating a new one.
         if (this.interstitial != null) {
+            this.interstitial.OnAdLoaded -= this.HandleInterstitialLoaded;
+            this.interstitial.OnAdFailedToLoad -= this.HandleInterstitialFailedToLoad;
+            this.interstitial.OnAdOpening -= this.HandleInterstitialOpened;
+            this.interstitial.OnAdClosed -= this.HandleInterstitialClosed;
+            this.interstitial.OnAdLeavingApplication -= this.HandleInterstitialLeftApplication;
             this.interstitial.Destroy();
         }
 
@@ -166,7 +176,7 @@ public class AdMobiManager : MonoBehaviour {
         this.nativeExpressAdView.LoadAd(this.CreateAdRequest());
     }
 
-    private void RequestRewardBasedVideo () {
+    public void RequestRewardBasedVideo () {
 #if UNITY_EDITOR
         string adUnitId = "unused";
 #elif UNITY_ANDROID
