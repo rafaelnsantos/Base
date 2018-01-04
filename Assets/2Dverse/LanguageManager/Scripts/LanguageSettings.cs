@@ -2,7 +2,7 @@
 using UnityEngine;
 using SmartLocalization;
 
-public class LanguageSettings : MonoBehaviour {
+public class LanguageSettings : MonoBehaviour, ISettings {
     private List<SmartCultureInfo> availableLanguages;
     private LanguageManager languageManager;
 
@@ -27,15 +27,12 @@ public class LanguageSettings : MonoBehaviour {
 
         if (languageManager.NumberOfSupportedLanguages > 0) {
             availableLanguages = languageManager.GetSupportedLanguages();
-        } else {
-            Debug.LogError("Open the Smart Localization plugin and create your language!");
         }
 
         if (deviceCulture != null) {
             SetLanguage(deviceCulture);
         } else {
-            Debug.Log("The device language is not available in the current application. Loading portuguese.");
-            SetLanguage(availableLanguages[1]);
+            Load();
         }
     }
 
@@ -47,5 +44,19 @@ public class LanguageSettings : MonoBehaviour {
     public void SwitchLanguage () {
         int actual = actualLanguage == availableLanguages[0] ? 1 : 0;
         SetLanguage(availableLanguages[actual]);
+    }
+
+    public void Save () {
+        int actual = actualLanguage == availableLanguages[0] ? 1 : 0;
+        PlayerPrefs.SetInt("Language", actual);
+    }
+
+    public void Load () {
+        int saved = PlayerPrefs.GetInt("Language", 0);
+        SetLanguage(availableLanguages[saved]);
+    }
+
+    private void OnDestroy () {
+        Save();
     }
 }
