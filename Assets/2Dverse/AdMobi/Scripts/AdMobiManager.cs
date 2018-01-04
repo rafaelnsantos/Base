@@ -15,7 +15,7 @@ public class AdMobiManager : MonoBehaviour {
     public string AndroidRewardedVideoId;
     public string IphoneRewardedVideoId;
 
-    public static AdMobiManager Instance;
+    public static AdMobiManager Instance { get; private set; }
 
     private BannerView bannerView;
     private InterstitialAd interstitial;
@@ -47,16 +47,16 @@ public class AdMobiManager : MonoBehaviour {
         MobileAds.Initialize(appId);
 
         // Get singleton reward based video ad reference.
-        this.rewardBasedVideo = RewardBasedVideoAd.Instance;
+        rewardBasedVideo = RewardBasedVideoAd.Instance;
 
         // RewardBasedVideoAd is a singleton, so handlers should only be registered once.
-        this.rewardBasedVideo.OnAdLoaded += this.HandleRewardBasedVideoLoaded;
-        this.rewardBasedVideo.OnAdFailedToLoad += this.HandleRewardBasedVideoFailedToLoad;
-        this.rewardBasedVideo.OnAdOpening += this.HandleRewardBasedVideoOpened;
-        this.rewardBasedVideo.OnAdStarted += this.HandleRewardBasedVideoStarted;
-        this.rewardBasedVideo.OnAdRewarded += this.HandleRewardBasedVideoRewarded;
-        this.rewardBasedVideo.OnAdClosed += this.HandleRewardBasedVideoClosed;
-        this.rewardBasedVideo.OnAdLeavingApplication += this.HandleRewardBasedVideoLeftApplication;
+        rewardBasedVideo.OnAdLoaded += HandleRewardBasedVideoLoaded;
+        rewardBasedVideo.OnAdFailedToLoad += HandleRewardBasedVideoFailedToLoad;
+        rewardBasedVideo.OnAdOpening += HandleRewardBasedVideoOpened;
+        rewardBasedVideo.OnAdStarted += HandleRewardBasedVideoStarted;
+        rewardBasedVideo.OnAdRewarded += HandleRewardBasedVideoRewarded;
+        rewardBasedVideo.OnAdClosed += HandleRewardBasedVideoClosed;
+        rewardBasedVideo.OnAdLeavingApplication += HandleRewardBasedVideoLeftApplication;
     }
 
     // Returns an ad request with custom ad targeting.
@@ -83,27 +83,27 @@ public class AdMobiManager : MonoBehaviour {
 #endif
 
         // Clean up banner ad before creating a new one.
-        if (this.bannerView != null) {
-            this.bannerView.OnAdLoaded -= this.HandleAdLoaded;
-            this.bannerView.OnAdFailedToLoad -= this.HandleAdFailedToLoad;
-            this.bannerView.OnAdOpening -= this.HandleAdOpened;
-            this.bannerView.OnAdClosed -= this.HandleAdClosed;
-            this.bannerView.OnAdLeavingApplication -= this.HandleAdLeftApplication;
-            this.bannerView.Destroy();
+        if (bannerView != null) {
+            bannerView.OnAdLoaded -= HandleAdLoaded;
+            bannerView.OnAdFailedToLoad -= HandleAdFailedToLoad;
+            bannerView.OnAdOpening -= HandleAdOpened;
+            bannerView.OnAdClosed -= HandleAdClosed;
+            bannerView.OnAdLeavingApplication -= HandleAdLeftApplication;
+            bannerView.Destroy();
         }
 
         // Create a 320x50 banner at the top of the screen.
-        this.bannerView = new BannerView(adUnitId, AdSize.Banner, AdPosition.Top);
+        bannerView = new BannerView(adUnitId, AdSize.Banner, AdPosition.Top);
 
         // Register for ad events.
-        this.bannerView.OnAdLoaded += this.HandleAdLoaded;
-        this.bannerView.OnAdFailedToLoad += this.HandleAdFailedToLoad;
-        this.bannerView.OnAdOpening += this.HandleAdOpened;
-        this.bannerView.OnAdClosed += this.HandleAdClosed;
-        this.bannerView.OnAdLeavingApplication += this.HandleAdLeftApplication;
+        bannerView.OnAdLoaded += HandleAdLoaded;
+        bannerView.OnAdFailedToLoad += HandleAdFailedToLoad;
+        bannerView.OnAdOpening += HandleAdOpened;
+        bannerView.OnAdClosed += HandleAdClosed;
+        bannerView.OnAdLeavingApplication += HandleAdLeftApplication;
 
         // Load a banner ad.
-        this.bannerView.LoadAd(this.CreateAdRequest());
+        bannerView.LoadAd(CreateAdRequest());
     }
 
     public void RequestInterstitial () {
@@ -119,27 +119,27 @@ public class AdMobiManager : MonoBehaviour {
 #endif
 
         // Clean up interstitial ad before creating a new one.
-        if (this.interstitial != null) {
-            this.interstitial.OnAdLoaded -= this.HandleInterstitialLoaded;
-            this.interstitial.OnAdFailedToLoad -= this.HandleInterstitialFailedToLoad;
-            this.interstitial.OnAdOpening -= this.HandleInterstitialOpened;
-            this.interstitial.OnAdClosed -= this.HandleInterstitialClosed;
-            this.interstitial.OnAdLeavingApplication -= this.HandleInterstitialLeftApplication;
-            this.interstitial.Destroy();
+        if (interstitial != null) {
+            interstitial.OnAdLoaded -= HandleInterstitialLoaded;
+            interstitial.OnAdFailedToLoad -= HandleInterstitialFailedToLoad;
+            interstitial.OnAdOpening -= HandleInterstitialOpened;
+            interstitial.OnAdClosed -= HandleInterstitialClosed;
+            interstitial.OnAdLeavingApplication -= HandleInterstitialLeftApplication;
+            interstitial.Destroy();
         }
 
         // Create an interstitial.
-        this.interstitial = new InterstitialAd(adUnitId);
+        interstitial = new InterstitialAd(adUnitId);
 
         // Register for ad events.
-        this.interstitial.OnAdLoaded += this.HandleInterstitialLoaded;
-        this.interstitial.OnAdFailedToLoad += this.HandleInterstitialFailedToLoad;
-        this.interstitial.OnAdOpening += this.HandleInterstitialOpened;
-        this.interstitial.OnAdClosed += this.HandleInterstitialClosed;
-        this.interstitial.OnAdLeavingApplication += this.HandleInterstitialLeftApplication;
+        interstitial.OnAdLoaded += HandleInterstitialLoaded;
+        interstitial.OnAdFailedToLoad += HandleInterstitialFailedToLoad;
+        interstitial.OnAdOpening += HandleInterstitialOpened;
+        interstitial.OnAdClosed += HandleInterstitialClosed;
+        interstitial.OnAdLeavingApplication += HandleInterstitialLeftApplication;
 
         // Load an interstitial ad.
-        this.interstitial.LoadAd(this.CreateAdRequest());
+        interstitial.LoadAd(CreateAdRequest());
     }
 
     private void RequestNativeExpressAdView () {
@@ -155,25 +155,25 @@ public class AdMobiManager : MonoBehaviour {
 #endif
 
         // Clean up native express ad before creating a new one.
-        if (this.nativeExpressAdView != null) {
-            this.nativeExpressAdView.Destroy();
+        if (nativeExpressAdView != null) {
+            nativeExpressAdView.Destroy();
         }
 
         // Create a 320x150 native express ad at the top of the screen.
-        this.nativeExpressAdView = new NativeExpressAdView(
+        nativeExpressAdView = new NativeExpressAdView(
             adUnitId,
             new AdSize(320, 150),
             AdPosition.Top);
 
         // Register for ad events.
-        this.nativeExpressAdView.OnAdLoaded += this.HandleNativeExpressAdLoaded;
-        this.nativeExpressAdView.OnAdFailedToLoad += this.HandleNativeExpresseAdFailedToLoad;
-        this.nativeExpressAdView.OnAdOpening += this.HandleNativeExpressAdOpened;
-        this.nativeExpressAdView.OnAdClosed += this.HandleNativeExpressAdClosed;
-        this.nativeExpressAdView.OnAdLeavingApplication += this.HandleNativeExpressAdLeftApplication;
+        nativeExpressAdView.OnAdLoaded += HandleNativeExpressAdLoaded;
+        nativeExpressAdView.OnAdFailedToLoad += HandleNativeExpresseAdFailedToLoad;
+        nativeExpressAdView.OnAdOpening += HandleNativeExpressAdOpened;
+        nativeExpressAdView.OnAdClosed += HandleNativeExpressAdClosed;
+        nativeExpressAdView.OnAdLeavingApplication += HandleNativeExpressAdLeftApplication;
 
         // Load a native express ad.
-        this.nativeExpressAdView.LoadAd(this.CreateAdRequest());
+        nativeExpressAdView.LoadAd(CreateAdRequest());
     }
 
     public void RequestRewardBasedVideo () {
@@ -187,46 +187,46 @@ public class AdMobiManager : MonoBehaviour {
         string adUnitId = "unexpected_platform";
 #endif
 
-        this.rewardBasedVideo.LoadAd(this.CreateAdRequest(), adUnitId);
+        rewardBasedVideo.LoadAd(CreateAdRequest(), adUnitId);
     }
 
     private void ShowInterstitial () {
-        if (this.interstitial.IsLoaded()) {
-            this.interstitial.Show();
+        if (interstitial.IsLoaded()) {
+            interstitial.Show();
         } else {
-            MonoBehaviour.print("Interstitial is not ready yet");
+            print("Interstitial is not ready yet");
         }
     }
 
     private void ShowRewardBasedVideo () {
-        if (this.rewardBasedVideo.IsLoaded()) {
-            this.rewardBasedVideo.Show();
+        if (rewardBasedVideo.IsLoaded()) {
+            rewardBasedVideo.Show();
         } else {
-            MonoBehaviour.print("Reward based video ad is not ready yet");
+            print("Reward based video ad is not ready yet");
         }
     }
 
     #region Banner callback handlers
 
     public void HandleAdLoaded (object sender, EventArgs args) {
-        MonoBehaviour.print("HandleAdLoaded event received");
-        this.bannerView.Show();
+        print("HandleAdLoaded event received");
+        bannerView.Show();
     }
 
     public void HandleAdFailedToLoad (object sender, AdFailedToLoadEventArgs args) {
-        MonoBehaviour.print("HandleFailedToReceiveAd event received with message: " + args.Message);
+        print("HandleFailedToReceiveAd event received with message: " + args.Message);
     }
 
     public void HandleAdOpened (object sender, EventArgs args) {
-        MonoBehaviour.print("HandleAdOpened event received");
+        print("HandleAdOpened event received");
     }
 
     public void HandleAdClosed (object sender, EventArgs args) {
-        MonoBehaviour.print("HandleAdClosed event received");
+        print("HandleAdClosed event received");
     }
 
     public void HandleAdLeftApplication (object sender, EventArgs args) {
-        MonoBehaviour.print("HandleAdLeftApplication event received");
+        print("HandleAdLeftApplication event received");
     }
 
     #endregion
@@ -234,25 +234,25 @@ public class AdMobiManager : MonoBehaviour {
     #region Interstitial callback handlers
 
     public void HandleInterstitialLoaded (object sender, EventArgs args) {
-        MonoBehaviour.print("HandleInterstitialLoaded event received");
+        print("HandleInterstitialLoaded event received");
         ShowInterstitial();
     }
 
     public void HandleInterstitialFailedToLoad (object sender, AdFailedToLoadEventArgs args) {
-        MonoBehaviour.print(
+        print(
             "HandleInterstitialFailedToLoad event received with message: " + args.Message);
     }
 
     public void HandleInterstitialOpened (object sender, EventArgs args) {
-        MonoBehaviour.print("HandleInterstitialOpened event received");
+        print("HandleInterstitialOpened event received");
     }
 
     public void HandleInterstitialClosed (object sender, EventArgs args) {
-        MonoBehaviour.print("HandleInterstitialClosed event received");
+        print("HandleInterstitialClosed event received");
     }
 
     public void HandleInterstitialLeftApplication (object sender, EventArgs args) {
-        MonoBehaviour.print("HandleInterstitialLeftApplication event received");
+        print("HandleInterstitialLeftApplication event received");
     }
 
     #endregion
@@ -260,24 +260,24 @@ public class AdMobiManager : MonoBehaviour {
     #region Native express ad callback handlers
 
     public void HandleNativeExpressAdLoaded (object sender, EventArgs args) {
-        MonoBehaviour.print("HandleNativeExpressAdAdLoaded event received");
+        print("HandleNativeExpressAdAdLoaded event received");
     }
 
     public void HandleNativeExpresseAdFailedToLoad (object sender, AdFailedToLoadEventArgs args) {
-        MonoBehaviour.print(
+        print(
             "HandleNativeExpressAdFailedToReceiveAd event received with message: " + args.Message);
     }
 
     public void HandleNativeExpressAdOpened (object sender, EventArgs args) {
-        MonoBehaviour.print("HandleNativeExpressAdAdOpened event received");
+        print("HandleNativeExpressAdAdOpened event received");
     }
 
     public void HandleNativeExpressAdClosed (object sender, EventArgs args) {
-        MonoBehaviour.print("HandleNativeExpressAdAdClosed event received");
+        print("HandleNativeExpressAdAdClosed event received");
     }
 
     public void HandleNativeExpressAdLeftApplication (object sender, EventArgs args) {
-        MonoBehaviour.print("HandleNativeExpressAdAdLeftApplication event received");
+        print("HandleNativeExpressAdAdLeftApplication event received");
     }
 
     #endregion
@@ -285,36 +285,36 @@ public class AdMobiManager : MonoBehaviour {
     #region RewardBasedVideo callback handlers
 
     public void HandleRewardBasedVideoLoaded (object sender, EventArgs args) {
-        MonoBehaviour.print("HandleRewardBasedVideoLoaded event received");
+        print("HandleRewardBasedVideoLoaded event received");
         ShowRewardBasedVideo();
     }
 
     public void HandleRewardBasedVideoFailedToLoad (object sender, AdFailedToLoadEventArgs args) {
-        MonoBehaviour.print(
+        print(
             "HandleRewardBasedVideoFailedToLoad event received with message: " + args.Message);
     }
 
     public void HandleRewardBasedVideoOpened (object sender, EventArgs args) {
-        MonoBehaviour.print("HandleRewardBasedVideoOpened event received");
+        print("HandleRewardBasedVideoOpened event received");
     }
 
     public void HandleRewardBasedVideoStarted (object sender, EventArgs args) {
-        MonoBehaviour.print("HandleRewardBasedVideoStarted event received");
+        print("HandleRewardBasedVideoStarted event received");
     }
 
     public void HandleRewardBasedVideoClosed (object sender, EventArgs args) {
-        MonoBehaviour.print("HandleRewardBasedVideoClosed event received");
+        print("HandleRewardBasedVideoClosed event received");
     }
 
     public void HandleRewardBasedVideoRewarded (object sender, Reward args) {
         string type = args.Type;
         double amount = args.Amount;
-        MonoBehaviour.print(
-            "HandleRewardBasedVideoRewarded event received for " + amount.ToString() + " " + type);
+        print(
+            "HandleRewardBasedVideoRewarded event received for " + amount + " " + type);
     }
 
     public void HandleRewardBasedVideoLeftApplication (object sender, EventArgs args) {
-        MonoBehaviour.print("HandleRewardBasedVideoLeftApplication event received");
+        print("HandleRewardBasedVideoLeftApplication event received");
     }
 
     #endregion

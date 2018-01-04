@@ -28,7 +28,7 @@ public class LanguageSettings : MonoBehaviour, ISettings {
         if (languageManager.NumberOfSupportedLanguages > 0) {
             availableLanguages = languageManager.GetSupportedLanguages();
         }
-
+        
         if (deviceCulture != null) {
             SetLanguage(deviceCulture);
         } else {
@@ -47,12 +47,12 @@ public class LanguageSettings : MonoBehaviour, ISettings {
     }
 
     public void Save () {
-        int actual = actualLanguage == availableLanguages[0] ? 1 : 0;
-        PlayerPrefs.SetInt("Language", actual);
+        int actual = actualLanguage == availableLanguages[0] ? 0 : 1;
+        SaveManager.SetInt("Language", actual);
     }
 
     public void Load () {
-        int saved = PlayerPrefs.GetInt("Language", 0);
+        int saved = SaveManager.GetInt("Language", 0);
         SetLanguage(availableLanguages[saved]);
     }
 
