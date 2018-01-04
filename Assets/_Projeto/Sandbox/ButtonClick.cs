@@ -15,6 +15,6 @@ public class ButtonClick : MonoBehaviour {
     }
 
     private void PlayClick () {
-        AudioManager.Instance.PlayEffect(Audio);
+        AudioSettings.Instance.PlayEffect(Audio);
     }
 }

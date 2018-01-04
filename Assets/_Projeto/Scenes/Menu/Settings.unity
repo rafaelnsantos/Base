@@ -226,7 +226,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 453921916}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -406,7 +406,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 453921916}
-  - component: {fileID: 453921917}
   m_Layer: 5
   m_Name: EffectVolume
   m_TagString: Untagged
@@ -420,14 +419,14 @@ RectTransform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 453921915}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1563423088}
   - {fileID: 247264031}
+  - {fileID: 1563423088}
   - {fileID: 730326928}
-  m_Father: {fileID: 1906553272}
+  m_Father: {fileID: 1088274131}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -435,18 +434,6 @@ RectTransform:
   m_AnchoredPosition: {x: -146, y: 34.000008}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &453921917
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 453921915}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ab423bde64f2364eaf147555a39fda3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Text: {fileID: 701580924}
 --- !u!1 &552391008
 GameObject:
   m_ObjectHideFlags: 0
@@ -546,7 +533,7 @@ RectTransform:
   m_Children:
   - {fileID: 1502334696}
   m_Father: {fileID: 1906553272}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -917,7 +904,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 453921917}
+      - m_Target: {fileID: 1088274132}
         m_MethodName: SwitchEffect
         m_Mode: 1
         m_Arguments:
@@ -1205,7 +1192,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 913364253}
+      - m_Target: {fileID: 1088274132}
         m_MethodName: SetMusicVolume
         m_Mode: 1
         m_Arguments:
@@ -1369,7 +1356,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 913364253}
+      - m_Target: {fileID: 1088274132}
         m_MethodName: SwitchMusic
         m_Mode: 1
         m_Arguments:
@@ -1532,7 +1519,7 @@ RectTransform:
   m_Children:
   - {fileID: 805295064}
   m_Father: {fileID: 1906553272}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1644,7 +1631,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 913364252}
-  - component: {fileID: 913364253}
   m_Layer: 5
   m_Name: MusicVolume
   m_TagString: Untagged
@@ -1660,12 +1646,12 @@ RectTransform:
   m_GameObject: {fileID: 913364251}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 794833848}
   - {fileID: 2074915113}
   - {fileID: 818724751}
-  m_Father: {fileID: 1906553272}
+  m_Father: {fileID: 1088274131}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -1673,18 +1659,57 @@ RectTransform:
   m_AnchoredPosition: {x: -146, y: 65.20001}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &913364253
+--- !u!1 &1088274130
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1088274131}
+  - component: {fileID: 1088274132}
+  m_Layer: 5
+  m_Name: AudioSettings
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1088274131
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1088274130}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 453921916}
+  - {fileID: 913364252}
+  m_Father: {fileID: 1906553272}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1088274132
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 913364251}
+  m_GameObject: {fileID: 1088274130}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4ab423bde64f2364eaf147555a39fda3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Text: {fileID: 848088330}
+  effectSlider: {fileID: 1563423089}
+  musicSlider: {fileID: 794833849}
+  effectOn: {fileID: 701580924}
+  musicOn: {fileID: 848088330}
 --- !u!1 &1169499989
 GameObject:
   m_ObjectHideFlags: 0
@@ -1716,7 +1741,7 @@ RectTransform:
   m_Children:
   - {fileID: 634769091}
   m_Father: {fileID: 1906553272}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2187,7 +2212,7 @@ RectTransform:
   m_Children:
   - {fileID: 746562896}
   m_Father: {fileID: 1906553272}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2224,7 +2249,7 @@ RectTransform:
   - {fileID: 1235350113}
   - {fileID: 1278146369}
   m_Father: {fileID: 453921916}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2277,7 +2302,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 453921917}
+      - m_Target: {fileID: 1088274132}
         m_MethodName: SetEffectVolume
         m_Mode: 1
         m_Arguments:
@@ -2558,6 +2583,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 82895809519452684, guid: d989d547a18d94644ae8f480528381e9,
+        type: 2}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 82446467109516822, guid: d989d547a18d94644ae8f480528381e9,
+        type: 2}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d989d547a18d94644ae8f480528381e9, type: 2}
   m_IsPrefabParent: 0
@@ -2646,8 +2681,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 90}
   m_LocalScale: {x: 0.0125, y: 0.0125, z: 0.0125}
   m_Children:
-  - {fileID: 453921916}
-  - {fileID: 913364252}
+  - {fileID: 1088274131}
   - {fileID: 1550241937}
   - {fileID: 1169499990}
   - {fileID: 568396275}
