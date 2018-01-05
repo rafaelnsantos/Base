@@ -114,6 +114,10 @@ public class AudioSettings : MonoBehaviour, ISettings {
         }
     }
 
+    private void OnDestroy () {
+        Save();
+    }
+
     public void Load () {
         MusicOn = SaveManager.GetBool("MusicOn", true);
         EffectOn = SaveManager.GetBool("EffectOn", true);

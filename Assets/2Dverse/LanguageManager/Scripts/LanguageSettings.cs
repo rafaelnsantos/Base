@@ -61,5 +61,9 @@ public class LanguageSettings : MonoBehaviour, ISettings {
             Save();
         }
     }
+    
+    private void OnDestroy () {
+        Save();
+    }
 
 }
