@@ -119,8 +119,8 @@
 	<data name="Settings.EffectVolume" xml:space="preserve">
 		<value>Effect Volume</value>
 	</data>
-	<data name="Settings.Language" xml:space="preserve">
-		<value>Português</value>
+	<data name="[type=TEXTURE]Settings.Language" xml:space="preserve">
+		<value>cf0da3ea5a42c42478a8463b4756dd2c</value>
 	</data>
 	<data name="Settings.MusicVolume" xml:space="preserve">
 		<value>Music Volume</value>

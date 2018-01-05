@@ -119,7 +119,7 @@
 	<data name="Settings.EffectVolume" xml:space="preserve">
 		<value>Effect volume</value>
 	</data>
-	<data name="Settings.Language" xml:space="preserve">
+	<data name="[type=TEXTURE]Settings.Language" xml:space="preserve">
 		<value>Language</value>
 	</data>
 	<data name="Settings.MusicVolume" xml:space="preserve">

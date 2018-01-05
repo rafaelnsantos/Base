@@ -93,7 +93,7 @@ public class AdMobiManager : MonoBehaviour {
         }
 
         // Create a 320x50 banner at the top of the screen.
-        bannerView = new BannerView(adUnitId, AdSize.Banner, AdPosition.Top);
+        bannerView = new BannerView(adUnitId, AdSize.SmartBanner, AdPosition.Top);
 
         // Register for ad events.
         bannerView.OnAdLoaded += HandleAdLoaded;
@@ -140,40 +140,6 @@ public class AdMobiManager : MonoBehaviour {
 
         // Load an interstitial ad.
         interstitial.LoadAd(CreateAdRequest());
-    }
-
-    private void RequestNativeExpressAdView () {
-        // These ad units are configured to always serve test ads.
-#if UNITY_EDITOR
-        string adUnitId = "unused";
-#elif UNITY_ANDROID
-        string adUnitId = "ca-app-pub-3940256099942544/1072772517";
-#elif UNITY_IPHONE
-        string adUnitId = "ca-app-pub-3940256099942544/2562852117";
-#else
-        string adUnitId = "unexpected_platform";
-#endif
-
-        // Clean up native express ad before creating a new one.
-        if (nativeExpressAdView != null) {
-            nativeExpressAdView.Destroy();
-        }
-
-        // Create a 320x150 native express ad at the top of the screen.
-        nativeExpressAdView = new NativeExpressAdView(
-            adUnitId,
-            new AdSize(320, 150),
-            AdPosition.Top);
-
-        // Register for ad events.
-        nativeExpressAdView.OnAdLoaded += HandleNativeExpressAdLoaded;
-        nativeExpressAdView.OnAdFailedToLoad += HandleNativeExpresseAdFailedToLoad;
-        nativeExpressAdView.OnAdOpening += HandleNativeExpressAdOpened;
-        nativeExpressAdView.OnAdClosed += HandleNativeExpressAdClosed;
-        nativeExpressAdView.OnAdLeavingApplication += HandleNativeExpressAdLeftApplication;
-
-        // Load a native express ad.
-        nativeExpressAdView.LoadAd(CreateAdRequest());
     }
 
     public void RequestRewardBasedVideo () {

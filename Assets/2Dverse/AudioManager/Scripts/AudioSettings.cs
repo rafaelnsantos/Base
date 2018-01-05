@@ -18,6 +18,12 @@ public class AudioSettings : MonoBehaviour, ISettings {
         set { effectSource.volume = value; }
     }
 
+    public delegate void OnMusicChanged ();
+    public event OnMusicChanged OnMusicChange;
+    
+    public delegate void OnEffectChanged ();
+    public event OnEffectChanged OnEffectChange;
+
     private void Awake () {
         // Singleton Pattern
         if (Instance == null) {
@@ -29,10 +35,10 @@ public class AudioSettings : MonoBehaviour, ISettings {
 
         musicSource = gameObject.GetComponents<AudioSource>()[0];
         effectSource = gameObject.GetComponents<AudioSource>()[1];
+        Load();
     }
 
     private void Start () {
-        Load();
         PlayMusic(musicSource.clip);
     }
 
@@ -78,7 +84,7 @@ public class AudioSettings : MonoBehaviour, ISettings {
     /// Switch music on or off. 
     /// </summary>
     /// <returns>Returns actual state.</returns>
-    public bool SwitchMusic () {
+    public void SwitchMusic () {
         MusicOn = !MusicOn;
 
         if (!MusicOn) {
@@ -86,21 +92,26 @@ public class AudioSettings : MonoBehaviour, ISettings {
         } else {
             musicSource.Play();
         }
-
-        return MusicOn;
+        if (OnMusicChange != null) {
+            OnMusicChange();
+        }
     }
 
     /// <summary>
     /// Switch effects on or off.
     /// </summary>
     /// <returns>Returns actual state.</returns>
-    public bool SwitchEffect () {
+    public void SwitchEffect () {
         EffectOn = !EffectOn;
-        return EffectOn;
+        if (OnEffectChange != null) {
+            OnEffectChange();
+        }
     }
 
-    private void OnDestroy () {
-        Save();
+    private void OnApplicationPause (bool pauseStatus) {
+        if (pauseStatus) {
+            Save();
+        }
     }
 
     public void Load () {

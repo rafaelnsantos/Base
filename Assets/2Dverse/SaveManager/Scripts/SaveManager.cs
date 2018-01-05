@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class SaveManager : ScriptableObject {
+public class SaveManager {
     public static void SetInt (string key, int value) {
         PlayerPrefs.SetInt(key, value);
     }

@@ -3,9 +3,9 @@ using UnityEngine;
 using SmartLocalization;
 
 public class LanguageSettings : MonoBehaviour, ISettings {
+
     private List<SmartCultureInfo> availableLanguages;
     private LanguageManager languageManager;
-
     private SmartCultureInfo actualLanguage;
 
     public static LanguageSettings Instance { get; private set; }
@@ -28,7 +28,7 @@ public class LanguageSettings : MonoBehaviour, ISettings {
         if (languageManager.NumberOfSupportedLanguages > 0) {
             availableLanguages = languageManager.GetSupportedLanguages();
         }
-        
+
         if (deviceCulture != null) {
             SetLanguage(deviceCulture);
         } else {
@@ -56,7 +56,10 @@ public class LanguageSettings : MonoBehaviour, ISettings {
         SetLanguage(availableLanguages[saved]);
     }
 
-    private void OnDestroy () {
-        Save();
+    private void OnApplicationPause (bool pauseStatus) {
+        if (pauseStatus) {
+            Save();
+        }
     }
+
 }
