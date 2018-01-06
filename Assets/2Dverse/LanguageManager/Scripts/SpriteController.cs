@@ -25,7 +25,7 @@ public class SpriteController : MonoBehaviour {
     }
     
     private void OnDestroy () {
-        if(LanguageManager.Instance != null)
+        if(LanguageManager.HasInstance)
             LanguageManager.Instance.OnChangeLanguage -= ChangeSprite;
     }
 }

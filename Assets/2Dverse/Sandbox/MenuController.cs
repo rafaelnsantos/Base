@@ -1,22 +1,27 @@
 ﻿using UnityEngine;
 using DG.Tweening;
+using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour {
-
     private bool active;
     public float Time;
+    private GameObject Object;
+
+    private void Awake () {
+        Object = transform.GetChild(0).gameObject;
+    }
 
     private void Start () {
-        active = false;
-
-        transform.DOScaleY(0, 0);
-        transform.DOScaleX(0, 0);
+        GetComponent<Button>().onClick.AddListener(Switch);
+        
+        Object.transform.DOScale(Vector2.zero, 0);
     }
 
     public void Switch () {
         active = !active;
-
-        transform.DOScaleX(active ? 1 : 0, Time);
-        transform.DOScaleY(active ? 1 : 0, Time);
+        if (active) Object.SetActive(true);
+        Object.transform.DOScale(Vector2.one * (active ? 1 : 0), Time).OnComplete(() => {
+            if (!active) Object.SetActive(false);
+        });
     }
 }

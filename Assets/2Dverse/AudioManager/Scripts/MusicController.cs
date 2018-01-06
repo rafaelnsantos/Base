@@ -20,7 +20,8 @@ public class MusicController : MonoBehaviour {
     }
 
     private void OnDestroy () {
-        AudioSettings.Instance.OnMusicChange -= ChangeSprite;
+        if (AudioSettings.Instance)
+            AudioSettings.Instance.OnMusicChange -= ChangeSprite;
     }
 
     public void SwitchMusic () {

@@ -120,6 +120,7 @@ GameObject:
   - component: {fileID: 45693597}
   - component: {fileID: 45693596}
   - component: {fileID: 45693595}
+  - component: {fileID: 45693599}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -156,6 +157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38ef3cf2747accc46880836084e79323, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WaitTime: 1.04
 --- !u!114 &45693596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,7 +198,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 45693595}
-        m_MethodName: LoadScene
+        m_MethodName: LoadSceneWorkAround
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -220,7 +222,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.30147058, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -241,6 +243,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 45693593}
+--- !u!114 &45693599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 45693593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c445ba348280fda479f64678b4290089, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Audio: {fileID: 8300000, guid: acda4ac809c0f2f4baf9ee292e8e6ac1, type: 3}
 --- !u!1 &611041387
 GameObject:
   m_ObjectHideFlags: 0
@@ -436,6 +450,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee5f7fb6b68e12c49a780fcda2b4165a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Musica: {fileID: 8300000, guid: f10f5b401d71b3b42b71290ff0c22ebb, type: 3}
 --- !u!4 &993337993
 Transform:
   m_ObjectHideFlags: 0

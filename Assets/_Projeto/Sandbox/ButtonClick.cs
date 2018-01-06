@@ -6,12 +6,8 @@ public class ButtonClick : MonoBehaviour {
 
     private Button button;
 
-    public void Awake () {
-        button = GetComponent<Button>();
-    }
-
     private void Start () {
-        button.onClick.AddListener(PlayClick);
+        GetComponent<Button>().onClick.AddListener(PlayClick);
     }
 
     private void PlayClick () {

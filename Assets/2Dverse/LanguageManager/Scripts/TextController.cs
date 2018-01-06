@@ -16,12 +16,12 @@ public class TextController : MonoBehaviour {
 		LanguageManager.Instance.OnChangeLanguage += ChangeText;
 	}
 	
-	private void ChangeText (LanguageManager languageManager) {
+	protected void ChangeText (LanguageManager languageManager) {
 		text.text = languageManager.GetTextValue(Key);
 	}
 
 	private void OnDestroy () {
-		if(LanguageManager.Instance != null)
+		if(LanguageManager.HasInstance)
 			LanguageManager.Instance.OnChangeLanguage -= ChangeText;
 	}
 }

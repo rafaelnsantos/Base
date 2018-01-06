@@ -20,7 +20,8 @@ public class EffectController : MonoBehaviour {
     }
 
     private void OnDestroy () {
-        AudioSettings.Instance.OnEffectChange -= ChangeSprite;
+        if (AudioSettings.Instance)
+            AudioSettings.Instance.OnEffectChange -= ChangeSprite;
     }
 
     public void SwitchEffect () {
