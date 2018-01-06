@@ -10,18 +10,19 @@ public class TextController : MonoBehaviour {
 	private void Awake () {
 		text = GetComponent<Text>();
 	}
-	
+
 	private void Start () {
 		ChangeText(LanguageManager.Instance);
 		LanguageManager.Instance.OnChangeLanguage += ChangeText;
 	}
-	
+
 	protected void ChangeText (LanguageManager languageManager) {
 		text.text = languageManager.GetTextValue(Key);
 	}
 
 	private void OnDestroy () {
-		if(LanguageManager.HasInstance)
+		if (LanguageManager.HasInstance)
 			LanguageManager.Instance.OnChangeLanguage -= ChangeText;
 	}
+
 }

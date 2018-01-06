@@ -2,29 +2,31 @@
 using UnityEngine.UI;
 
 public class MusicController : MonoBehaviour {
-    public Sprite On, Off;
-    private Image image;
 
-    private void Awake () {
-        image = GetComponent<Image>();
-    }
+	public Sprite On, Off;
+	private Image image;
 
-    private void Start () {
-        ChangeSprite();
+	private void Awake () {
+		image = GetComponent<Image>();
+	}
 
-        AudioSettings.Instance.OnMusicChange += ChangeSprite;
-    }
+	private void Start () {
+		ChangeSprite();
 
-    private void ChangeSprite () {
-        image.sprite = AudioSettings.Instance.MusicOn ? On : Off;
-    }
+		AudioSettings.Instance.OnMusicChange += ChangeSprite;
+	}
 
-    private void OnDestroy () {
-        if (AudioSettings.Instance)
-            AudioSettings.Instance.OnMusicChange -= ChangeSprite;
-    }
+	private void ChangeSprite () {
+		image.sprite = AudioSettings.Instance.MusicOn ? On : Off;
+	}
 
-    public void SwitchMusic () {
-        AudioSettings.Instance.SwitchMusic();
-    }
+	private void OnDestroy () {
+		if (AudioSettings.Instance)
+			AudioSettings.Instance.OnMusicChange -= ChangeSprite;
+	}
+
+	public void SwitchMusic () {
+		AudioSettings.Instance.SwitchMusic();
+	}
+
 }

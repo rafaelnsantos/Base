@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class LoadSceneHelper : MonoBehaviour {
 
-    public float WaitTime;
-    public bool WorkAround;
+	public float WaitTime;
+	public bool WorkAround;
 
-    public void LoadScene (string sceneName) {
-        if (WorkAround) {
-            SceneLoader.Instance.LoadSceneWorkAround(sceneName, WaitTime);
-        } else {
-            SceneLoader.Instance.LoadScene(sceneName);
-        }
-    }
+	public void LoadScene (string sceneName) {
+		if (WorkAround) {
+			SceneLoader.Instance.LoadSceneWorkAround(sceneName, WaitTime);
+		} else {
+			SceneLoader.Instance.LoadScene(sceneName);
+		}
+	}
 
 }

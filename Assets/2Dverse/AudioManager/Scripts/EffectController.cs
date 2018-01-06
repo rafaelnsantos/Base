@@ -2,29 +2,31 @@
 using UnityEngine.UI;
 
 public class EffectController : MonoBehaviour {
-    public Sprite On, Off;
-    private Image image;
 
-    private void Awake () {
-        image = GetComponent<Image>();
-    }
+	public Sprite On, Off;
+	private Image image;
 
-    private void Start () {
-        ChangeSprite();
+	private void Awake () {
+		image = GetComponent<Image>();
+	}
 
-        AudioSettings.Instance.OnEffectChange += ChangeSprite;
-    }
+	private void Start () {
+		ChangeSprite();
 
-    private void ChangeSprite () {
-        image.sprite = AudioSettings.Instance.EffectOn ? On : Off;
-    }
+		AudioSettings.Instance.OnEffectChange += ChangeSprite;
+	}
 
-    private void OnDestroy () {
-        if (AudioSettings.Instance)
-            AudioSettings.Instance.OnEffectChange -= ChangeSprite;
-    }
+	private void ChangeSprite () {
+		image.sprite = AudioSettings.Instance.EffectOn ? On : Off;
+	}
 
-    public void SwitchEffect () {
-        AudioSettings.Instance.SwitchEffect();
-    }
+	private void OnDestroy () {
+		if (AudioSettings.Instance)
+			AudioSettings.Instance.OnEffectChange -= ChangeSprite;
+	}
+
+	public void SwitchEffect () {
+		AudioSettings.Instance.SwitchEffect();
+	}
+
 }

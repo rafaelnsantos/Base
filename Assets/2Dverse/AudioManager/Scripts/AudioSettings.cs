@@ -2,126 +2,128 @@
 using Random = UnityEngine.Random;
 
 public class AudioSettings : Settings {
-    private AudioSource musicSource, effectSource;
 
-    public bool MusicOn { get; private set; }
-    public bool EffectOn { get; private set; }
-    public static AudioSettings Instance { get; private set; }
+	private AudioSource musicSource, effectSource;
 
-    public float MusicVolume {
-        get { return musicSource.volume; }
-        set { musicSource.volume = value; }
-    }
+	public bool MusicOn { get; private set; }
+	public bool EffectOn { get; private set; }
+	public static AudioSettings Instance { get; private set; }
 
-    public float EffectVolume {
-        get { return effectSource.volume; }
-        set { effectSource.volume = value; }
-    }
+	public float MusicVolume {
+		get { return musicSource.volume; }
+		set { musicSource.volume = value; }
+	}
 
-    public delegate void OnMusicChanged ();
+	public float EffectVolume {
+		get { return effectSource.volume; }
+		set { effectSource.volume = value; }
+	}
 
-    public event OnMusicChanged OnMusicChange;
+	public delegate void OnMusicChanged ();
 
-    public delegate void OnEffectChanged ();
+	public event OnMusicChanged OnMusicChange;
 
-    public event OnEffectChanged OnEffectChange;
+	public delegate void OnEffectChanged ();
 
-    private void Awake () {
-        // Singleton Pattern
-        if (Instance == null) {
-            Instance = this;
-        } else if (Instance != this) {
-            Destroy(gameObject);
-        }
-        DontDestroyOnLoad(gameObject);
+	public event OnEffectChanged OnEffectChange;
 
-        musicSource = gameObject.GetComponents<AudioSource>()[0];
-        effectSource = gameObject.GetComponents<AudioSource>()[1];
-        Load();
-    }
+	private void Awake () {
+		// Singleton Pattern
+		if (Instance == null) {
+			Instance = this;
+		} else if (Instance != this) {
+			Destroy(gameObject);
+		}
+		DontDestroyOnLoad(gameObject);
 
-    private void Start () {
-        PlayMusic(musicSource.clip);
-    }
+		musicSource = gameObject.GetComponents<AudioSource>()[0];
+		effectSource = gameObject.GetComponents<AudioSource>()[1];
+		Load();
+	}
 
-    /// <summary>
-    /// Play an effect.
-    /// </summary>
-    /// <param name="clip">Clip to play.</param>
-    /// <param name="duration">Duration, default 1.</param>
-    /// <param name="pitch">Pitch, default 1.</param>
-    public void PlayEffect (AudioClip clip, float duration = 1f, float pitch = 1f) {
-        if (!EffectOn) return;
+	private void Start () {
+		PlayMusic(musicSource.clip);
+	}
 
-        effectSource.pitch = pitch;
-        effectSource.PlayOneShot(clip, duration);
-    }
+	/// <summary>
+	/// Play an effect.
+	/// </summary>
+	/// <param name="clip">Clip to play.</param>
+	/// <param name="duration">Duration, default 1.</param>
+	/// <param name="pitch">Pitch, default 1.</param>
+	public void PlayEffect (AudioClip clip, float duration = 1f, float pitch = 1f) {
+		if (!EffectOn) return;
 
-    /// <summary>
-    /// Play a random effect.
-    /// </summary>
-    /// <param name="clips">Array of Clips to play.</param>
-    /// <param name="duration">Duration, default 1.</param>
-    /// <param name="lowPitchRange">Low Pitch, defalt 0.95</param>
-    /// <param name="highPitchRange">High Pitch, defaltt 1.05</param>
-    public void PlayRandomEffect (AudioClip[] clips, float duration = 1f, float lowPitchRange = 0.95f,
-        float highPitchRange = 1.05f) {
-        int random = Random.Range(0, clips.Length);
-        float randomPitch = Random.Range(lowPitchRange, highPitchRange);
+		effectSource.pitch = pitch;
+		effectSource.PlayOneShot(clip, duration);
+	}
 
-        PlayEffect(clips[random], duration, randomPitch);
-    }
+	/// <summary>
+	/// Play a random effect.
+	/// </summary>
+	/// <param name="clips">Array of Clips to play.</param>
+	/// <param name="duration">Duration, default 1.</param>
+	/// <param name="lowPitchRange">Low Pitch, defalt 0.95</param>
+	/// <param name="highPitchRange">High Pitch, defaltt 1.05</param>
+	public void PlayRandomEffect (AudioClip[] clips, float duration = 1f, float lowPitchRange = 0.95f,
+		float highPitchRange = 1.05f) {
+		int random = Random.Range(0, clips.Length);
+		float randomPitch = Random.Range(lowPitchRange, highPitchRange);
 
-    /// <summary>
-    /// Play a music.
-    /// </summary>
-    /// <param name="clip">Music to play.</param>
-    public void PlayMusic (AudioClip clip) {
-        if (!MusicOn) return;
+		PlayEffect(clips[random], duration, randomPitch);
+	}
 
-        musicSource.clip = clip;
-        musicSource.Play();
-    }
+	/// <summary>
+	/// Play a music.
+	/// </summary>
+	/// <param name="clip">Music to play.</param>
+	public void PlayMusic (AudioClip clip) {
+		if (!MusicOn) return;
 
-    /// <summary>
-    /// Switch music on or off. 
-    /// </summary>
-    /// <returns>Returns actual state.</returns>
-    public void SwitchMusic () {
-        MusicOn = !MusicOn;
+		musicSource.clip = clip;
+		musicSource.Play();
+	}
 
-        if (!MusicOn) {
-            musicSource.Stop();
-        } else {
-            musicSource.Play();
-        }
-        if (OnMusicChange != null) {
-            OnMusicChange();
-        }
-    }
+	/// <summary>
+	/// Switch music on or off. 
+	/// </summary>
+	/// <returns>Returns actual state.</returns>
+	public void SwitchMusic () {
+		MusicOn = !MusicOn;
 
-    /// <summary>
-    /// Switch effects on or off.
-    /// </summary>
-    /// <returns>Returns actual state.</returns>
-    public void SwitchEffect () {
-        EffectOn = !EffectOn;
-        if (OnEffectChange != null) {
-            OnEffectChange();
-        }
-    }
+		if (!MusicOn) {
+			musicSource.Stop();
+		} else {
+			musicSource.Play();
+		}
+		if (OnMusicChange != null) {
+			OnMusicChange();
+		}
+	}
 
-    protected override void Load () {
-        MusicOn = SaveManager.GetBool("MusicOn", true);
-        EffectOn = SaveManager.GetBool("EffectOn", true);
-        musicSource.volume = SaveManager.GetFloat("MusicVolume", 1);
-        effectSource.volume = SaveManager.GetFloat("EffectVolume", 1);
-    }
+	/// <summary>
+	/// Switch effects on or off.
+	/// </summary>
+	/// <returns>Returns actual state.</returns>
+	public void SwitchEffect () {
+		EffectOn = !EffectOn;
+		if (OnEffectChange != null) {
+			OnEffectChange();
+		}
+	}
 
-    protected override void Save () {
-        SaveManager.SetBool("MusicOn", MusicOn);
-        SaveManager.SetBool("EffectOn", EffectOn);
-        SaveManager.SetFloat("MusicVolume", musicSource.volume);
-        SaveManager.SetFloat("EffectVolume", effectSource.volume);
-    }
+	protected override void Load () {
+		MusicOn = SaveManager.GetBool("MusicOn", true);
+		EffectOn = SaveManager.GetBool("EffectOn", true);
+		musicSource.volume = SaveManager.GetFloat("MusicVolume", 1);
+		effectSource.volume = SaveManager.GetFloat("EffectVolume", 1);
+	}
+
+	protected override void Save () {
+		SaveManager.SetBool("MusicOn", MusicOn);
+		SaveManager.SetBool("EffectOn", EffectOn);
+		SaveManager.SetFloat("MusicVolume", musicSource.volume);
+		SaveManager.SetFloat("EffectVolume", effectSource.volume);
+	}
+
 }
