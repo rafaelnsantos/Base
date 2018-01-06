@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class TextController : MonoBehaviour {
 
-	private Text text;
+	protected Text text;
 	public string Key;
 
 	private void Awake () {
@@ -19,9 +19,9 @@ public class TextController : MonoBehaviour {
 	private void ChangeText (LanguageManager languageManager) {
 		text.text = languageManager.GetTextValue(Key);
 	}
-	
+
 	private void OnDestroy () {
-		if(LanguageManager.Instance)
+		if(LanguageManager.Instance != null)
 			LanguageManager.Instance.OnChangeLanguage -= ChangeText;
 	}
 }

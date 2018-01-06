@@ -116,6 +116,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+	<data name="Loading.Hint0" xml:space="preserve">
+		<value>New Value</value>
+	</data>
+	<data name="Loading.Hint1" xml:space="preserve">
+		<value>New Value</value>
+	</data>
+	<data name="Loading.Hint2" xml:space="preserve">
+		<value>New Value</value>
+	</data>
+	<data name="[type=TEXTURE]PlayButton" xml:space="preserve">
+		<value>New Value</value>
+	</data>
 	<data name="Settings.EffectVolume" xml:space="preserve">
 		<value>Effect volume</value>
 	</data>

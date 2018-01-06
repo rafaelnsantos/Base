@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class AudioSettings : MonoBehaviour, ISettings {
+public class AudioSettings : Settings {
     private AudioSource musicSource, effectSource;
 
     public bool MusicOn { get; private set; }
@@ -19,9 +19,11 @@ public class AudioSettings : MonoBehaviour, ISettings {
     }
 
     public delegate void OnMusicChanged ();
+
     public event OnMusicChanged OnMusicChange;
-    
+
     public delegate void OnEffectChanged ();
+
     public event OnEffectChanged OnEffectChange;
 
     private void Awake () {
@@ -62,7 +64,8 @@ public class AudioSettings : MonoBehaviour, ISettings {
     /// <param name="duration">Duration, default 1.</param>
     /// <param name="lowPitchRange">Low Pitch, defalt 0.95</param>
     /// <param name="highPitchRange">High Pitch, defaltt 1.05</param>
-    public void PlayRandomEffect (AudioClip[] clips, float duration = 1f, float lowPitchRange = 0.95f, float highPitchRange = 1.05f) {
+    public void PlayRandomEffect (AudioClip[] clips, float duration = 1f, float lowPitchRange = 0.95f,
+        float highPitchRange = 1.05f) {
         int random = Random.Range(0, clips.Length);
         float randomPitch = Random.Range(lowPitchRange, highPitchRange);
 
@@ -108,24 +111,14 @@ public class AudioSettings : MonoBehaviour, ISettings {
         }
     }
 
-    private void OnApplicationPause (bool pauseStatus) {
-        if (pauseStatus) {
-            Save();
-        }
-    }
-
-    private void OnDestroy () {
-        Save();
-    }
-
-    public void Load () {
+    protected override void Load () {
         MusicOn = SaveManager.GetBool("MusicOn", true);
         EffectOn = SaveManager.GetBool("EffectOn", true);
         musicSource.volume = SaveManager.GetFloat("MusicVolume", 1);
         effectSource.volume = SaveManager.GetFloat("EffectVolume", 1);
     }
 
-    public void Save () {
+    protected override void Save () {
         SaveManager.SetBool("MusicOn", MusicOn);
         SaveManager.SetBool("EffectOn", EffectOn);
         SaveManager.SetFloat("MusicVolume", musicSource.volume);

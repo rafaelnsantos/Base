@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using GoogleMobileAds.Api;
 using UnityEngine;
 
 public class AdGameplay : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		AdMobiManager.Instance.RequestBanner();	
+	private void Start () {
+		AdMobiManager.Instance.RequestBanner(AdSize.SmartBanner, AdPosition.Top);	
 	}
-	
+
+	private void OnDestroy () {
+		AdMobiManager.Instance.bannerView.Destroy();
+	}
 }

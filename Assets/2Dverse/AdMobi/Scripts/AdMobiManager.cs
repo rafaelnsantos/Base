@@ -17,7 +17,7 @@ public class AdMobiManager : MonoBehaviour {
 
     public static AdMobiManager Instance { get; private set; }
 
-    private BannerView bannerView;
+    public BannerView bannerView;
     private InterstitialAd interstitial;
     private NativeExpressAdView nativeExpressAdView;
     private RewardBasedVideoAd rewardBasedVideo;
@@ -70,7 +70,7 @@ public class AdMobiManager : MonoBehaviour {
             .Build();
     }
 
-    public void RequestBanner () {
+    public void RequestBanner (AdSize size, AdPosition position) {
         // These ad units are configured to always serve test ads.
 #if UNITY_EDITOR
         string adUnitId = "unused";
@@ -93,7 +93,7 @@ public class AdMobiManager : MonoBehaviour {
         }
 
         // Create a 320x50 banner at the top of the screen.
-        bannerView = new BannerView(adUnitId, AdSize.SmartBanner, AdPosition.Top);
+        bannerView = new BannerView(adUnitId, size, position);
 
         // Register for ad events.
         bannerView.OnAdLoaded += HandleAdLoaded;
@@ -219,31 +219,6 @@ public class AdMobiManager : MonoBehaviour {
 
     public void HandleInterstitialLeftApplication (object sender, EventArgs args) {
         print("HandleInterstitialLeftApplication event received");
-    }
-
-    #endregion
-
-    #region Native express ad callback handlers
-
-    public void HandleNativeExpressAdLoaded (object sender, EventArgs args) {
-        print("HandleNativeExpressAdAdLoaded event received");
-    }
-
-    public void HandleNativeExpresseAdFailedToLoad (object sender, AdFailedToLoadEventArgs args) {
-        print(
-            "HandleNativeExpressAdFailedToReceiveAd event received with message: " + args.Message);
-    }
-
-    public void HandleNativeExpressAdOpened (object sender, EventArgs args) {
-        print("HandleNativeExpressAdAdOpened event received");
-    }
-
-    public void HandleNativeExpressAdClosed (object sender, EventArgs args) {
-        print("HandleNativeExpressAdAdClosed event received");
-    }
-
-    public void HandleNativeExpressAdLeftApplication (object sender, EventArgs args) {
-        print("HandleNativeExpressAdAdLeftApplication event received");
     }
 
     #endregion

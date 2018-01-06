@@ -2,41 +2,21 @@
 using DG.Tweening;
 
 public class MenuController : MonoBehaviour {
-    public enum VerticalOrHorizontal {
-        Vertical,
-        Horizontal
-    };
 
-    public VerticalOrHorizontal Align;
-    
-    private bool showing;
+    private bool active;
     public float Time;
-    
-    private void Start () {
-        showing = false;
 
-        switch (Align) {
-            case VerticalOrHorizontal.Vertical:
-                transform.DOScaleY(0, 0);
-            break;
-            
-            case VerticalOrHorizontal.Horizontal:
-                transform.DOScaleX(0, 0);
-            break;
-        }
+    private void Start () {
+        active = false;
+
+        transform.DOScaleY(0, 0);
+        transform.DOScaleX(0, 0);
     }
 
     public void Switch () {
-        showing = !showing;
+        active = !active;
 
-        switch (Align) {
-            case VerticalOrHorizontal.Vertical:
-                transform.DOScaleY(showing ? 1 : 0, Time);
-            break;
-            
-            case VerticalOrHorizontal.Horizontal:
-                transform.DOScaleX(showing ? 1 : 0, Time);
-                break;
-        }
+        transform.DOScaleX(active ? 1 : 0, Time);
+        transform.DOScaleY(active ? 1 : 0, Time);
     }
 }
