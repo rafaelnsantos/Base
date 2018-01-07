@@ -1,11 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class ButtonClick : MonoBehaviour {
+public class SoundOnClickButton : MonoBehaviour {
 
 	public AudioClip Audio;
-
-	private Button button;
 
 	private void Start () {
 		GetComponent<Button>().onClick.AddListener(PlayClick);

@@ -78,9 +78,8 @@ public class AudioSettings : Settings {
 	/// </summary>
 	/// <param name="clip">Music to play.</param>
 	public void PlayMusic (AudioClip clip) {
-		if (!MusicOn) return;
-
 		musicSource.clip = clip;
+		if (!MusicOn) return;
 		musicSource.Play();
 	}
 
