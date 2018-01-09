@@ -83,6 +83,10 @@ public class AudioSettings : Settings {
 		musicSource.Play();
 	}
 
+	public void StopMusic () {
+		musicSource.Stop();
+	}
+
 	/// <summary>
 	/// Switch music on or off. 
 	/// </summary>
