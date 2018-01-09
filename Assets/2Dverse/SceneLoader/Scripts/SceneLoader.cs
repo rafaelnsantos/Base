@@ -42,7 +42,7 @@ public class SceneLoader : MonoBehaviour {
 			float progress = Mathf.Clamp01(async.progress / .9f);
 			ProgressSlider.value = progress;
 			ProgressText.text = String.Concat((int) (progress * 100), "%");
-			if (async.progress < 0.90f) { } else {
+			if (async.progress >= 0.9f) {
 				animator.SetTrigger("FinishedLoading");
 				async.allowSceneActivation = true;
 			}
@@ -60,11 +60,14 @@ public class SceneLoader : MonoBehaviour {
 			ProgressSlider.value = progress;
 			ProgressText.text = String.Concat((int) (progress * 100), "%");
 			timer += Time.deltaTime;
+
+			if (waitTime - timer < 0.1f) {
+				animator.SetTrigger("FinishedLoading");
+				async.allowSceneActivation = true;
+			}
 			yield return null;
 		}
-
-		animator.SetTrigger("FinishedLoading");
-		async.allowSceneActivation = true;
-	}
+		ProgressSlider.value = 1;
+		ProgressText.text = "100%";	}
 
 }
