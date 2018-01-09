@@ -15,6 +15,7 @@ public class Move : MonoBehaviour {
 
 	private void MoveRight () {
 		if (!finishedX) return;
+
 		finishedX = false;
 		transform.DOLocalMoveX(430, 3).OnComplete(MoveLeft);
 	}
@@ -22,9 +23,10 @@ public class Move : MonoBehaviour {
 	private void MoveLeft () {
 		transform.DOLocalMoveX(-430, 3).OnComplete(() => finishedX = true);
 	}
-	
-	private void MoveUp() {
+
+	private void MoveUp () {
 		if (!finishedY) return;
+
 		finishedY = false;
 		transform.DOLocalMoveY(220, 3).OnComplete(MoveDown);
 	}

@@ -5,41 +5,64 @@ using UnityEngine;
 
 public class AdGameplay : MonoBehaviour {
 
-	public float Delay;
+	public AdPosition PositionAd;
+
+	[Range(10, 60)] public float RefreshDelay;
 	public string AndroidBannerId, IphoneBannerId;
 	private BannerView banner;
 	private bool adLoading;
 	private string bannerId;
+	private AdPosition adPosition;
 
 	private void Start () {
-#if UNITY_EDITOR
-		bannerId = "unused";
-#elif UNITY_ANDROID
+#if UNITY_ANDROID
         bannerId = AndroidBannerId;
 #elif UNITY_IPHONE
         bannerId = IphoneBannerId;
+#else
+		bannerId = "unexpected_platform";
 #endif
+		adLoading = true;
+		LoadAd();
 	}
 
 	private void Update () {
-		if (!adLoading) StartCoroutine(LoadAd());
+		if (!adLoading) StartCoroutine(RefreshAd());
 	}
 
 	private void OnDestroy () {
-		banner.Destroy();
+		if (banner != null) banner.Destroy();
 	}
 
 	private void AdLoaded (object sender, EventArgs args) {
 		adLoading = false;
 		banner.OnAdLoaded -= AdLoaded;
+		banner.OnAdFailedToLoad -= AdLoaded;
+	}
+	
+	
+	private void AdLoadFailed (object sender, EventArgs args) {
+		adLoading = false;
+		banner.OnAdLoaded -= AdLoaded;
+		banner.OnAdFailedToLoad -= AdLoaded;
 	}
 
-	private IEnumerator LoadAd () {
+	private IEnumerator RefreshAd () {
 		adLoading = true;
-		yield return new WaitForSeconds(Delay);
+		yield return new WaitForSeconds(RefreshDelay);
 
-		banner = AdMobiManager.Instance.RequestBanner(bannerId, AdSize.SmartBanner, AdPosition.Top);
+		LoadAd();
+	}
+
+	private void LoadAd () {
+		banner = AdMobiManager.Instance.RequestBanner(
+			bannerId,
+			AdSize.SmartBanner,
+			PositionAd
+		);
+
 		banner.OnAdLoaded += AdLoaded;
+		banner.OnAdFailedToLoad += AdLoadFailed;
 	}
 
 }

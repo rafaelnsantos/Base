@@ -80,6 +80,7 @@ public class AudioSettings : Settings {
 	public void PlayMusic (AudioClip clip) {
 		musicSource.clip = clip;
 		if (!MusicOn) return;
+
 		musicSource.Play();
 	}
 
@@ -94,14 +95,12 @@ public class AudioSettings : Settings {
 	public void SwitchMusic () {
 		MusicOn = !MusicOn;
 
-		if (!MusicOn) {
+		if (!MusicOn)
 			musicSource.Stop();
-		} else {
+		else
 			musicSource.Play();
-		}
-		if (OnMusicChange != null) {
-			OnMusicChange();
-		}
+
+		if (OnMusicChange != null) OnMusicChange();
 	}
 
 	/// <summary>
@@ -110,9 +109,7 @@ public class AudioSettings : Settings {
 	/// <returns>Returns actual state.</returns>
 	public void SwitchEffect () {
 		EffectOn = !EffectOn;
-		if (OnEffectChange != null) {
-			OnEffectChange();
-		}
+		if (OnEffectChange != null) OnEffectChange();
 	}
 
 	protected override void Load () {

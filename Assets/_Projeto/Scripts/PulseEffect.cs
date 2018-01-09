@@ -22,16 +22,18 @@ public class PulseEffect : MonoBehaviour {
 
 	private void ShrinkX () {
 		if (!finishedX) return;
+
 		finishedX = false;
 		transform.DOScaleX(ShrinkBound.x, ApproachSpeedX).OnComplete(GrowX);
 	}
-	
+
 	private void GrowY () {
 		transform.DOScaleY(GrowthBound.y, ApproachSpeedY).OnComplete(() => finishedY = true);
 	}
 
 	private void ShrinkY () {
 		if (!finishedY) return;
+
 		finishedY = false;
 		transform.DOScaleY(ShrinkBound.y, ApproachSpeedY).OnComplete(GrowY);
 	}

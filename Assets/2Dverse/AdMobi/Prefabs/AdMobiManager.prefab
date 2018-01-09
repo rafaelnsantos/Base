@@ -53,8 +53,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AndroidAppId: ca-app-pub-8023402418622835~8870666430
   IphoneAppId: ca-app-pub-8023402418622835~3235976622
-  AndroidInterstitialId: ca-app-pub-8023402418622835/5082630511
-  IphoneInterstitialId: ca-app-pub-8023402418622835/4920593382
-  AndroidRewardedVideoId: ca-app-pub-8023402418622835/7503235132
-  IphoneRewardedVideoId: ca-app-pub-8023402418622835/4445826959
   Teste: 1
