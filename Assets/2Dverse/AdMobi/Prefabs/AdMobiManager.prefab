@@ -33,7 +33,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1881374155810758}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -53,9 +53,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AndroidAppId: ca-app-pub-8023402418622835~8870666430
   IphoneAppId: ca-app-pub-8023402418622835~3235976622
-  AndroidBannerId: ca-app-pub-8023402418622835/8104379672
-  IphoneBannerId: ca-app-pub-8023402418622835/8070211346
   AndroidInterstitialId: ca-app-pub-8023402418622835/5082630511
   IphoneInterstitialId: ca-app-pub-8023402418622835/4920593382
   AndroidRewardedVideoId: ca-app-pub-8023402418622835/7503235132
   IphoneRewardedVideoId: ca-app-pub-8023402418622835/4445826959
+  Teste: 1

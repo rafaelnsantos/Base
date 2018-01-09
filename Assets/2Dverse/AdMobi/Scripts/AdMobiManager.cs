@@ -7,21 +7,21 @@ public class AdMobiManager : MonoBehaviour {
 	public string AndroidAppId;
 	public string IphoneAppId;
 
-	public string AndroidBannerId;
-	public string IphoneBannerId;
-
 	public string AndroidInterstitialId;
 	public string IphoneInterstitialId;
 
 	public string AndroidRewardedVideoId;
 	public string IphoneRewardedVideoId;
 
+	public bool Teste;
+
 	public static AdMobiManager Instance { get; private set; }
 
-	public BannerView bannerView;
+	private BannerView bannerView;
 	private InterstitialAd interstitial;
 	private NativeExpressAdView nativeExpressAdView;
 	private RewardBasedVideoAd rewardBasedVideo;
+	private BannerView tempBanner;
 
 	private void Awake () {
 		// Singleton Pattern
@@ -37,7 +37,7 @@ public class AdMobiManager : MonoBehaviour {
 #if UNITY_EDITOR
 		string appId = "unused";
 #elif UNITY_ANDROID
-        string appId = AndroidAppId;
+        string appId = Teste ? "ca-app-pub-3940256099942544~3347511713" : AndroidAppId;
 #elif UNITY_IPHONE
         string appId = IphoneAppId;
 #else
@@ -65,23 +65,15 @@ public class AdMobiManager : MonoBehaviour {
 		return new AdRequest.Builder()
 			.AddKeyword("game")
 			.SetGender(Gender.Male)
-			.SetBirthday(new DateTime(1991, 1, 1))
-			.TagForChildDirectedTreatment(false)
+			.SetBirthday(new DateTime(2005, 1, 1))
+			.TagForChildDirectedTreatment(true)
 			.AddExtra("color_bg", "9B30FF")
 			.Build();
 	}
 
-	public void RequestBanner (AdSize size, AdPosition position) {
+	public BannerView RequestBanner (string bannerId, AdSize size, AdPosition position) {
 		// These ad units are configured to always serve test ads.
-#if UNITY_EDITOR
-		string adUnitId = "unused";
-#elif UNITY_ANDROID
-        string adUnitId = AndroidBannerId;
-#elif UNITY_IPHONE
-        string adUnitId = IphoneBannerId;
-#else
-        string adUnitId = "unexpected_platform";
-#endif
+		string adUnitId = Teste ? "ca-app-pub-3940256099942544/6300978111" : bannerId;
 
 		// Clean up banner ad before creating a new one.
 		if (bannerView != null) {
@@ -105,6 +97,8 @@ public class AdMobiManager : MonoBehaviour {
 
 		// Load a banner ad.
 		bannerView.LoadAd(CreateAdRequest());
+
+		return bannerView;
 	}
 
 	public void RequestInterstitial () {
