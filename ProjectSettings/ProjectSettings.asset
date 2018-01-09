@@ -11,7 +11,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: 2DVerseStudio
-  productName: Base
+  productName: Baseline
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0, g: 0, b: 0, a: 1}
@@ -143,7 +143,7 @@ PlayerSettings:
   targetPixelDensity: 0
   resolutionScalingMode: 0
   applicationIdentifier:
-    Android: com.twodversestudio.Base
+    Android: com.twodversestudio.Baseline
     Standalone: com.twodversestudio.ProductName
   buildNumber: {}
   AndroidBundleVersionCode: 1
