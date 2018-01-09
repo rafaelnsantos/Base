@@ -1,12 +1,17 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MusicOnStartScene : MonoBehaviour {
 
 	public AudioClip Music;
+    public float Delay;
 
-	void Start () {
+	private void Start () {
+		StartCoroutine(PlayMusic());
+	}
+
+	private IEnumerator PlayMusic () {
+		yield return new WaitForSeconds(Delay);
 		AudioSettings.Instance.PlayMusic(Music);
 	}
 	
