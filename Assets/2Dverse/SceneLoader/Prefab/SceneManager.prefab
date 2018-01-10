@@ -20,12 +20,13 @@ GameObject:
   m_Component:
   - component: {fileID: 4308911630516774}
   - component: {fileID: 114237171629327444}
+  - component: {fileID: 114630252168524270}
   m_Layer: 0
   m_Name: SceneManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!1 &1113533476450492
 GameObject:
@@ -343,7 +344,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 960, y: 540}
   m_ScreenMatchMode: 2
-  m_MatchWidthOrHeight: 1
+  m_MatchWidthOrHeight: 0.23
   m_PhysicalUnit: 0
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -397,6 +398,19 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &114630252168524270
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1039172058200496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 812a1d07376acda47a3d6db9c84378ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AndroidId: ca-app-pub-8023402418622835/5082630511
+  IphoneId: ca-app-pub-8023402418622835/4920593382
 --- !u!114 &114687821927111242
 MonoBehaviour:
   m_ObjectHideFlags: 1

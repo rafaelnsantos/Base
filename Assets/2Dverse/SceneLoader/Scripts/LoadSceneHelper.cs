@@ -1,20 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LoadSceneHelper : MonoBehaviour {
 
 	public float WaitTime;
-	public bool WorkAround;
+	public string SceneName;
 
-	public void LoadScene (string sceneName) {
-		AdMobiManager.Instance.DestroyBanner();
-		AudioSettings.Instance.StopMusic();
-		if (WorkAround) {
-			SceneLoader.Instance.LoadSceneWorkAround(sceneName, WaitTime);
-		} else {
-			SceneLoader.Instance.LoadScene(sceneName);
-		}
+	private void Start () {
+		GetComponent<Button>().onClick.AddListener(LoadScene);
+	}
+
+	private void LoadScene () {
+		SceneLoader.Instance.LoadScene(SceneName, WaitTime);
 	}
 
 }

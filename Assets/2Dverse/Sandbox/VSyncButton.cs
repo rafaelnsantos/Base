@@ -16,6 +16,7 @@ public class VSyncButton : Settings {
 	private void Switch () {
 		QualitySettings.vSyncCount = QualitySettings.vSyncCount == 1 ? 2 : 1;
 		SetText();
+		Save();
 	}
 
 	protected override void Save () {

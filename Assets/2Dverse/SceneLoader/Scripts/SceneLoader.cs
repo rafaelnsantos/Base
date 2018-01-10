@@ -12,6 +12,13 @@ public class SceneLoader : MonoBehaviour {
 	public Slider ProgressSlider;
 	public Text ProgressText;
 
+	public delegate void OnSceneLoading ();
+	public event OnSceneLoading OnSceneLoad;
+	
+	
+	public delegate void OnSceneLoaded ();
+	public event OnSceneLoaded OnLoadedScene;
+
 	private void Awake () {
 		// Singleton Pattern
 		if (Instance == null) {
@@ -24,16 +31,12 @@ public class SceneLoader : MonoBehaviour {
 		animator = LoadingScreen.GetComponent<Animator>();
 	}
 
-	public void LoadSceneWorkAround (string sceneName, float waitTime) {
+	public void LoadScene (string sceneName, float waitTime) {
+		if (OnSceneLoad != null) OnSceneLoad();
+		AudioSettings.Instance.StopMusic();
 		LoadingScreen.SetActive(true);
 		System.GC.Collect();
-		StartCoroutine(AsyncLoadWorkAround(sceneName, waitTime));
-	}
-
-	public void LoadScene (string sceneName) {
-		LoadingScreen.SetActive(true);
-		System.GC.Collect();
-		StartCoroutine(AsyncLoad(sceneName));
+		StartCoroutine(waitTime > 0 ? AsyncLoadWorkAround(sceneName, waitTime) : AsyncLoad(sceneName));
 	}
 
 	private IEnumerator AsyncLoad (string sceneName) {
@@ -45,8 +48,9 @@ public class SceneLoader : MonoBehaviour {
 			ProgressSlider.value = progress;
 			ProgressText.text = String.Concat((int) (progress * 100), "%");
 			if (async.progress >= 0.9f) {
-				animator.SetTrigger("FinishedLoading");
+				if (OnLoadedScene != null) OnLoadedScene();
 				async.allowSceneActivation = true;
+				animator.SetTrigger("FinishedLoading");
 			}
 			yield return null;
 		}
@@ -62,14 +66,17 @@ public class SceneLoader : MonoBehaviour {
 			ProgressSlider.value = progress;
 			ProgressText.text = String.Concat((int) (progress * 100), "%");
 			timer += Time.deltaTime;
-
-			if (waitTime - timer < 0.1f) {
-				animator.SetTrigger("FinishedLoading");
-				async.allowSceneActivation = true;
-			}
+//
+//			if (waitTime - timer < 0.1f) {
+//				
+//			}
 			yield return null;
 		}
+		if (OnLoadedScene != null) OnLoadedScene();
+		async.allowSceneActivation = true;
+		animator.SetTrigger("FinishedLoading");
 		ProgressSlider.value = 1;
-		ProgressText.text = "100%";	}
+		ProgressText.text = "100%";
+	}
 
 }
