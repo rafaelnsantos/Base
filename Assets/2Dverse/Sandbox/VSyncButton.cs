@@ -27,8 +27,7 @@ public class VSyncButton : Settings {
 	}
 
 	private void SetText () {
-		int refreshRate = Screen.currentResolution.refreshRate;
-		refreshRate = QualitySettings.vSyncCount == 1 ? refreshRate: (refreshRate / 2);
+		int refreshRate = Screen.currentResolution.refreshRate / QualitySettings.vSyncCount;
 		text.text = refreshRate.ToString();
 	}
 
