@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections;
+using System.Threading;
 using GoogleMobileAds.Api;
 using UnityEngine;
 
-public class AdGameplay : MonoBehaviour {
+public class BannerAd : MonoBehaviour {
 
 	public enum SizeAd {
 
@@ -17,7 +18,7 @@ public class AdGameplay : MonoBehaviour {
 	public SizeAd BannerSize;
 	public AdPosition BannerPosition;
 
-	[Range(30, 150)] public float RefreshDelay;
+	[Range(10, 150)] public float RefreshDelay;
 	public string AndroidBannerId, IphoneBannerId;
 	private BannerView banner;
 	private bool adLoading;
