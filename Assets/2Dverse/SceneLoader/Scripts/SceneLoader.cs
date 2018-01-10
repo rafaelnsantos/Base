@@ -26,11 +26,13 @@ public class SceneLoader : MonoBehaviour {
 
 	public void LoadSceneWorkAround (string sceneName, float waitTime) {
 		LoadingScreen.SetActive(true);
+		System.GC.Collect();
 		StartCoroutine(AsyncLoadWorkAround(sceneName, waitTime));
 	}
 
 	public void LoadScene (string sceneName) {
 		LoadingScreen.SetActive(true);
+		System.GC.Collect();
 		StartCoroutine(AsyncLoad(sceneName));
 	}
 
