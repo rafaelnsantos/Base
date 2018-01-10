@@ -42,6 +42,7 @@ public class AudioSettings : Settings {
 	}
 
 	private void Start () {
+		Debug.Log(QualitySettings.vSyncCount);
 		PlayMusic(musicSource.clip);
 	}
 
