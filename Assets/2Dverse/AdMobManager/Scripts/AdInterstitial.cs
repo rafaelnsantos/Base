@@ -32,9 +32,9 @@ public class AdInterstitial : MonoBehaviour {
 		interstitialAd = new InterstitialAd(interstitialId);
 
 		// Register for ad events.
-		interstitialAd.OnAdLoaded += HandleInterstitialLoaded;
-		interstitialAd.OnAdFailedToLoad += HandleInterstitialFailedToLoad;
-		interstitialAd.OnAdClosed += HandleInterstitialClosed;
+//		interstitialAd.OnAdLoaded += HandleInterstitialLoaded;
+//		interstitialAd.OnAdFailedToLoad += HandleInterstitialFailedToLoad;
+//		interstitialAd.OnAdClosed += HandleInterstitialClosed;
 
 		// Load an interstitial ad.
 		interstitialAd.LoadAd(AdMobiManager.Instance.adRequest);
@@ -42,25 +42,25 @@ public class AdInterstitial : MonoBehaviour {
 
 	private void DestroyInterstitial () {
 		if (interstitialAd == null) return;
-		interstitialAd.OnAdLoaded -= HandleInterstitialLoaded;
-		interstitialAd.OnAdFailedToLoad -= HandleInterstitialFailedToLoad;
-		interstitialAd.OnAdClosed -= HandleInterstitialClosed;
+//		interstitialAd.OnAdLoaded -= HandleInterstitialLoaded;
+//		interstitialAd.OnAdFailedToLoad -= HandleInterstitialFailedToLoad;
+//		interstitialAd.OnAdClosed -= HandleInterstitialClosed;
 		interstitialAd.Destroy();
 	}
 
-	private void HandleInterstitialLoaded (object sender, EventArgs args) {
-		print("HandleInterstitialLoaded event received");
-	}
-
-	private void HandleInterstitialFailedToLoad (object sender, AdFailedToLoadEventArgs args) {
-		print("InterstitialFailedToLoad with message: " + args.Message);
-		DestroyInterstitial();
-	}
-
-	private void HandleInterstitialClosed (object sender, EventArgs args) {
-		print("HandleInterstitialClosed event received");
-		DestroyInterstitial();
-	}
+//	private void HandleInterstitialLoaded (object sender, EventArgs args) {
+//		print("HandleInterstitialLoaded event received");
+//	}
+//
+//	private void HandleInterstitialFailedToLoad (object sender, AdFailedToLoadEventArgs args) {
+//		print("InterstitialFailedToLoad with message: " + args.Message);
+////		DestroyInterstitial();
+//	}
+//
+//	private void HandleInterstitialClosed (object sender, EventArgs args) {
+//		print("HandleInterstitialClosed event received");
+////		DestroyInterstitial();
+//	}
 
 	private void ShowAds () {
 		if (interstitialAd.IsLoaded()) interstitialAd.Show();
@@ -68,6 +68,7 @@ public class AdInterstitial : MonoBehaviour {
 
 	private void OnDestroy () {
 		SceneLoader.Instance.OnSceneLoad -= RequestInterstitial;
+		SceneLoader.Instance.OnLoadedScene -= ShowAds;
 	}
 
 }
