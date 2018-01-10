@@ -36,8 +36,8 @@ public class AudioSettings : Settings {
 		}
 		DontDestroyOnLoad(gameObject);
 
-		musicSource = gameObject.GetComponent<AudioSource>();
-		effectSource = gameObject.GetComponent<AudioSource>();
+		musicSource = gameObject.GetComponents<AudioSource>()[0];
+		effectSource = gameObject.GetComponents<AudioSource>()[1];
 		Load();
 	}
 
