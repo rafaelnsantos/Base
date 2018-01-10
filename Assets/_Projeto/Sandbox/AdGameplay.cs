@@ -5,23 +5,53 @@ using UnityEngine;
 
 public class AdGameplay : MonoBehaviour {
 
-	public AdPosition PositionAd;
+	public enum SizeAd {
 
-	[Range(10, 60)] public float RefreshDelay;
+		SmartBanner,
+		Banner,
+		IabBanner,
+		MediumRectangle
+
+	}
+
+	public SizeAd BannerSize;
+	public AdPosition BannerPosition;
+
+	[Range(30, 150)] public float RefreshDelay;
 	public string AndroidBannerId, IphoneBannerId;
 	private BannerView banner;
 	private bool adLoading;
 	private string bannerId;
 	private AdPosition adPosition;
+	private AdSize adSize;
 
 	private void Start () {
 #if UNITY_ANDROID
-        bannerId = AndroidBannerId;
+		bannerId = AndroidBannerId;
 #elif UNITY_IPHONE
         bannerId = IphoneBannerId;
 #else
 		bannerId = "unexpected_platform";
 #endif
+
+		switch (BannerSize) {
+			case SizeAd.Banner:
+				adSize = AdSize.Banner;
+				break;
+			case SizeAd.IabBanner:
+				adSize = AdSize.IABBanner;
+				break;
+			case SizeAd.MediumRectangle:
+				adSize = AdSize.MediumRectangle;
+				break;
+			case SizeAd.SmartBanner:
+				adSize = AdSize.SmartBanner;
+				break;
+			default:
+				adSize = AdSize.SmartBanner;
+				break;
+		}
+
 		adLoading = true;
 		LoadAd();
 	}
@@ -30,18 +60,7 @@ public class AdGameplay : MonoBehaviour {
 		if (!adLoading) StartCoroutine(RefreshAd());
 	}
 
-	private void OnDestroy () {
-		if (banner != null) banner.Destroy();
-	}
-
 	private void AdLoaded (object sender, EventArgs args) {
-		adLoading = false;
-		banner.OnAdLoaded -= AdLoaded;
-		banner.OnAdFailedToLoad -= AdLoaded;
-	}
-	
-	
-	private void AdLoadFailed (object sender, EventArgs args) {
 		adLoading = false;
 		banner.OnAdLoaded -= AdLoaded;
 		banner.OnAdFailedToLoad -= AdLoaded;
@@ -57,12 +76,12 @@ public class AdGameplay : MonoBehaviour {
 	private void LoadAd () {
 		banner = AdMobiManager.Instance.RequestBanner(
 			bannerId,
-			AdSize.SmartBanner,
-			PositionAd
+			adSize,
+			BannerPosition
 		);
 
 		banner.OnAdLoaded += AdLoaded;
-		banner.OnAdFailedToLoad += AdLoadFailed;
+		banner.OnAdFailedToLoad += AdLoaded;
 	}
 
 }

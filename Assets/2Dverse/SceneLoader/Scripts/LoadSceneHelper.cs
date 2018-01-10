@@ -8,6 +8,7 @@ public class LoadSceneHelper : MonoBehaviour {
 	public bool WorkAround;
 
 	public void LoadScene (string sceneName) {
+		AdMobiManager.Instance.DestroyBanner();
 		AudioSettings.Instance.StopMusic();
 		if (WorkAround) {
 			SceneLoader.Instance.LoadSceneWorkAround(sceneName, WaitTime);

@@ -13,6 +13,6 @@ public class RandomText : TextController {
 		text.text = LanguageManager.Instance.GetTextValue(key);
 	}
 
-	private new void Start () { }
+	private void Start () { }
 
 }

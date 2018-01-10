@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Move : MonoBehaviour {
 
+	public float Time;
 	private bool finishedX = true;
 	private bool finishedY = true;
 
@@ -17,22 +18,22 @@ public class Move : MonoBehaviour {
 		if (!finishedX) return;
 
 		finishedX = false;
-		transform.DOLocalMoveX(430, 3).OnComplete(MoveLeft);
+		transform.DOLocalMoveX(430, Time).OnComplete(MoveLeft);
 	}
 
 	private void MoveLeft () {
-		transform.DOLocalMoveX(-430, 3).OnComplete(() => finishedX = true);
+		transform.DOLocalMoveX(-430, Time).OnComplete(() => finishedX = true);
 	}
 
 	private void MoveUp () {
 		if (!finishedY) return;
 
 		finishedY = false;
-		transform.DOLocalMoveY(220, 3).OnComplete(MoveDown);
+		transform.DOLocalMoveY(220, Time).OnComplete(MoveDown);
 	}
 
 	private void MoveDown () {
-		transform.DOLocalMoveY(-220, 3).OnComplete(() => finishedY = true);
+		transform.DOLocalMoveY(-220, Time).OnComplete(() => finishedY = true);
 	}
 
 }

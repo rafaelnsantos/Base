@@ -13,6 +13,10 @@ public class AdMobiManager : MonoBehaviour {
 	private BannerView banner;
 	private InterstitialAd interstitial;
 	public RewardBasedVideoAd RewardBasedVideo { get; private set; }
+
+	private AdRequest adRequest;
+	
+	
 	private BannerView tempBanner;
 
 	private void Awake () {
@@ -47,20 +51,20 @@ public class AdMobiManager : MonoBehaviour {
 		RewardBasedVideo.OnAdStarted += HandleRewardBasedVideoStarted;
 //		rewardBasedVideo.OnAdRewarded += HandleRewardBasedVideoRewarded;
 		RewardBasedVideo.OnAdClosed += HandleRewardBasedVideoClosed;
+
+		adRequest = CreateAdRequest();
 	}
 
 	// Returns an ad request with custom ad targeting.
 	private AdRequest CreateAdRequest () {
-//		return new AdRequest.Builder()
-//			.AddKeyword("game")
-//			.SetGender(Gender.Male)
-//			.SetBirthday(new DateTime(2005, 1, 1))
-//			.TagForChildDirectedTreatment(true)
-//			.AddExtra("color_bg", "9B30FF")
-//			.Build();
-		return Teste
-			? new AdRequest.Builder().AddTestDevice(AdRequest.TestDeviceSimulator).Build()
-			: new AdRequest.Builder().Build();
+		return new AdRequest.Builder()
+			.AddKeyword("game")
+			.AddTestDevice(AdRequest.TestDeviceSimulator)
+			.SetGender(Gender.Male)
+			.SetBirthday(new DateTime(1991, 1, 1))
+			.TagForChildDirectedTreatment(false)
+			.AddExtra("color_bg", "9B30FF")
+			.Build();
 	}
 
 	public BannerView RequestBanner (string bannerId, AdSize size, AdPosition position) {
@@ -72,30 +76,14 @@ public class AdMobiManager : MonoBehaviour {
 #else
 		bannerId = "unexpected_platform;
 #endif
-		// Clean up banner ad before creating a new one.
-		if (banner != null) {
-			tempBanner = new BannerView(bannerId, size, position);
-			tempBanner.OnAdLoaded += TempBannerLoaded;
-			tempBanner.OnAdFailedToLoad += HandleAdFailedToLoad;
-			tempBanner.OnAdClosed += HandleAdClosed;
-			tempBanner.LoadAd(CreateAdRequest());
-			return tempBanner;
-		}
-
-		// Create a 320x50 banner at the top of the screen.
-		banner = new BannerView(bannerId, size, position);
-
-		// Register for ad events.
-		banner.OnAdLoaded += HandleAdLoaded;
-		banner.OnAdFailedToLoad += HandleAdFailedToLoad;
-		banner.OnAdClosed += HandleAdClosed;
-
-		// Load a banner ad.
-		banner.LoadAd(CreateAdRequest());
-		return banner;
+		// Load a new banner before destroy the actual
+		tempBanner = new BannerView(bannerId, size, position);
+		tempBanner.OnAdLoaded += TempBannerLoaded;
+		tempBanner.OnAdFailedToLoad += HandleAdFailedToLoad;
+		tempBanner.OnAdClosed += HandleAdClosed;
+		tempBanner.LoadAd(adRequest);
+		return tempBanner;
 	}
-
-
 
 	public void RequestInterstitial (string adUnitId) {
 		// These ad units are configured to always serve test ads.
@@ -119,7 +107,7 @@ public class AdMobiManager : MonoBehaviour {
 		interstitial.OnAdClosed += HandleInterstitialClosed;
 
 		// Load an interstitial ad.
-		interstitial.LoadAd(CreateAdRequest());
+		interstitial.LoadAd(adRequest);
 	}
 
 	public void RequestRewardBasedVideo (string adUnitId) {
@@ -131,27 +119,24 @@ public class AdMobiManager : MonoBehaviour {
         adUnitId = "unexpected_platform";
 #endif
 
-		RewardBasedVideo.LoadAd(CreateAdRequest(), adUnitId);
+		RewardBasedVideo.LoadAd(adRequest, adUnitId);
 	}
 
 	#region Banner callback handlers
 
-	private void DestroyBanner () {
-		banner.OnAdLoaded -= HandleAdLoaded;
+	public void DestroyBanner () {
+		if (banner == null) return;
+
+		banner.OnAdLoaded -= TempBannerLoaded;
 		banner.OnAdFailedToLoad -= HandleAdFailedToLoad;
 		banner.OnAdClosed -= HandleAdClosed;
 		banner.Destroy();
 	}
-	
+
 	private void TempBannerLoaded (object sender, EventArgs e) {
 		print("HandleTempAdLoaded event received");
 		DestroyBanner();
 		banner = tempBanner;
-		banner.Show();
-	}
-
-	private void HandleAdLoaded (object sender, EventArgs args) {
-		print("HandleAdLoaded event received");
 		banner.Show();
 	}
 

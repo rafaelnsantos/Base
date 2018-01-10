@@ -495,9 +495,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee5f7fb6b68e12c49a780fcda2b4165a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PositionAd: 1
+  BannerSize: 0
+  BannerPosition: 0
   RefreshDelay: 30
-  AndroidBannerId: ca-app-pub-8023402418622835/8104379672
+  AndroidBannerId: ca-app-pub-8023402418622835/4219656706
   IphoneBannerId: ca-app-pub-8023402418622835/8070211346
 --- !u!4 &993337993
 Transform:
@@ -581,10 +582,10 @@ Camera:
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
-  m_HDR: 1
-  m_AllowMSAA: 1
+  m_HDR: 0
+  m_AllowMSAA: 0
   m_ForceIntoRT: 0
-  m_OcclusionCulling: 1
+  m_OcclusionCulling: 0
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
   m_StereoMirrorMode: 0
@@ -847,6 +848,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61844fc3fb1839b4fb3131686f374fdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Time: 7.31
 --- !u!114 &1752809658
 MonoBehaviour:
   m_ObjectHideFlags: 0
