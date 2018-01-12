@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AdBanner : MonoBehaviour {
 
-	public enum SizeAd {
+	public enum Size {
 
 		SmartBanner,
 		Banner,
@@ -13,80 +13,66 @@ public class AdBanner : MonoBehaviour {
 
 	}
 
-	public SizeAd BannerSize;
+	public Size BannerSize;
 	public AdPosition BannerPosition;
 
 	public string AndroidBannerId, IphoneBannerId;
 	private BannerView bannerView;
-	private string bannerId;
-	private AdSize adSize;
 
-	private void Start () {
-		// These ad units are configured to serve test ads if teste is true.
-#if UNITY_ANDROID
-		bannerId = AdMobiManager.Instance.Teste ? "ca-app-pub-3940256099942544/6300978111" : AndroidBannerId;
+	private string BannerId {
+		get {
+#if UNITY_EDITOR
+			return "unexpected_platform";
 #elif UNITY_IOS
-        bannerId = AdMobiManager.Instance.Teste ? "ca-app-pub-3940256099942544/2934735716" : IphoneBannerId;
-#else
-		bannerId = "unexpected_platform;
+			return AdMobiManager.Instance.Teste ? "ca-app-pub-3940256099942544/2934735716" : IphoneBannerId;
+#elif UNITY_ANDROID
+			return AdMobiManager.Instance.Teste ? "ca-app-pub-3940256099942544/6300978111" : AndroidBannerId;
 #endif
-
-		switch (BannerSize) {
-			case SizeAd.Banner:
-				adSize = AdSize.Banner;
-				break;
-			case SizeAd.IabBanner:
-				adSize = AdSize.IABBanner;
-				break;
-			case SizeAd.MediumRectangle:
-				adSize = AdSize.MediumRectangle;
-				break;
-			case SizeAd.SmartBanner:
-				adSize = AdSize.SmartBanner;
-				break;
-			default:
-				adSize = AdSize.SmartBanner;
-				break;
 		}
-
-		SceneLoader.Instance.OnSceneLoad += DestroyBanner;
-		RequestBanner();
 	}
 
-	private void RequestBanner () {
+	private AdSize SizeAd {
+		get {
+			switch (BannerSize) {
+				case Size.Banner:
+					return AdSize.Banner;
+				case Size.IabBanner:
+					return AdSize.IABBanner;
+				case Size.MediumRectangle:
+					return AdSize.MediumRectangle;
+				case Size.SmartBanner:
+					return AdSize.SmartBanner;
+				default:
+					return AdSize.SmartBanner;
+			}
+		}
+	}
+
+	private void Start () {
+		SceneLoader.Instance.OnSceneLoad += DestroyBanner;
+
+		// Clean up banner ad before creating a new one.
 		DestroyBanner();
-		bannerView = new BannerView(bannerId, adSize, BannerPosition);
-		bannerView.OnAdLoaded += TempBannerLoaded;
-		bannerView.OnAdFailedToLoad += HandleAdFailedToLoad;
-		bannerView.OnAdClosed += HandleAdClosed;
+		
+		// Create a banner.
+		bannerView = new BannerView(BannerId, SizeAd, BannerPosition);
+		
+		// Register handlers
+		bannerView.OnAdLoaded += HandleBannerLoaded;
+		
+		// Load banner ad.
 		bannerView.LoadAd(AdMobiManager.Instance.adRequest);
 	}
 
 	private void DestroyBanner () {
 		if (bannerView == null) return;
-
-		bannerView.OnAdLoaded -= TempBannerLoaded;
-		bannerView.OnAdFailedToLoad -= HandleAdFailedToLoad;
-		bannerView.OnAdClosed -= HandleAdClosed;
+		bannerView.OnAdLoaded -= HandleBannerLoaded;
 		bannerView.Destroy();
 	}
 
-	#region Banner callback handlers
-
-	private void TempBannerLoaded (object sender, EventArgs e) {
-		print("HandleTempAdLoaded event received");
+	private void HandleBannerLoaded (object sender, EventArgs e) {
 		bannerView.Show();
 	}
-
-	private void HandleAdFailedToLoad (object sender, AdFailedToLoadEventArgs args) {
-		print("HandleFailedToReceiveAd event received with message: " + args.Message);
-	}
-
-	private void HandleAdClosed (object sender, EventArgs args) {
-		print("HandleAdClosed event received");
-	}
-
-	#endregion
 
 	private void OnDestroy () {
 		SceneLoader.Instance.OnSceneLoad -= DestroyBanner;

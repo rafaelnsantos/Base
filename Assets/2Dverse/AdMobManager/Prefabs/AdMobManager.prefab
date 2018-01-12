@@ -25,7 +25,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &4574826181761436
 Transform:
@@ -51,6 +51,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 527fe5778f7c0c54ea05afd142e76795, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Teste: 1
   AndroidAppId: ca-app-pub-8023402418622835~8870666430
   IphoneAppId: ca-app-pub-8023402418622835~3235976622
-  Teste: 1

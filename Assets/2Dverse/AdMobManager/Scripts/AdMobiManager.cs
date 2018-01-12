@@ -4,13 +4,29 @@ using UnityEngine;
 
 public class AdMobiManager : MonoBehaviour {
 
+	public bool Teste;
 	public string AndroidAppId;
 	public string IphoneAppId;
-	public bool Teste;
+
+	private string AppId {
+		get {
+#if UNITY_EDITOR
+			return "unexpected_platform";
+#elif UNITY_IOS
+        	return Teste ? "ca-app-pub-3940256099942544~1458002511" : IphoneAppId;
+#elif UNITY_ANDROID
+			return Teste ? "ca-app-pub-3940256099942544~3347511713" : AndroidAppId;
+#endif
+		}
+	}
 
 	public static AdMobiManager Instance { get; private set; }
 
-	public AdRequest adRequest { get; private set; }
+	public AdRequest adRequest => Teste
+		? new AdRequest.Builder()
+			.AddTestDevice("8951c0025f5ad093")
+			.Build()
+		: new AdRequest.Builder().Build();
 
 	private void Awake () {
 		// Singleton Pattern
@@ -23,27 +39,8 @@ public class AdMobiManager : MonoBehaviour {
 	}
 
 	private void Start () {
-#if UNITY_ANDROID
-		string appId = Teste ? "ca-app-pub-3940256099942544~3347511713" : AndroidAppId;
-#elif UNITY_IOS
-        string appId = Teste ? "ca-app-pub-3940256099942544~1458002511" : IphoneAppId;
-#else
-        string appId = "unexpected_platform";
-#endif
-
 		// Initialize the Google Mobile Ads SDK.
-		MobileAds.Initialize(appId);
-
-		adRequest = CreateAdRequest();
-	}
-
-	// Returns an ad request with custom ad targeting.
-	private AdRequest CreateAdRequest () {
-		return Teste
-			? new AdRequest.Builder()
-				.AddTestDevice("8951c0025f5ad093")
-				.Build()
-			: new AdRequest.Builder().Build();
+		MobileAds.Initialize(AppId);
 	}
 
 }
