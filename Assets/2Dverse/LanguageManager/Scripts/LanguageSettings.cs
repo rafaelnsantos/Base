@@ -2,7 +2,7 @@
 using UnityEngine;
 using SmartLocalization;
 
-public class LanguageSettings : Settings {
+public class LanguageSettings : Savable {
 
 	private List<SmartCultureInfo> availableLanguages;
 	private LanguageManager languageManager;
