@@ -6,6 +6,7 @@ public abstract class Pausable : MonoBehaviour {
 
 	protected void Start () {
 		PauseButton.Instance.OnPause += HandlePause;
+		paused = PauseButton.Instance.Paused;
 	}
 
 	private void Update () {
@@ -19,7 +20,7 @@ public abstract class Pausable : MonoBehaviour {
 
 	protected abstract void PausableUpdate ();
 
-	private void OnDestroy () {
+	protected void OnDestroy () {
 		PauseButton.Instance.OnPause -= HandlePause;
 	}
 

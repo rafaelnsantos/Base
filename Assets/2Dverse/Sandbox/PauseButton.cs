@@ -6,20 +6,23 @@ using UnityEngine.UI;
 public class PauseButton : MonoBehaviour {
 
 	private Button button;
+	public bool Paused { get; private set; }
 
-	private bool paused;
-	
 	public static PauseButton Instance { get; private set; }
 
 	public delegate void OnPauseSwitch (bool paused);
+
 	public event OnPauseSwitch OnPause;
+
+	public GameObject PausePanel;
+
+	private bool firstRun = true;
 
 	private void Awake () {
 		Instance = this;
 	}
 
-	// Use this for initialization
-	void Start () {
+	private void Start () {
 		GetComponent<Button>().onClick.AddListener(Switch);
 		SceneLoader.Instance.OnSceneLoad += ReturnTimeScale;
 	}
@@ -28,14 +31,28 @@ public class PauseButton : MonoBehaviour {
 		Time.timeScale = 1;
 	}
 
-	private void Switch () {
-		paused = !paused;
-		Time.timeScale = paused ? 0 : 1;
-		OnPause?.Invoke(paused);
+	public void Switch () {
+		Paused = !Paused;
+		PausePanel.SetActive(Paused);
+		Time.timeScale = Paused ? 0 : 1;
+		OnPause?.Invoke(Paused);
 	}
 
 	private void OnDestroy () {
 		SceneLoader.Instance.OnSceneLoad -= ReturnTimeScale;
+	}
+
+	private void OnApplicationFocus (bool hasFocus) {
+		if (firstRun) {
+			firstRun = false;
+			return;
+		}
+
+		if (hasFocus) return;
+
+		firstRun = false;
+		Paused = false;
+		Switch();
 	}
 
 }
