@@ -11,3 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Projeto/Scenes/Gameplay/Gameplay.unity
     guid: 1dc75ed84c073a5468023caa459d3a84
+  - enabled: 1
+    path: Assets/_Projeto/Scenes/Other/StressTest.unity
+    guid: ace4b5abdad6c664a8131e25789bd25b
+  - enabled: 1
+    path: Assets/_Projeto/Scenes/Other/StressTestNoPool.unity
+    guid: cd47fd498d145684f8525a44ef0c1c60
