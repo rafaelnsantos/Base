@@ -12,8 +12,8 @@ public class MusicController : MonoBehaviour {
 
 	private void Start () {
 		ChangeSprite();
-
-		AudioSettings.Instance.OnMusicChange += ChangeSprite;
+		GetComponent<Button>().onClick.AddListener(SwitchMusic);
+		AudioSettings.Instance.HandleMusicSwitch += ChangeSprite;
 	}
 
 	private void ChangeSprite () {
@@ -22,10 +22,10 @@ public class MusicController : MonoBehaviour {
 
 	private void OnDestroy () {
 		if (AudioSettings.Instance)
-			AudioSettings.Instance.OnMusicChange -= ChangeSprite;
+			AudioSettings.Instance.HandleMusicSwitch -= ChangeSprite;
 	}
 
-	public void SwitchMusic () {
+	private void SwitchMusic () {
 		AudioSettings.Instance.SwitchMusic();
 	}
 

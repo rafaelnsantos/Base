@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class AudioSettings : Settings {
+public class AudioSettings : Savable {
 
 	private AudioSource musicSource, effectSource;
 
@@ -19,13 +19,11 @@ public class AudioSettings : Settings {
 		set { effectSource.volume = value; }
 	}
 
-	public delegate void OnMusicChanged ();
+	public delegate void OnMusicSwitch ();
+	public event OnMusicSwitch HandleMusicSwitch;
 
-	public event OnMusicChanged OnMusicChange;
-
-	public delegate void OnEffectChanged ();
-
-	public event OnEffectChanged OnEffectChange;
+	public delegate void OnEffectSwitch ();
+	public event OnEffectSwitch HandleEffectSwitch;
 
 	private void Awake () {
 		// Singleton Pattern
@@ -100,7 +98,7 @@ public class AudioSettings : Settings {
 		else
 			musicSource.Play();
 
-		if (OnMusicChange != null) OnMusicChange();
+		HandleMusicSwitch?.Invoke();
 	}
 
 	/// <summary>
@@ -109,7 +107,7 @@ public class AudioSettings : Settings {
 	/// <returns>Returns actual state.</returns>
 	public void SwitchEffect () {
 		EffectOn = !EffectOn;
-		if (OnEffectChange != null) OnEffectChange();
+		HandleEffectSwitch?.Invoke();
 	}
 
 	protected override void Load () {
