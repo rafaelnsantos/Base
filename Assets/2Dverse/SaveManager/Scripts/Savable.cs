@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public abstract class Settings : MonoBehaviour {
+public abstract class Savable : MonoBehaviour {
 
 	protected abstract void Save ();
 
