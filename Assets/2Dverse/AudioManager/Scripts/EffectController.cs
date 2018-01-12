@@ -9,12 +9,10 @@ public class EffectController : MonoBehaviour {
 
 	private void Awake () {
 		image = GetComponent<Image>();
-		button = GetComponent<Button>();
 	}
 
 	private void Start () {
-		ChangeSprite();
-		button.onClick.AddListener(SwitchEffect);
+		ChangeSprite(AudioSettings.Instance.EffectOn);
 		AudioSettings.Instance.HandleEffectSwitch += ChangeSprite;
 	}
 
@@ -27,7 +25,7 @@ public class EffectController : MonoBehaviour {
 			AudioSettings.Instance.HandleEffectSwitch -= ChangeSprite;
 	}
 
-	private void SwitchEffect () {
+	public void SwitchEffect () {
 		AudioSettings.Instance.SwitchEffect();
 	}
 

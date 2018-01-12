@@ -13,7 +13,7 @@ public class MusicController : MonoBehaviour {
 	}
 
 	private void Start () {
-		ChangeSprite();
+		ChangeSprite(AudioSettings.Instance.MusicOn);
 		button.onClick.AddListener(SwitchMusic);
 		AudioSettings.Instance.HandleMusicSwitch += ChangeSprite;
 	}
