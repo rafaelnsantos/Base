@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class VSyncButton : Settings {
+public class VSyncButton : Savable {
 
 	public Text text;
 
@@ -24,7 +24,7 @@ public class VSyncButton : Settings {
 	}
 
 	protected override void Load () {
-		QualitySettings.vSyncCount = SaveManager.GetInt("vsync", 2);
+		QualitySettings.vSyncCount = SaveManager.GetInt("vsync", 1);
 	}
 
 	private void SetText () {
