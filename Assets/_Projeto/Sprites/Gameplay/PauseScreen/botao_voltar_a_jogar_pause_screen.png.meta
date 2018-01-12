@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 89e407d9483e6e04ca9dc4c0618dcb6d
-timeCreated: 1515127850
+guid: 75151fc10554271419f761e67b9c8ddd
+timeCreated: 1515757915
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName: {}
@@ -72,7 +72,7 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
   - buildTarget: Android
-    maxTextureSize: 64
+    maxTextureSize: 128
     textureFormat: 47
     textureCompression: 1
     compressionQuality: 50
@@ -84,7 +84,7 @@ TextureImporter:
     sprites: []
     outline: []
     physicsShape: []
-  spritePackingTag: MenuPrincipalAlpha
+  spritePackingTag: GameplayAlpha
   userData: 
   assetBundleName: 
   assetBundleVariant: 
