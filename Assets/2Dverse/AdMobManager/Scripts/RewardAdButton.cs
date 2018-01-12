@@ -56,7 +56,6 @@ public class RewardAdButton : MonoBehaviour {
 		string type = args.Type;
 		double amount = args.Amount;
 		print("Ganhou " + amount + " " + type);
-		RequestAd();
 	}
 
 	private void ShowAd () {
@@ -70,7 +69,7 @@ public class RewardAdButton : MonoBehaviour {
 	private IEnumerator CheckAdLoaded () {
 		while (true) {
 			button.interactable = rewardAd.IsLoaded();
-			yield return new WaitForSeconds(2f);
+			yield return new WaitForEndOfFrame();
 		}
 	}
 
