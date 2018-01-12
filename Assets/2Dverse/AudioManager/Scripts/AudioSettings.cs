@@ -19,10 +19,10 @@ public class AudioSettings : Savable {
 		set { effectSource.volume = value; }
 	}
 
-	public delegate void OnMusicSwitch ();
+	public delegate void OnMusicSwitch (bool musicOn);
 	public event OnMusicSwitch HandleMusicSwitch;
 
-	public delegate void OnEffectSwitch ();
+	public delegate void OnEffectSwitch (bool effectOn);
 	public event OnEffectSwitch HandleEffectSwitch;
 
 	private void Awake () {
@@ -98,7 +98,7 @@ public class AudioSettings : Savable {
 		else
 			musicSource.Play();
 
-		HandleMusicSwitch?.Invoke();
+		HandleMusicSwitch?.Invoke(MusicOn);
 	}
 
 	/// <summary>
@@ -107,7 +107,7 @@ public class AudioSettings : Savable {
 	/// <returns>Returns actual state.</returns>
 	public void SwitchEffect () {
 		EffectOn = !EffectOn;
-		HandleEffectSwitch?.Invoke();
+		HandleEffectSwitch?.Invoke(EffectOn);
 	}
 
 	protected override void Load () {
