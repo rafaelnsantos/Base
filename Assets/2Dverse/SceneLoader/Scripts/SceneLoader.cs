@@ -13,10 +13,11 @@ public class SceneLoader : MonoBehaviour {
 	public Text ProgressText;
 
 	public delegate void OnSceneLoading ();
+
 	public event OnSceneLoading OnSceneLoad;
-	
-	
+
 	public delegate void OnSceneLoaded ();
+
 	public event OnSceneLoaded OnLoadedScene;
 
 	private void Awake () {
@@ -66,12 +67,9 @@ public class SceneLoader : MonoBehaviour {
 			ProgressSlider.value = progress;
 			ProgressText.text = String.Concat((int) (progress * 100), "%");
 			timer += Time.deltaTime;
-//
-//			if (waitTime - timer < 0.1f) {
-//				
-//			}
 			yield return null;
 		}
+
 		if (OnLoadedScene != null) OnLoadedScene();
 		async.allowSceneActivation = true;
 		animator.SetTrigger("FinishedLoading");
