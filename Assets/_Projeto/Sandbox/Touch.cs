@@ -1,51 +1,34 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Touch : Pausable {
 
-	public bool UsingPool = true;
-
-	private CrateSpawnerNoPool c;
-	
-	private void Awake () {
-		if (!UsingPool) {
-			c = GetComponent<CrateSpawnerNoPool>();
-		}
-	}
-
 	protected override void PausableUpdate () {
-		if(Input.touchCount > 0 || Input.GetMouseButtonDown(0))
-		{
-			Mover();
-		}
+#if UNITY_EDITOR
+		if (Input.GetMouseButton(0)) ReadTouch();
+#else
+		if (Input.touchCount > 0) ReadTouch();
+#endif
 	}
-
-	void Mover() {
+	
+	private void ReadTouch () {
 		Vector2 touchPosition;
 
 #if UNITY_EDITOR
-		touchPosition = Camera.main.ScreenToWorldPoint(new Vector2(Input.mousePosition.x, Input.mousePosition.y)); 
+		touchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 		Check(touchPosition);
 #else
 		for (int i = 0; i < Input.touchCount; i++) {
 			touchPosition = Camera.main.ScreenToWorldPoint(Input.GetTouch(i).position); 
 			Check(touchPosition);				
 		}
-#endif	
+#endif
 	}
 
-	//para verificar se o toque foi em algum caixa
-	void Check (Vector2 touchPosition) {
+	//para verificar se o toque foi em algum gameObject com ITouchable
+	private void Check (Vector2 touchPosition) {
 		RaycastHit2D hitInformation = Physics2D.Raycast(touchPosition, Camera.main.transform.forward, 0);
-		if (hitInformation.collider == null || !hitInformation.collider.tag.Equals("Box")) return;
 
-		if (UsingPool)
-			hitInformation.collider.gameObject.SetActive(false);
-		else {
-			Destroy(hitInformation.collider.gameObject);
-			c.Spawned--;
-		}
+		hitInformation.collider?.gameObject.GetComponent<ITouchable>()?.OnTouch();
 	}
+
 }
