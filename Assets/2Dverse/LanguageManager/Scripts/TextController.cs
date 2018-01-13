@@ -4,25 +4,30 @@ using UnityEngine.UI;
 
 public class TextController : MonoBehaviour {
 
-	protected Text text;
+	protected Text Text;
 	public string Key;
 
+	private LanguageManager language;
+
 	private void Awake () {
-		text = GetComponent<Text>();
+		Text = GetComponent<Text>();
+		language = LanguageManager.Instance;
 	}
 
 	private void Start () {
-		ChangeText(LanguageManager.Instance);
-		LanguageManager.Instance.OnChangeLanguage += ChangeText;
+		Debug.Log("text start");
+		ChangeText(language);
+		language.OnChangeLanguage += ChangeText;
 	}
 
-	protected void ChangeText (LanguageManager languageManager) {
-		text.text = languageManager.GetTextValue(Key);
+	private void ChangeText (LanguageManager languageMan) {
+		Text.text = languageMan.GetTextValue(Key);
 	}
 
 	private void OnDestroy () {
 		if (LanguageManager.HasInstance)
-			LanguageManager.Instance.OnChangeLanguage -= ChangeText;
+			// ReSharper disable once DelegateSubtraction
+			language.OnChangeLanguage -= ChangeText;
 	}
 
 }

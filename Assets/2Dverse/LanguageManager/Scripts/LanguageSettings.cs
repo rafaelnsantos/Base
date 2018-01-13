@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 using SmartLocalization;
 
 public class LanguageSettings : Savable {
@@ -28,7 +27,7 @@ public class LanguageSettings : Savable {
 	}
 
 	protected override void Load () {
-		int saved = SaveManager.GetInt("Language", 0);
+		int saved = SaveManager.GetInt("Language");
 		languageManager.ChangeLanguage(availableLanguages[saved]);
 	}
 
