@@ -7,7 +7,7 @@ public class AdInterstitial : MonoBehaviour {
 
 	private string InterstitialId {
 		get {
-#if  UNITY_EDITOR
+#if UNITY_EDITOR
 			return "unexpected_platform";
 #elif UNITY_IOS
       		return AdMobiManager.Instance.Teste ? "ca-app-pub-3940256099942544/4411468910" : IphoneId;
@@ -20,6 +20,8 @@ public class AdInterstitial : MonoBehaviour {
 	private InterstitialAd interstitialAd;
 
 	private void Start () {
+		if (AdMobiManager.Instance.NoAds) return;
+
 		SceneLoader.Instance.OnSceneLoad += RequestInterstitial;
 		SceneLoader.Instance.OnLoadedScene += ShowAds;
 	}
@@ -32,7 +34,7 @@ public class AdInterstitial : MonoBehaviour {
 		interstitialAd = new InterstitialAd(InterstitialId);
 
 		// Load an interstitial ad.
-		interstitialAd.LoadAd(AdMobiManager.Instance.adRequest);
+		interstitialAd.LoadAd(AdMobiManager.Instance.AdRequest);
 	}
 
 	private void ShowAds () {
@@ -40,6 +42,8 @@ public class AdInterstitial : MonoBehaviour {
 	}
 
 	private void OnDestroy () {
+		if (AdMobiManager.Instance.NoAds) return;
+
 		SceneLoader.Instance.OnSceneLoad -= RequestInterstitial;
 		SceneLoader.Instance.OnLoadedScene -= ShowAds;
 	}

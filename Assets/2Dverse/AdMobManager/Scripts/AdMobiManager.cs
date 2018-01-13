@@ -1,12 +1,13 @@
-﻿using System;
-using GoogleMobileAds.Api;
+﻿using GoogleMobileAds.Api;
 using UnityEngine;
 
-public class AdMobiManager : MonoBehaviour {
+public class AdMobiManager : Savable {
 
 	public bool Teste;
 	public string AndroidAppId;
 	public string IphoneAppId;
+
+	public bool NoAds;
 
 	private string AppId {
 		get {
@@ -22,7 +23,7 @@ public class AdMobiManager : MonoBehaviour {
 
 	public static AdMobiManager Instance { get; private set; }
 
-	public AdRequest adRequest => Teste
+	public AdRequest AdRequest => Teste
 		? new AdRequest.Builder()
 			.AddTestDevice("8951c0025f5ad093")
 			.Build()
@@ -41,6 +42,14 @@ public class AdMobiManager : MonoBehaviour {
 	private void Start () {
 		// Initialize the Google Mobile Ads SDK.
 		MobileAds.Initialize(AppId);
+	}
+
+	protected override void Save () {
+		SaveManager.SetBool("noads", NoAds);
+	}
+
+	protected override void Load () {
+		NoAds = SaveManager.GetBool("noads");
 	}
 
 }

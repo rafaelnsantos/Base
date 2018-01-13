@@ -49,6 +49,9 @@ public class AdBanner : MonoBehaviour {
 	}
 
 	private void Start () {
+
+		if (AdMobiManager.Instance.NoAds) return;
+		
 		SceneLoader.Instance.OnSceneLoad += DestroyBanner;
 
 		// Clean up banner ad before creating a new one.
@@ -61,7 +64,7 @@ public class AdBanner : MonoBehaviour {
 		bannerView.OnAdLoaded += HandleBannerLoaded;
 		
 		// Load banner ad.
-		bannerView.LoadAd(AdMobiManager.Instance.adRequest);
+		bannerView.LoadAd(AdMobiManager.Instance.AdRequest);
 	}
 
 	private void DestroyBanner () {
@@ -75,6 +78,7 @@ public class AdBanner : MonoBehaviour {
 	}
 
 	private void OnDestroy () {
+		if (AdMobiManager.Instance.NoAds) return;
 		SceneLoader.Instance.OnSceneLoad -= DestroyBanner;
 	}
 

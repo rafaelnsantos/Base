@@ -63,7 +63,7 @@ public class RewardAdButton : MonoBehaviour {
 	}
 
 	private void RequestAd () {
-		rewardAd.LoadAd(AdMobiManager.Instance.adRequest, RewardId);
+		rewardAd.LoadAd(AdMobiManager.Instance.AdRequest, RewardId);
 	}
 
 	private IEnumerator CheckAdLoaded () {
