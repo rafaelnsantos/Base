@@ -1,4 +1,4 @@
-﻿// SL_NGUISpriteNameInspector.cs
+// SL_NGUISpriteNameInspector.cs
 //
 // Written by Niklas Borglund and Jakob Hillerström
 //

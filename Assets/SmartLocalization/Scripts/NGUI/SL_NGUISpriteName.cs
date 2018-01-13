@@ -1,4 +1,4 @@
-﻿// SL_NGUISpriteName.cs
+// SL_NGUISpriteName.cs
 //
 // Written by Niklas Borglund and Jakob Hillerström
 //

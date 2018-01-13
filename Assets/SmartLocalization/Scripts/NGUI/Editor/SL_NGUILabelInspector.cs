@@ -1,4 +1,4 @@
-﻿//
+//
 // SL_NGUILabelInspector.cs
 // 
 // Written by Niklas Borglund and Jakob Hillerström

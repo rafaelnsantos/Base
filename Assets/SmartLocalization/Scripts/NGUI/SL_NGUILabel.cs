@@ -1,4 +1,4 @@
-﻿// SL_NGUILabel.cs
+// SL_NGUILabel.cs
 //
 // Written by Niklas Borglund and Jakob Hillerström
 //

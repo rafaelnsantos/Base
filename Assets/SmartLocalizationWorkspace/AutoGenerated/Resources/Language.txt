@@ -128,13 +128,10 @@
 	<data name="[type=TEXTURE]PlayButton" xml:space="preserve">
 		<value>New Value</value>
 	</data>
-	<data name="Settings.EffectVolume" xml:space="preserve">
-		<value>Effect volume</value>
-	</data>
 	<data name="[type=TEXTURE]Settings.Language" xml:space="preserve">
 		<value>Language</value>
 	</data>
-	<data name="Settings.MusicVolume" xml:space="preserve">
-		<value>Music Volume</value>
+	<data name="Test" xml:space="preserve">
+		<value>New Value</value>
 	</data>
 </root>

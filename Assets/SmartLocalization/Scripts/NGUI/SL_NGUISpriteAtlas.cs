@@ -1,4 +1,4 @@
-﻿// SL_NGUISpriteAtlas.cs
+// SL_NGUISpriteAtlas.cs
 //
 // Written by Niklas Borglund and Jakob Hillerström
 //

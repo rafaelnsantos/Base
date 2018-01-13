@@ -73,7 +73,7 @@ TextureImporter:
     overridden: 0
   - buildTarget: Android
     maxTextureSize: 64
-    textureFormat: 29
+    textureFormat: 47
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -84,7 +84,7 @@ TextureImporter:
     sprites: []
     outline: []
     physicsShape: []
-  spritePackingTag: Buttons
+  spritePackingTag: MenuPrincipalAlpha
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -1,4 +1,4 @@
-﻿//
+//
 // SL_NGUISpriteAtlasInspector.cs
 // 
 // Written by Niklas Borglund and Jakob Hillerström
