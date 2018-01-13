@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class AudioSettings : Savable {
+public class AudioManafer : Savable {
 
 	private AudioSource musicSource, effectSource;
 
 	public bool MusicOn { get; private set; }
 	public bool EffectOn { get; private set; }
-	public static AudioSettings Instance { get; private set; }
+	public static AudioManafer Instance { get; private set; }
 
 	public float MusicVolume {
 		get { return musicSource.volume; }

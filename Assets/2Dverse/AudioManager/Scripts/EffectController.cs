@@ -12,8 +12,8 @@ public class EffectController : MonoBehaviour {
 	}
 
 	private void Start () {
-		ChangeSprite(AudioSettings.Instance.EffectOn);
-		AudioSettings.Instance.HandleEffectSwitch += ChangeSprite;
+		ChangeSprite(AudioManafer.Instance.EffectOn);
+		AudioManafer.Instance.HandleEffectSwitch += ChangeSprite;
 	}
 
 	private void ChangeSprite (bool isOn) {
@@ -21,12 +21,12 @@ public class EffectController : MonoBehaviour {
 	}
 
 	private void OnDestroy () {
-		if (AudioSettings.Instance)
-			AudioSettings.Instance.HandleEffectSwitch -= ChangeSprite;
+		if (AudioManafer.Instance)
+			AudioManafer.Instance.HandleEffectSwitch -= ChangeSprite;
 	}
 
 	public void SwitchEffect () {
-		AudioSettings.Instance.SwitchEffect();
+		AudioManafer.Instance.SwitchEffect();
 	}
 
 }

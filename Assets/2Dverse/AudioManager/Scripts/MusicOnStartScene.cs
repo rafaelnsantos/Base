@@ -12,7 +12,7 @@ public class MusicOnStartScene : MonoBehaviour {
 
 	private IEnumerator PlayMusic () {
 		yield return new WaitForSeconds(Delay);
-		AudioSettings.Instance.PlayMusic(Music);
+		AudioManafer.Instance.PlayMusic(Music);
 	}
 	
 }
