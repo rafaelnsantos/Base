@@ -6,7 +6,6 @@ public class Crate : MonoBehaviour, ITouchable {
 
 	private void Awake () {
 		score = Score.Instance;
-		Debug.Log("awake");
 	}
 
 	public void OnTouch () {
