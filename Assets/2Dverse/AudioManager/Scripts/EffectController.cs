@@ -5,15 +5,14 @@ public class EffectController : MonoBehaviour {
 
 	public Sprite On, Off;
 	private Image image;
-	private Button button;
 
 	private void Awake () {
 		image = GetComponent<Image>();
 	}
 
 	private void Start () {
-		ChangeSprite(AudioManafer.Instance.EffectOn);
-		AudioManafer.Instance.HandleEffectSwitch += ChangeSprite;
+		ChangeSprite(AudioManager.Instance.EffectOn);
+		AudioManager.Instance.HandleEffectSwitch += ChangeSprite;
 	}
 
 	private void ChangeSprite (bool isOn) {
@@ -21,12 +20,11 @@ public class EffectController : MonoBehaviour {
 	}
 
 	private void OnDestroy () {
-		if (AudioManafer.Instance)
-			AudioManafer.Instance.HandleEffectSwitch -= ChangeSprite;
+		AudioManager.Instance.HandleEffectSwitch -= ChangeSprite;
 	}
 
 	public void SwitchEffect () {
-		AudioManafer.Instance.SwitchEffect();
+		AudioManager.Instance.SwitchEffect();
 	}
 
 }

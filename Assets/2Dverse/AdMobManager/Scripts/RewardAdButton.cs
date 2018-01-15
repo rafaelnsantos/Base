@@ -67,9 +67,10 @@ public class RewardAdButton : MonoBehaviour {
 	}
 
 	private IEnumerator CheckAdLoaded () {
+		WaitForEndOfFrame delay = new WaitForEndOfFrame();
 		while (true) {
 			button.interactable = rewardAd.IsLoaded();
-			yield return new WaitForEndOfFrame();
+			yield return delay;
 		}
 	}
 

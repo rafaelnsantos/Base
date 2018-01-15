@@ -10,8 +10,6 @@ public class RandomText : TextController {
 		Text.text = LanguageManager.Instance.GetTextValue(key);
 	}
 
-	private void Start () {
-		Debug.Log("protected text start");
-	}
+	private void Start () {}
 
 }

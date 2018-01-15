@@ -2,15 +2,19 @@
 
 public abstract class Savable : MonoBehaviour {
 
+	private void Start () {
+		Load();
+	}
+
 	protected abstract void Save ();
 
 	protected abstract void Load ();
 
-	protected void OnApplicationQuit () {
+	private void OnApplicationQuit () {
 		Save();
 	}
 
-	protected void OnApplicationPause (bool pauseStatus) {
+	private void OnApplicationPause (bool pauseStatus) {
 		if (pauseStatus) Save();
 	}
 

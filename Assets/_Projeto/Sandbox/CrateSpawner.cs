@@ -16,8 +16,9 @@ public class CrateSpawner : MonoBehaviour {
 	}
 
 	IEnumerator SpawnCrate () {
+		WaitForSeconds delay = new WaitForSeconds(Delay);
 		while (true) {
-			yield return new WaitForSeconds(Delay);
+			yield return delay;
 
 			cratePool.GetPooledObject(transform.position, Quaternion.identity);
 		}

@@ -10,7 +10,7 @@ public class SoundOnClickButton : MonoBehaviour {
 	}
 
 	private void PlayClick () {
-		AudioManafer.Instance.PlayEffect(Audio);
+		AudioManager.Instance.PlayEffect(Audio);
 	}
 
 }

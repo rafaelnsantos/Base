@@ -8,26 +8,28 @@ using UnityEngine.UI;
 public class SpriteController : MonoBehaviour {
 
 	private Image image;
-	public String Key;
+	public string Key;
+
+	private LanguageManager languageManager;
 
 	private void Awake () {
 		image = GetComponent<Image>();
+		languageManager = LanguageManager.Instance;
 	}
 
 	private void Start () {
-		ChangeSprite(LanguageManager.Instance);
-		LanguageManager.Instance.OnChangeLanguage += ChangeSprite;
+		ChangeSprite(languageManager);
+		languageManager.OnChangeLanguage += ChangeSprite;
 	}
 
-	private void ChangeSprite (LanguageManager languageManager) {
-		Texture2D texture = languageManager.GetTexture(Key) as Texture2D;
+	private void ChangeSprite (LanguageManager languageMan) {
+		Texture2D texture = languageMan.GetTexture(Key) as Texture2D;
 		Rect rec = new Rect(0, 0, texture.width, texture.height);
 		image.sprite = Sprite.Create(texture, rec, Vector2.one, 100);
 	}
 
 	private void OnDestroy () {
-		if (LanguageManager.HasInstance)
-			LanguageManager.Instance.OnChangeLanguage -= ChangeSprite;
+		languageManager.OnChangeLanguage -= ChangeSprite;
 	}
 
 }

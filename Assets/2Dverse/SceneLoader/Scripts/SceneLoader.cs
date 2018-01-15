@@ -33,8 +33,8 @@ public class SceneLoader : MonoBehaviour {
 	}
 
 	public void LoadScene (string sceneName, float waitTime) {
-		if (OnSceneLoad != null) OnSceneLoad();
-		AudioManafer.Instance.StopMusic();
+		OnSceneLoad?.Invoke();
+		AudioManager.Instance.StopMusic();
 		LoadingScreen.SetActive(true);
 		System.GC.Collect();
 		StartCoroutine(waitTime > 0 ? AsyncLoadWorkAround(sceneName, waitTime) : AsyncLoad(sceneName));
@@ -49,7 +49,7 @@ public class SceneLoader : MonoBehaviour {
 			ProgressSlider.value = progress;
 			ProgressText.text = String.Concat((int) (progress * 100), "%");
 			if (async.progress >= 0.9f) {
-				if (OnLoadedScene != null) OnLoadedScene();
+				OnLoadedScene?.Invoke();
 				async.allowSceneActivation = true;
 				animator.SetTrigger("FinishedLoading");
 			}
@@ -70,7 +70,7 @@ public class SceneLoader : MonoBehaviour {
 			yield return null;
 		}
 
-		if (OnLoadedScene != null) OnLoadedScene();
+		OnLoadedScene?.Invoke();
 		async.allowSceneActivation = true;
 		animator.SetTrigger("FinishedLoading");
 		ProgressSlider.value = 1;

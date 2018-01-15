@@ -7,17 +7,16 @@ public class TextController : MonoBehaviour {
 	protected Text Text;
 	public string Key;
 
-	private LanguageManager language;
+	private LanguageManager languageManager;
 
 	private void Awake () {
 		Text = GetComponent<Text>();
-		language = LanguageManager.Instance;
+		languageManager = LanguageManager.Instance;
 	}
 
 	private void Start () {
-		Debug.Log("text start");
-		ChangeText(language);
-		language.OnChangeLanguage += ChangeText;
+		ChangeText(languageManager);
+		languageManager.OnChangeLanguage += ChangeText;
 	}
 
 	private void ChangeText (LanguageManager languageMan) {
@@ -25,9 +24,7 @@ public class TextController : MonoBehaviour {
 	}
 
 	private void OnDestroy () {
-		if (LanguageManager.HasInstance)
-			// ReSharper disable once DelegateSubtraction
-			language.OnChangeLanguage -= ChangeText;
+		languageManager.OnChangeLanguage -= ChangeText;
 	}
 
 }

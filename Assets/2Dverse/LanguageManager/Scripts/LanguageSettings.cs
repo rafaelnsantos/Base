@@ -8,11 +8,7 @@ public class LanguageSettings : Savable {
 
 	private void Awake () {
 		languageManager = LanguageManager.Instance;
-	}
-
-	private void Start () {
 		availableLanguages = languageManager.GetSupportedLanguages();
-		Load();
 	}
 
 	public void SwitchLanguage () {

@@ -2,34 +2,33 @@
 
 public abstract class Pausable : MonoBehaviour {
 
-	private bool paused;
-	private IPausable pausableImplementation;
+	protected bool Paused;
 
 	private void Start () {
 		PauseButton.Instance.OnPause += HandlePause;
-		paused = PauseButton.Instance.Paused;
+		Paused = PauseButton.Instance.Paused;
 	}
 
 	private void Update () {
-		if (paused) return;
+		if (Paused) return;
 
 		PausableUpdate();
 	}
 
 	private void FixedUpdate () {
-		if (paused) return;
+		if (Paused) return;
 
 		PausableFixedUpdate();
 	}
 
 	private void LateUpdate () {
-		if (paused) return;
+		if (Paused) return;
 
 		PausableLateUpdate();
 	}
 
 	private void HandlePause (bool pause) {
-		paused = pause;
+		Paused = pause;
 	}
 
 	protected virtual void PausableLateUpdate () { }

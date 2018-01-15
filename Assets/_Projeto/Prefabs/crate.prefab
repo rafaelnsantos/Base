@@ -23,7 +23,6 @@ GameObject:
   - component: {fileID: 50514901259116390}
   - component: {fileID: 61818648602488468}
   - component: {fileID: 114737025496850700}
-  - component: {fileID: 114975754609802214}
   m_Layer: 0
   m_Name: crate
   m_TagString: Untagged
@@ -39,7 +38,7 @@ Transform:
   m_GameObject: {fileID: 1265405173810190}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 1}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -98,17 +97,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 031d963f6a38a604e923c99c9265769f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114975754609802214
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1265405173810190}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94d9632f2a150e34da0671d4773f3f75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!212 &212757075750616800

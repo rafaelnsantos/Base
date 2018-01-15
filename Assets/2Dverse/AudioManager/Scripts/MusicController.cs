@@ -5,17 +5,15 @@ public class MusicController : MonoBehaviour {
 
 	public Sprite On, Off;
 	private Image image;
-	private Button button;
 
 	private void Awake () {
 		image = GetComponent<Image>();
-		button = GetComponent<Button>();
 	}
 
 	private void Start () {
-		ChangeSprite(AudioManafer.Instance.MusicOn);
-		button.onClick.AddListener(SwitchMusic);
-		AudioManafer.Instance.HandleMusicSwitch += ChangeSprite;
+		ChangeSprite(AudioManager.Instance.MusicOn);
+		GetComponent<Button>().onClick.AddListener(SwitchMusic);
+		AudioManager.Instance.HandleMusicSwitch += ChangeSprite;
 	}
 
 	private void ChangeSprite (bool isOn) {
@@ -23,12 +21,11 @@ public class MusicController : MonoBehaviour {
 	}
 
 	private void OnDestroy () {
-		if (AudioManafer.Instance)
-			AudioManafer.Instance.HandleMusicSwitch -= ChangeSprite;
+		AudioManager.Instance.HandleMusicSwitch -= ChangeSprite;
 	}
 
 	private void SwitchMusic () {
-		AudioManafer.Instance.SwitchMusic();
+		AudioManager.Instance.SwitchMusic();
 	}
 
 }

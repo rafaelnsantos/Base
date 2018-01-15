@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class AudioManafer : Savable {
+public class AudioManager : Savable {
 
 	private AudioSource musicSource, effectSource;
 
 	public bool MusicOn { get; private set; }
 	public bool EffectOn { get; private set; }
-	public static AudioManafer Instance { get; private set; }
+	public static AudioManager Instance { get; private set; }
 
 	public float MusicVolume {
 		get { return musicSource.volume; }
@@ -34,13 +34,8 @@ public class AudioManafer : Savable {
 		}
 		DontDestroyOnLoad(gameObject);
 
-		musicSource = gameObject.GetComponents<AudioSource>()[0];
-		effectSource = gameObject.GetComponents<AudioSource>()[1];
-		Load();
-	}
-
-	private void Start () {
-		PlayMusic(musicSource.clip);
+		musicSource = GetComponents<AudioSource>()[0];
+		effectSource = GetComponents<AudioSource>()[1];
 	}
 
 	/// <summary>
