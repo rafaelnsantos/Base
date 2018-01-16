@@ -17,7 +17,7 @@ public class InfoButton : MonoBehaviour {
 	}
 
 	public void Hide () {
-		InfoPanel.gameObject.GetComponentInChildren<Animator>().SetBool("Hide", true);
+		InfoPanel.gameObject.GetComponentInChildren<Animator>()?.SetBool("Hide", true);
 	}
 
 }

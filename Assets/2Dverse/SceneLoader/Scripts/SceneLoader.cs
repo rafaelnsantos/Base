@@ -36,7 +36,7 @@ public class SceneLoader : MonoBehaviour {
 		OnSceneLoad?.Invoke();
 		AudioManager.Instance.StopMusic();
 		LoadingScreen.SetActive(true);
-		System.GC.Collect();
+		GC.Collect();
 		StartCoroutine(waitTime > 0 ? AsyncLoadWorkAround(sceneName, waitTime) : AsyncLoad(sceneName));
 	}
 
