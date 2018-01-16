@@ -1,8 +1,11 @@
 ﻿using System.Collections;
+using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class FPS : MonoBehaviour {
+
+	private static FPS instance;
 
 	public Text fpsText;
 	public  float updateInterval = 0.5F;
@@ -12,7 +15,13 @@ public class FPS : MonoBehaviour {
 	private float timeleft; // Left time for current interval
  
 	private void Awake () {
-		DontDestroyOnLoad(this);
+		// Singleton Pattern
+		if (instance == null) {
+			instance = this;
+		} else if (instance != this) {
+			Destroy(gameObject);
+		}
+		DontDestroyOnLoad(gameObject);
 	}
 	
 

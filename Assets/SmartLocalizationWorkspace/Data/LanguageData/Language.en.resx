@@ -116,6 +116,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+	<data name="Facebook.Score" xml:space="preserve">
+		<value>Score: </value>
+	</data>
+	<data name="Facebook.Welcome" xml:space="preserve">
+		<value>Welcome </value>
+	</data>
 	<data name="Loading.Hint0" xml:space="preserve">
 		<value>Hint 1</value>
 	</data>
@@ -130,8 +136,5 @@
 	</data>
 	<data name="[type=TEXTURE]Settings.Language" xml:space="preserve">
 		<value>cf0da3ea5a42c42478a8463b4756dd2c</value>
-	</data>
-	<data name="Test" xml:space="preserve">
-		<value>english</value>
 	</data>
 </root>

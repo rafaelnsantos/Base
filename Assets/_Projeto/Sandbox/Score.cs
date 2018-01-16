@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Facebook.Unity;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class Score : MonoBehaviour {
@@ -23,7 +24,7 @@ public class Score : MonoBehaviour {
 	}
 
 	private void OnDestroy () {
-		if (score > FacebookInfo.HighScore) FBShare.PostScore(score);
+		if (FB.IsLoggedIn && score > FacebookInfo.HighScore) FBShare.PostScore(score);
 	}
 
 }

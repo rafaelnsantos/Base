@@ -1,4 +1,5 @@
 ﻿using Facebook.Unity;
+using SmartLocalization;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,9 +11,13 @@ public class FacebookManager : MonoBehaviour {
 	public RawImage ProfilePic;
 	public Text WelcomeText;
 	public Text ScoreText;
-	
+
 	private void Awake () {
 		if (!FB.IsInitialized) FB.Init(InitCallback);
+	}
+
+	private void ChangeText (LanguageManager thislanguagemanager) {
+		RedrawUI();
 	}
 
 	private void InitCallback () {
@@ -23,7 +28,8 @@ public class FacebookManager : MonoBehaviour {
 	}
 
 	private void Start () {
-		if(FB.IsLoggedIn) RedrawUI();
+		if (FB.IsLoggedIn) RedrawUI();
+		LanguageManager.Instance.OnChangeLanguage += ChangeText;
 	}
 
 	public void OnLoginClick () {
@@ -59,8 +65,7 @@ public class FacebookManager : MonoBehaviour {
 			HeaderNotLoggedIn.SetActive(false);
 
 			// Show HighScore if we have one
-			ScoreText.text = "Score: " + FacebookInfo.HighScore.ToString();
-
+			ScoreText.text = LanguageManager.Instance.GetTextValue("Facebook.Score") + FacebookInfo.HighScore.ToString();
 		}
 
 		if (FacebookInfo.UserTexture != null && !string.IsNullOrEmpty(FacebookInfo.Username)) {
@@ -69,11 +74,24 @@ public class FacebookManager : MonoBehaviour {
 			ProfilePic.texture = FacebookInfo.UserTexture;
 
 			// Update Welcome Text
-			WelcomeText.text = "Welcome " + FacebookInfo.Username + "!";
+			WelcomeText.text = LanguageManager.Instance.GetTextValue("Facebook.Welcome") + FacebookInfo.Username + "!";
 		}
+	}
+	
+	public void OnBragClicked()
+	{
+		Debug.Log("OnBragClicked");
+		FBShare.ShareBrag();
+	}
 
+	public void OnChallengeClicked(string friendID)
+	{
+		Debug.Log("OnChallengeClicked");
+		FBRequest.RequestChallenge(friendID);
+	}
 
-
+	private void OnDestroy () {
+		if (LanguageManager.HasInstance) LanguageManager.Instance.OnChangeLanguage -= ChangeText;
 	}
 
 }

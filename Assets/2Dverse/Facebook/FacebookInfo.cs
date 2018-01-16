@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Facebook.Unity;
 using UnityEngine;
 
 public class FacebookInfo : MonoBehaviour {
@@ -9,16 +10,8 @@ public class FacebookInfo : MonoBehaviour {
 	public static Dictionary<string, Texture> FriendImages = new Dictionary<string, Texture>();
 	private int? highScore;
 	public static int Score { get; set; }
-	public static bool ScoresReady;
-	private static List<object> scores;
-
-	public static List<object> Scores {
-		get { return scores; }
-		set {
-			scores = value;
-			ScoresReady = true;
-		}
-	}
+	public static List<object> Scores;
+	public static string ServerURL = "https://http://2dversestudio.com.br/";
 
 	public static int HighScore {
 		get { return Instance.highScore ?? 0; }
@@ -39,6 +32,10 @@ public class FacebookInfo : MonoBehaviour {
 
 	public static void CallUIRedraw () {
 		GameObject.Find("FacebookManager")?.GetComponent<FacebookManager>()?.RedrawUI();
+	}
+
+	private void OnApplicationPause (bool pauseStatus) {
+		if (!pauseStatus && FB.IsInitialized) FB.ActivateApp();
 	}
 
 }
