@@ -16,11 +16,11 @@ public class Leaderboard : MonoBehaviour {
 
 	public void RedrawUI () {
 		var scores = FacebookInfo.Scores;
-		
+
 		if (scores.Count <= 0) {
 			return;
 		}
-		
+
 		// Clear out previous leaderboard
 		Transform[] childLBElements = LeaderboardPanel.GetComponentsInChildren<Transform>();
 		foreach (Transform childObject in childLBElements) {
@@ -31,7 +31,7 @@ public class Leaderboard : MonoBehaviour {
 
 		// Populate leaderboard
 		for (int i = 0; i < scores.Count; i++) {
-			GameObject LBgameObject = Instantiate(LeaderboardItemPrefab) as GameObject;
+			GameObject LBgameObject = Instantiate(LeaderboardItemPrefab);
 			LeaderBoardElement LBelement = LBgameObject.GetComponent<LeaderBoardElement>();
 			LBelement.SetupElement(i + 1, scores[i]);
 			LBelement.transform.SetParent(LeaderboardPanel.transform, false);

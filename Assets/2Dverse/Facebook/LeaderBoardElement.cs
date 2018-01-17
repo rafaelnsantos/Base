@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class LeaderBoardElement : MonoBehaviour
 {
 	//   Element references (Set in Unity Editor)   //
-	public Image Background;
+//	public Image Background;
 	public RawImage ProfilePicture;
 	public Text Rank;
 	public Text Name;

@@ -116,6 +116,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+	<data name="Facebook.DateAchievement" xml:space="preserve">
+		<value>Alcançada em </value>
+	</data>
 	<data name="Facebook.Score" xml:space="preserve">
 		<value>Pontuação: </value>
 	</data>

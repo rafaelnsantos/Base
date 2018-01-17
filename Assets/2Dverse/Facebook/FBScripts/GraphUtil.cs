@@ -21,73 +21,90 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using Facebook.Unity;
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.EventSystems;
 
 // Utility class for useful operations when working with the Graph API
-public class GraphUtil : ScriptableObject
-{
-    // Generate Graph API query for a user/friend's profile picture
-    public static string GetPictureQuery(string facebookID, int? width = null, int? height = null, string type = null, bool onlyURL = false)
-    {
-        string query = string.Format("/{0}/picture", facebookID);
-        string param = width != null ? "&width=" + width.ToString() : "";
-        param += height != null ? "&height=" + height.ToString() : "";
-        param += type != null ? "&type=" + type : "";
-        if (onlyURL) param += "&redirect=false";
-        if (param != "") query += ("?g" + param);
-        return query;
-    }
+public class GraphUtil : ScriptableObject {
 
-    // Download an image using WWW from a given URL
-    public static void LoadImgFromURL (string imgURL, Action<Texture> callback)
-    {
-        // Need to use a Coroutine for the WWW call, using Coroutiner convenience class
-        Coroutiner.StartCoroutine(
-            LoadImgEnumerator(imgURL, callback)
-        );
-    }
-    
-    public static IEnumerator LoadImgEnumerator (string imgURL, Action<Texture> callback)
-    {
-        WWW www = new WWW(imgURL);
-        yield return www;
-        
-        if (www.error != null)
-        {
-            Debug.LogError(www.error);
-            yield break;
-        }
-        callback(www.texture);
-    }
+	// Generate Graph API query for a user/friend's profile picture
+	public static string GetPictureQuery (string facebookID, int? width = null, int? height = null, string type = null,
+		bool onlyURL = false) {
+		string query = $"/{facebookID}/picture";
+		string param = width != null ? "&width=" + width.ToString() : "";
+		param += height != null ? "&height=" + height.ToString() : "";
+		param += type != null ? "&type=" + type : "";
+		if (onlyURL) param += "&redirect=false";
+		if (param != "") query += ("?g" + param);
+		return query;
+	}
+
+	// Download an image using WWW from a given URL
+	public static void LoadImgFromURL (string imgURL, Action<Texture> callback) {
+		// Need to use a Coroutine for the WWW call, using Coroutiner convenience class
+		Coroutiner.StartCoroutine(
+			LoadImgEnumerator(imgURL, callback)
+		);
+	}
+
+	public static IEnumerator LoadImgEnumerator (string imgURL, Action<Texture> callback) {
+		WWW www = new WWW(imgURL);
+		yield return www;
+
+		if (www.error != null) {
+			Debug.LogError(www.error);
+			yield break;
+		}
+
+		callback(www.texture);
+	}
 
 	// Pull out the picture image URL from a JSON user object constructed in FBGraph.GetPlayerInfo() or FBGraph.GetFriends()
-    public static string DeserializePictureURL(object userObject)
-    {
-        // friendObject JSON format in this situation
-        // {
-        //   "first_name": "Chris",
-        //   "id": "10152646005463795",
-        //   "picture": {
-        //      "data": {
-        //          "url": "https..."
-        //      }
-        //   }
-        // }
-        var user = userObject as Dictionary<string, object>;
+	public static string DeserializePictureURL (object userObject) {
+		// friendObject JSON format in this situation
+		// {
+		//   "first_name": "Chris",
+		//   "id": "10152646005463795",
+		//   "picture": {
+		//      "data": {
+		//          "url": "https..."
+		//      }
+		//   }
+		// }
+		var user = userObject as Dictionary<string, object>;
 
-        object pictureObj;
-        if (user.TryGetValue("picture", out pictureObj))
-        {
-            var pictureData = (Dictionary<string, object>)(((Dictionary<string, object>)pictureObj)["data"]);
-            return (string)pictureData["url"];
-        }
-        return null;
-    }
+		object pictureObj;
+		if (user.TryGetValue("picture", out pictureObj)) {
+			var pictureData = (Dictionary<string, object>) (((Dictionary<string, object>) pictureObj)["data"]);
+			return (string) pictureData["url"];
+		}
 
-    // Pull out score from a JSON user entry object constructed in FBGraph.GetScores()
-    public static int GetScoreFromEntry(object obj)
-    {
-        Dictionary<string,object> entry = (Dictionary<string,object>) obj;
-        return Convert.ToInt32(entry["score"]);
-    }
+		return null;
+	}
+
+	// Pull out score from a JSON user entry object constructed in FBGraph.GetScores()
+	public static int GetScoreFromEntry (object obj) {
+		Dictionary<string, object> entry = (Dictionary<string, object>) obj;
+		return Convert.ToInt32(entry["score"]);
+	}
+
+	public static List<object> DeserializeAchievements (object userObject) {
+		var user = userObject as Dictionary<string, object>;
+
+		Dictionary<string, object> achievements;
+		if (user.TryGetValue("achievements", out achievements)) {
+			foreach (Dictionary<string, object> achievement in (List<object>) achievements["data"]) {
+				achievement["id"] = ((Dictionary<string, object>)((Dictionary<string, object>)achievement["data"])["achievement"])["id"];
+
+			}
+
+			return (List<object>) achievements["data"];
+		}
+
+		return null;
+	}
+
 }

@@ -40,18 +40,4 @@ public class PauseButton : MonoBehaviour {
 		SceneLoader.Instance.OnSceneLoad -= ReturnTimeScale;
 	}
 
-	private void OnApplicationFocus (bool hasFocus) {
-		// gambiarra por causa do ads carregando no inicio do gameplay
-		if (firstRun && !AdMobiManager.Instance.NoAds) {
-			firstRun = false;
-			return;
-		}
-
-		if (hasFocus) return;
-
-		firstRun = false;
-		Paused = false;
-		Switch();
-	}
-
 }

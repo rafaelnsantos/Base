@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Facebook.Unity;
 using UnityEngine;
 
@@ -10,8 +11,12 @@ public class FacebookInfo : MonoBehaviour {
 	public static Dictionary<string, Texture> FriendImages = new Dictionary<string, Texture>();
 	private int? highScore;
 	public static int Score { get; set; }
+	public static List<object> CompletedAchievements;
+
 	public static List<object> Scores;
-	public static string ServerURL = "https://http://2dversestudio.com.br/";
+	public static List<object> Achievements;
+	public static Dictionary<string, Texture> AchievementsImages = new Dictionary<string, Texture>();
+	public static string ServerURL = "http://2dversestudio.com.br/";
 
 	public static int HighScore {
 		get { return Instance.highScore ?? 0; }

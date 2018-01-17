@@ -44,7 +44,8 @@ public static class FBGraph {
 	// Make a Graph API GET call to /me/ to retrieve a player's information
 	// See: https://developers.facebook.com/docs/graph-api/reference/user/
 	public static void GetPlayerInfo () {
-		string queryString = "/me?fields=id,first_name,picture.width(120).height(120)";
+		string queryString =
+			"/me?fields=id,first_name,picture.width(120).height(120),achievements{data{achievement{id}},end_time}";
 		FB.API(queryString, HttpMethod.GET, GetPlayerInfoCallback);
 	}
 
@@ -74,6 +75,8 @@ public static class FBGraph {
 			// Redraw the UI
 			FacebookInfo.CallUIRedraw();
 		});
+
+		FacebookInfo.CompletedAchievements = GraphUtil.DeserializeAchievements(result.ResultDictionary);
 	}
 
 	// In the above request it takes two network calls to fetch the player's profile picture.
@@ -303,5 +306,62 @@ public static class FBGraph {
 	}
 
 	#endregion
+
+	public static void GetAchievements () {
+		FB.API("/app/achievements?fields=title,description", HttpMethod.GET, GetAchievementsCallback);
+	}
+
+	private static void GetAchievementsCallback (IGraphResult result) {
+		Debug.Log("GetAchievementsCallback");
+		if (result.Error != null) {
+			Debug.LogError(result.Error);
+			return;
+		}
+
+		Debug.Log(result.RawResult);
+
+		// Parse scores info
+		var achievementsList = new List<object>();
+
+		object achievementsh;
+		if (result.ResultDictionary.TryGetValue("data", out achievementsh)) {
+			achievementsList = (List<object>) achievementsh;
+		}
+
+		// Parse score data
+		HandleAchievementsData(achievementsList);
+	}
+
+	private static void HandleAchievementsData (List<object> achievementsList) {
+		var structuredAchievements = new List<object>();
+		foreach (object achievementItem in achievementsList) {
+			// Achievement JSON format
+//			{
+//				"title": "Teste!!!",
+//				"description": "Teste achievement",
+//				"id": "1601668036555772"
+//			}
+
+			var entry = (Dictionary<string, object>) achievementItem;
+
+			string achievementID = (string) entry["id"];
+
+			structuredAchievements.Add(entry);
+			if (!FacebookInfo.AchievementsImages.ContainsKey(achievementID)) {
+				// We don't have this achievement image yet, request it now
+				LoadFriendImgFromID(achievementID, pictureTexture => {
+					if (pictureTexture != null) {
+						FacebookInfo.AchievementsImages.Add(achievementID, pictureTexture);
+					}
+				});
+			}
+		}
+
+		FacebookInfo.Achievements = structuredAchievements;
+
+		// Redraw the UI
+		GameObject.Find("AchievementHolder")?.GetComponent<Achievement>()?.RedrawUI();
+//		FacebookInfo.CallUIRedraw();
+	}
 
 }

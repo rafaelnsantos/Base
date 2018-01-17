@@ -34,7 +34,7 @@ public class FacebookManager : MonoBehaviour {
 
 	public void OnLoginClick () {
 		// Disable the Login Button
-		LoginButton.interactable = false;
+		HeaderNotLoggedIn.SetActive(false);
 
 		// Call Facebook Login for Read permissions of 'public_profile', 'user_friends', and 'email'
 		FBLogin.PromptForLogin(LoginComplete);
@@ -43,7 +43,7 @@ public class FacebookManager : MonoBehaviour {
 	private void LoginComplete () {
 		if (!FB.IsLoggedIn) {
 			// Reenable the Login Button
-			LoginButton.interactable = true;
+			HeaderNotLoggedIn.SetActive(true);
 			return;
 		}
 
@@ -53,9 +53,10 @@ public class FacebookManager : MonoBehaviour {
 
 	void Load () {
 		FBGraph.GetPlayerInfo();
-		FBGraph.GetFriends();
+//		FBGraph.GetFriends();
 //		FBGraph.GetInvitableFriends();
 		FBGraph.GetScores();
+		FBGraph.GetAchievements();
 	}
 
 	public void RedrawUI () {
@@ -66,6 +67,9 @@ public class FacebookManager : MonoBehaviour {
 
 			// Show HighScore if we have one
 			ScoreText.text = LanguageManager.Instance.GetTextValue("Facebook.Score") + FacebookInfo.HighScore.ToString();
+		} else {
+			HeaderNotLoggedIn.SetActive(true);
+			return;
 		}
 
 		if (FacebookInfo.UserTexture != null && !string.IsNullOrEmpty(FacebookInfo.Username)) {
@@ -92,6 +96,10 @@ public class FacebookManager : MonoBehaviour {
 
 	private void OnDestroy () {
 		if (LanguageManager.HasInstance) LanguageManager.Instance.OnChangeLanguage -= ChangeText;
+	}
+
+	public void TesteAchievement () {
+		FBAchievements.GiveAchievement(Achievements.Teste);
 	}
 
 }
