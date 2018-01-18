@@ -1,5 +1,4 @@
 ﻿using SmartLocalization;
-using UnityEngine;
 
 public class RandomText : TextController {
 

@@ -21,11 +21,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using Facebook.Unity;
 using UnityEngine;
-using UnityEngine.AI;
-using UnityEngine.EventSystems;
 
 // Utility class for useful operations when working with the Graph API
 public class GraphUtil : ScriptableObject {

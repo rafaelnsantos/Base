@@ -3,7 +3,6 @@ using System.Collections;
 using GoogleMobileAds.Api;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
 
 public class RewardAdButton : MonoBehaviour {
 

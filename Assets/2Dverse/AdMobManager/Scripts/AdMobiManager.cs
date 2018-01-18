@@ -1,5 +1,4 @@
 ﻿using GoogleMobileAds.Api;
-using UnityEngine;
 
 public class AdMobiManager : Savable {
 

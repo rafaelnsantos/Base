@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using System.Security.Policy;
 
 public class ObjectPooler : MonoBehaviour {
 
