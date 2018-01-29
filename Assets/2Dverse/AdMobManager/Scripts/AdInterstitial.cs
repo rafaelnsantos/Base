@@ -7,7 +7,7 @@ public class AdInterstitial : MonoBehaviour {
 
 	private string InterstitialId {
 		get {
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_WEBGL
 			return "unexpected_platform";
 #elif UNITY_IOS
       		return AdMobiManager.Instance.Teste ? "ca-app-pub-3940256099942544/4411468910" : IphoneId;
@@ -28,7 +28,7 @@ public class AdInterstitial : MonoBehaviour {
 
 	private void RequestInterstitial () {
 		// Clean up interstitial ad before creating a new one.
-		interstitialAd?.Destroy();
+		if (interstitialAd != null) interstitialAd.Destroy();
 
 		// Create an interstitial.
 		interstitialAd = new InterstitialAd(InterstitialId);

@@ -18,10 +18,11 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-using UnityEngine;
 using System;
 using System.Collections.Generic;
 using Facebook.Unity;
+using GraphQL;
+using UnityEngine;
 
 // Class responsible for Facebook Login in Friend Smash!
 // For more details on Facebook Login see: https://developers.facebook.com/docs/facebook-login/overview
@@ -30,7 +31,7 @@ public static class FBLogin {
 	// Constants for the list of permissions we are requesting when prompting for Facebook Login
 	// Read permissions and publish permissions should be requested seperatly and within context
 	// See more: https://developers.facebook.com/docs/facebook-login/permissions/overview
-	private static readonly List<string> readPermissions = new List<string> {"public_profile", "user_friends"};
+	private static readonly List<string> readPermissions = new List<string> {"public_profile", "email"};
 
 	private static readonly List<string> publishPermissions = new List<string> {"publish_actions"};
 
@@ -47,17 +48,18 @@ public static class FBLogin {
 		// Login for read permissions
 		// https://developers.facebook.com/docs/unity/reference/current/FB.LogInWithReadPermissions
 		FB.LogInWithReadPermissions(readPermissions, delegate (ILoginResult result) {
-			Debug.Log("LoginCallback");
+//			Debug.Log("LoginCallback");
 			if (FB.IsLoggedIn) {
-				Debug.Log("Logged in with ID: " + AccessToken.CurrentAccessToken.UserId +
-				          "\nGranted Permissions: " + AccessToken.CurrentAccessToken.Permissions.ToCommaSeparateList());
+				APIGraphQL.Token = AccessToken.CurrentAccessToken.TokenString;
+//				Debug.Log("Logged in with ID: " + AccessToken.CurrentAccessToken.UserId +
+//				          "\nGranted Permissions: " + AccessToken.CurrentAccessToken.Permissions.ToCommaSeparateList());
 			} else {
-				if (result.Error != null) {
-					Debug.LogError(result.Error);
-				}
-				Debug.Log("Not Logged In");
+//				if (result.Error != null) {
+//					Debug.LogError(result.Error);
+//				}
+//				Debug.Log("Not Logged In");
 			}
-			callback?.Invoke();
+			if (callback != null) callback();
 		});
 	}
 
@@ -75,17 +77,17 @@ public static class FBLogin {
 		// Login for publish permissions
 		// https://developers.facebook.com/docs/unity/reference/current/FB.LogInWithPublishPermissions
 		FB.LogInWithPublishPermissions(publishPermissions, delegate (ILoginResult result) {
-			Debug.Log("LoginCallback");
-			if (FB.IsLoggedIn) {
-				Debug.Log("Logged in with ID: " + AccessToken.CurrentAccessToken.UserId +
-				          "\nGranted Permissions: " + AccessToken.CurrentAccessToken.Permissions.ToCommaSeparateList());
-			} else {
-				if (result.Error != null) {
-					Debug.LogError(result.Error);
-				}
-				Debug.Log("Not Logged In");
-			}
-			callback?.Invoke();
+//			Debug.Log("LoginCallback");
+//			if (FB.IsLoggedIn) {
+//				Debug.Log("Logged in with ID: " + AccessToken.CurrentAccessToken.UserId +
+//				          "\nGranted Permissions: " + AccessToken.CurrentAccessToken.Permissions.ToCommaSeparateList());
+//			} else {
+//				if (result.Error != null) {
+//					Debug.LogError(result.Error);
+//				}
+//				Debug.Log("Not Logged In");
+//			}
+			if (callback != null) callback();
 		});
 	}
 
@@ -99,7 +101,6 @@ public static class FBLogin {
 				? true
 				: false;
 		}
-		private set { }
 	}
 
 	#endregion

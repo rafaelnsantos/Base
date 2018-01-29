@@ -38,12 +38,12 @@ public static class FBRequest {
 		string title, message, data = string.Empty;
 
 		// Check to see if we have played a game against a friend yet during this session
-		if (FacebookInfo.Score != 0 && friendID != null) {
+		if (FacebookCache.Score != 0 && friendID != null) {
 			// We have played a game -- lets send a request to the person we just smashed
 			title = "Friend Smash Challenge!";
-			message = "I just smashed you " + FacebookInfo.Score.ToString() + " times! Can you beat it?";
+			message = "I just smashed you " + FacebookCache.Score.ToString() + " times! Can you beat it?";
 			recipient = new List<string>() {friendID};
-			data = "{\"challenge_score\":" + FacebookInfo.Score.ToString() + "}";
+			data = "{\"challenge_score\":" + FacebookCache.Score.ToString() + "}";
 		} else {
 			// We have not played a game against a friend -- lets open an invite request
 			title = "Play Friend Smash with me!";

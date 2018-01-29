@@ -21,7 +21,7 @@ public class AdBanner : MonoBehaviour {
 
 	private string BannerId {
 		get {
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_WEBGL
 			return "unexpected_platform";
 #elif UNITY_IOS
 			return AdMobiManager.Instance.Teste ? "ca-app-pub-3940256099942544/2934735716" : IphoneBannerId;

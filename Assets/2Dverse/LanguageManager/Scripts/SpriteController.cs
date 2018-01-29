@@ -15,12 +15,12 @@ public class SpriteController : MonoBehaviour {
 	}
 
 	private void Start () {
-		ChangeSprite(languageManager);
+		ChangeSprite();
 		languageManager.OnChangeLanguage += ChangeSprite;
 	}
 
-	private void ChangeSprite (LanguageManager languageMan) {
-		Texture2D texture = languageMan.GetTexture(Key) as Texture2D;
+	private void ChangeSprite () {
+		Texture2D texture = languageManager.GetTexture(Key) as Texture2D;
 		Rect rec = new Rect(0, 0, texture.width, texture.height);
 		image.sprite = Sprite.Create(texture, rec, Vector2.one, 100);
 	}

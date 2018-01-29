@@ -3,17 +3,17 @@
 public class Touch : Pausable {
 
 	protected override void PausableUpdate () {
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_WEBGL
 		if (Input.GetMouseButton(0)) ReadTouch();
 #else
 		if (Input.touchCount > 0) ReadTouch();
 #endif
 	}
-	
+
 	private void ReadTouch () {
 		Vector2 touchPosition;
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_WEBGL
 		touchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 		Check(touchPosition);
 #else
@@ -28,7 +28,13 @@ public class Touch : Pausable {
 	private void Check (Vector2 touchPosition) {
 		RaycastHit2D hitInformation = Physics2D.Raycast(touchPosition, Camera.main.transform.forward, 0);
 
-		hitInformation.collider?.gameObject.GetComponent<ITouchable>()?.OnTouch();
+		Collider2D collide = hitInformation.collider;
+
+		if (collide == null) return;
+
+		ITouchable touchable = collide.gameObject.GetComponent<ITouchable>();
+
+		if (touchable != null) touchable.OnTouch();
 	}
 
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Facebook.Unity;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -33,7 +34,7 @@ public class SceneLoader : MonoBehaviour {
 	}
 
 	public void LoadScene (string sceneName, float waitTime) {
-		OnSceneLoad?.Invoke();
+		if (OnSceneLoad != null) OnSceneLoad();
 		AudioManager.Instance.StopMusic();
 		LoadingScreen.SetActive(true);
 		GC.Collect();
@@ -49,7 +50,7 @@ public class SceneLoader : MonoBehaviour {
 			ProgressSlider.value = progress;
 			ProgressText.text = String.Concat((int) (progress * 100), "%");
 			if (async.progress >= 0.9f) {
-				OnLoadedScene?.Invoke();
+				if (OnLoadedScene != null) OnLoadedScene();
 				async.allowSceneActivation = true;
 				animator.SetTrigger("FinishedLoading");
 			}
@@ -70,11 +71,15 @@ public class SceneLoader : MonoBehaviour {
 			yield return null;
 		}
 
-		OnLoadedScene?.Invoke();
+		if (OnLoadedScene != null) OnLoadedScene();
 		async.allowSceneActivation = true;
 		animator.SetTrigger("FinishedLoading");
 		ProgressSlider.value = 1;
 		ProgressText.text = "100%";
+	}
+	
+	private void OnApplicationPause (bool pauseStatus) {
+		if (!pauseStatus && FB.IsInitialized) FB.ActivateApp();
 	}
 
 }

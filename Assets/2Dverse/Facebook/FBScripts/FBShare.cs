@@ -48,25 +48,25 @@ public static class FBShare {
         // See App Links tags: https://developers.facebook.com/docs/applinks/add-to-content
         //
         // Note: In this git repo, the page is located at X
-        string contentURL = FacebookInfo.ServerURL + "sharing/share.php";
+        string contentURL = FacebookCache.ServerURL + "sharing/share.php";
 
         // https://developers.facebook.com/docs/unity/reference/current/FB.ShareLink
         FB.ShareLink(
             new Uri(contentURL),
             "Checkout my Friend Smash greatness!",
-            "I just smashed " + FacebookInfo.Score.ToString() + " friends! Can you beat it?",
+            "I just smashed " + FacebookCache.Score.ToString() + " friends! Can you beat it?",
             null,
             ShareCallback);
     }
 
 	private static void ShareCallback (IShareResult result) {
-		Debug.Log("ShareCallback");
-		if (result.Error != null) {
-			Debug.LogError(result.Error);
-			return;
-		}
+//		Debug.Log("ShareCallback");
+//		if (result.Error != null) {
+//			Debug.LogError(result.Error);
+//			return;
+//		}
 
-		Debug.Log(result.RawResult);
+//		Debug.Log(result.RawResult);
 	}
 
 	// The Graph API for Scores allows you to publish scores from your game to Facebook
@@ -78,34 +78,34 @@ public static class FBShare {
 	// This means we need to ask for the extra permission, as well as handling the
 	// scenario where that permission wasn't previously granted.
 	//
-	public static void PostScore (int score, Action callback = null) {
-		// Check for 'publish_actions' as the Scores API requires it for submitting scores
-		if (FBLogin.HavePublishActions) {
-			var query = new Dictionary<string, string>();
-			query["score"] = score.ToString();
-			FB.API(
-				"/me/scores",
-				HttpMethod.POST,
-				delegate (IGraphResult result) {
-					Debug.Log("PostScore Result: " + result.RawResult);
-					// Fetch fresh scores to update UI
-					FBGraph.GetScores();
-				},
-				query
-			);
-		} else {
-			// Showing context before prompting for publish actions
-			// See Facebook Login Best Practices: https://developers.facebook.com/docs/facebook-login/best-practices
-//            PopupScript.SetPopup("Prompting for Publish Permissions for Scores API", 4f, delegate
-//            {
-			// Prompt for `publish actions` and if granted, post score
-			FBLogin.PromptForPublish(delegate {
-				if (FBLogin.HavePublishActions) {
-					PostScore(score);
-				}
-			});
-//            });
-		}
-	}
+//	public static void PostScore (int score, Action callback = null) {
+//		// Check for 'publish_actions' as the Scores API requires it for submitting scores
+//		if (FBLogin.HavePublishActions) {
+//			var query = new Dictionary<string, string>();
+//			query["score"] = score.ToString();
+//			FB.API(
+//				"/me/scores",
+//				HttpMethod.POST,
+//				delegate (IGraphResult result) {
+//					Debug.Log("PostScore Result: " + result.RawResult);
+//					// Fetch fresh scores to update UI
+//					FBGraph.GetScores();
+//				},
+//				query
+//			);
+//		} else {
+//			// Showing context before prompting for publish actions
+//			// See Facebook Login Best Practices: https://developers.facebook.com/docs/facebook-login/best-practices
+////            PopupScript.SetPopup("Prompting for Publish Permissions for Scores API", 4f, delegate
+////            {
+//			// Prompt for `publish actions` and if granted, post score
+//			FBLogin.PromptForPublish(delegate {
+//				if (FBLogin.HavePublishActions) {
+//					PostScore(score);
+//				}
+//			});
+////            });
+//		}
+//	}
 
 }

@@ -1,23 +1,51 @@
 ﻿using System.Collections.Generic;
 using Facebook.Unity;
-using UnityEngine;
 
 public static class FBAchievements {
 
+	public class Achievement {
+
+		public string id;
+		public string title;
+		public string description;
+
+	}
+
 	public static void GiveAchievement (string achievementUrl) {
-		var data = new Dictionary<string, string>() {{"achievement", achievementUrl}};
-		FB.API("/me/achievements",
-			HttpMethod.POST,
-			AchievementCallback,
-			data);
+		if (FBLogin.HavePublishActions) {
+			var data = new Dictionary<string, string>() {{"achievement", achievementUrl}};
+			FB.API("/me/achievements",
+				HttpMethod.POST,
+				AchievementCallback,
+				data);
+		} else {
+			FBLogin.PromptForPublish(delegate {
+				if (FBLogin.HavePublishActions) {
+					GiveAchievement(achievementUrl);
+				}
+			});
+		}
 	}
 
 	private static void AchievementCallback (IGraphResult result) {
-		if (result != null) {
-			// Handle result
-			Debug.Log(result.RawResult);
-			FBGraph.GetPlayerInfo();
+		if (result.Error != null) {
+			return;
 		}
+
+		GetCompletedAchievements();
+	}
+
+	public static void GetCompletedAchievements () {
+		string queryString = "/me?fields=achievements{data{achievement{id}},end_time}";
+		FB.API(queryString, HttpMethod.GET, GetCompletedAchievementsCallback);
+	}
+
+	private static void GetCompletedAchievementsCallback (IGraphResult result) {
+		if (result.Error != null) {
+			return;
+		}
+
+		FacebookCache.CompletedAchievements = GraphUtil.DeserializeAchievements(result.ResultDictionary);
 	}
 
 }

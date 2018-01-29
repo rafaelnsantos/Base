@@ -22,18 +22,29 @@ public class AchievementElement : MonoBehaviour {
 		Description.text = (string) entry["description"];
 
 		Texture picture;
-		if (FacebookInfo.AchievementsImages.TryGetValue((string) entry["id"], out picture)) {
+
+		string id = (string) entry["id"];
+		if (FacebookCache.AchievementsImages.TryGetValue(id, out picture)) {
 			AchievementPicture.texture = picture;
+		} else {
+			// We don't have this achievement image yet, request it now
+			GraphUtil.LoadImgFromID(id, pictureTexture => {
+				if (pictureTexture != null) {
+					FacebookCache.AchievementsImages.Add(id, pictureTexture);
+					AchievementPicture.texture = pictureTexture;
+				}
+			});
 		}
 		CompleteDate.text = "";
 
-		if (FacebookInfo.CompletedAchievements == null) return;
+		if (FacebookCache.CompletedAchievements == null) return;
 
-		foreach (Dictionary<string, object> completedAchievement in FacebookInfo.CompletedAchievements) {
+		foreach (Dictionary<string, object> completedAchievement in FacebookCache.CompletedAchievements) {
 			if (!completedAchievement["id"].Equals(entry["id"])) continue;
 
 			var data = DateTime.Parse(completedAchievement["end_time"].ToString());
-			CompleteDate.text = LanguageManager.Instance.GetTextValue("Facebook.DateAchievement") + data.ToLocalTime().ToString("dd MMM, yyyy '@' HH:mm");
+			CompleteDate.text = LanguageManager.Instance.GetTextValue("Facebook.DateAchievement") +
+			                    data.ToLocalTime().ToString("dd MMM, yyyy '@' HH:mm");
 			AchievementPicture.color = Color.white;
 			Completed = true;
 		}

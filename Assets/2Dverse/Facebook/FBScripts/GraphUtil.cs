@@ -30,7 +30,7 @@ public class GraphUtil : ScriptableObject {
 	// Generate Graph API query for a user/friend's profile picture
 	public static string GetPictureQuery (string facebookID, int? width = null, int? height = null, string type = null,
 		bool onlyURL = false) {
-		string query = $"/{facebookID}/picture";
+		string query = string.Format("/{0}/picture", facebookID);
 		string param = width != null ? "&width=" + width.ToString() : "";
 		param += height != null ? "&height=" + height.ToString() : "";
 		param += type != null ? "&type=" + type : "";
@@ -52,7 +52,7 @@ public class GraphUtil : ScriptableObject {
 		yield return www;
 
 		if (www.error != null) {
-			Debug.LogError(www.error);
+//			Debug.LogError(www.error);
 			yield break;
 		}
 
@@ -102,6 +102,24 @@ public class GraphUtil : ScriptableObject {
 		}
 
 		return null;
+	}
+	
+	public static void LoadImgFromID (string userID, Action<Texture> callback) {
+		FB.API(GetPictureQuery(userID, 128, 128),
+			HttpMethod.GET,
+			delegate (IGraphResult result) {
+				if (result.Error != null) {
+					Debug.LogError(result.Error + ": for friend " + userID);
+					return;
+				}
+
+				if (result.Texture == null) {
+					Debug.Log("LoadFriendImg: No Texture returned");
+					return;
+				}
+
+				callback(result.Texture);
+			});
 	}
 
 }

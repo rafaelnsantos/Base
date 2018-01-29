@@ -10,7 +10,7 @@ public class RewardAdButton : MonoBehaviour {
 
 	private string RewardId {
 		get {
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_WEBGL
 			return "unexpected_platform";
 #elif UNITY_IOS
  			return AdMobiManager.Instance.Teste ? "ca-app-pub-3940256099942544/1712485313" : IphoneId;
@@ -47,7 +47,7 @@ public class RewardAdButton : MonoBehaviour {
 	}
 
 	private void HandleFailedToLoad (object sender, AdFailedToLoadEventArgs e) {
-		Debug.Log(e.Message);
+//		Debug.Log(e.Message);
 		RequestAd();
 	}
 
@@ -55,6 +55,7 @@ public class RewardAdButton : MonoBehaviour {
 		string type = args.Type;
 		double amount = args.Amount;
 		print("Ganhou " + amount + " " + type);
+		FindObjectOfType<Money>().Credit((int)amount);
 	}
 
 	private void ShowAd () {

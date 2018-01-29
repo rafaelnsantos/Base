@@ -10,7 +10,7 @@ public class AdMobiManager : Savable {
 
 	private string AppId {
 		get {
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_WEBGL
 			return "unexpected_platform";
 #elif UNITY_IOS
         	return Teste ? "ca-app-pub-3940256099942544~1458002511" : IphoneAppId;
@@ -22,11 +22,15 @@ public class AdMobiManager : Savable {
 
 	public static AdMobiManager Instance { get; private set; }
 
-	public AdRequest AdRequest => Teste
-		? new AdRequest.Builder()
-			.AddTestDevice("8951c0025f5ad093")
-			.Build()
-		: new AdRequest.Builder().Build();
+	public AdRequest AdRequest {
+		get {
+			return Teste
+				? new AdRequest.Builder()
+					.AddTestDevice("8951c0025f5ad093")
+					.Build()
+				: new AdRequest.Builder().Build();
+		}
+	}
 
 	private void Awake () {
 		// Singleton Pattern

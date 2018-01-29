@@ -24,7 +24,11 @@ public class Score : MonoBehaviour {
 	}
 
 	private void OnDestroy () {
-		if (FB.IsLoggedIn && score > FacebookInfo.HighScore) FBShare.PostScore(score);
+		if (FacebookCache.HighScore!=null && score > FacebookCache.HighScore) {
+			CloudSave.SetInt("score", score);
+			FacebookCache.HighScore = score;
+		}
+		
 	}
 
 }

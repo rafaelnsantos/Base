@@ -14,8 +14,6 @@ public class PauseButton : MonoBehaviour {
 
 	public GameObject PausePanel;
 
-	private bool firstRun = true;
-
 	private void Awake () {
 		Instance = this;
 	}
@@ -33,7 +31,7 @@ public class PauseButton : MonoBehaviour {
 		Paused = !Paused;
 		PausePanel.SetActive(Paused);
 		Time.timeScale = Paused ? 0 : 1;
-		OnPause?.Invoke(Paused);
+		if (OnPause != null) OnPause(Paused);
 	}
 
 	private void OnDestroy () {

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class FPS : MonoBehaviour {
@@ -39,7 +40,7 @@ public class FPS : MonoBehaviour {
 		{
 			// display two fractional digits (f2 format)
 			float fps = accum/frames;
-			string format = $"{fps:F2} FPS";
+			string format = string.Format("{0:F2} FPS", fps);
 			fpsText.text = format;
 			timeleft = updateInterval;
 			accum = 0.0F;

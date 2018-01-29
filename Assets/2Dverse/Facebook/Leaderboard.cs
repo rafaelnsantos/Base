@@ -1,4 +1,6 @@
-﻿using Facebook.Unity;
+﻿using System.Collections.Generic;
+using Facebook.Unity;
+using GraphQL;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,27 +10,46 @@ public class Leaderboard : MonoBehaviour {
 	public GameObject LeaderboardItemPrefab;
 	public ScrollRect LeaderboardScrollRect;
 
-	private void OnEnable () {
-		if (!FB.IsLoggedIn) return;
+	public class Score {
 
-		FBGraph.GetScores();
+		public int score;
+		public string id;
+		public string name;
+		public Texture picture;
+
 	}
 
-	public void RedrawUI () {
-		var scores = FacebookInfo.Scores;
+	private string query =
+		@"query {
+			GetScores {
+				score
+				id
+				name
+			}
+		}";
 
-		if (scores.Count <= 0) {
-			return;
-		}
+	private List<Score> scores;
 
-		// Clear out previous leaderboard
+	private void OnEnable () {
+		EraseUI();
+		
+		APIGraphQL.Query(query, null, result => {
+			scores = result.Get<List<Score>>("GetScores");
+			DrawUI();
+		});
+	}
+
+	private void EraseUI () {
 		Transform[] childLBElements = LeaderboardPanel.GetComponentsInChildren<Transform>();
 		foreach (Transform childObject in childLBElements) {
 			if (!LeaderboardPanel.transform.IsChildOf(childObject.transform)) {
 				Destroy(childObject.gameObject);
 			}
 		}
+	}
 
+	private void DrawUI () {
+		
 		// Populate leaderboard
 		for (int i = 0; i < scores.Count; i++) {
 			GameObject LBgameObject = Instantiate(LeaderboardItemPrefab);
