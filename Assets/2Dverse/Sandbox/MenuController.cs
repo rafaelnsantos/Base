@@ -18,4 +18,8 @@ public class MenuController : MonoBehaviour {
 		Object.transform.DOScale(Vector2.one * (active ? 1 : 0), Time);
 	}
 
+	public void Hide () {
+		if (active) Switch();
+	}
+
 }
