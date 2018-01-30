@@ -5,6 +5,7 @@ public static class FacebookCache {
 
 	public static Texture UserTexture;
 	public static string Username;
+	public static Dictionary<string, string> ScoreNames = new Dictionary<string, string>();
 	public static Dictionary<string, Texture> ScoreImages = new Dictionary<string, Texture>();
 	public static int? HighScore;
 	public static int Score { get; set; }
