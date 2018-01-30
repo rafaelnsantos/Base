@@ -13,9 +13,7 @@ public class Leaderboard : MonoBehaviour {
 	public class Score {
 
 		public int score;
-		public string id;
-		public string name;
-		public Texture picture;
+		public Dictionary<string, string> user;
 
 	}
 
@@ -23,8 +21,9 @@ public class Leaderboard : MonoBehaviour {
 		@"query {
 			GetScores {
 				score
-				id
-				name
+				user {
+					id
+				}
 			}
 		}";
 

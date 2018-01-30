@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using Facebook.Unity;
+using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
 
 public class LeaderBoardElement : MonoBehaviour {
 
@@ -14,19 +14,37 @@ public class LeaderBoardElement : MonoBehaviour {
 
 	public void SetupElement (int rank, Leaderboard.Score score) {
 		Rank.text = rank.ToString() + ".";
-		Name.text = score.name.Split(' ')[0];
 		Score.text = "Smashed: " + score.score;
 
+		string playerName;
+		string id;
+
+		if (!score.user.TryGetValue("id", out id)) return;
+
+		if (FacebookCache.ScoreNames.TryGetValue(id, out playerName)) {
+			Name.text = playerName;
+		} else {
+			FB.API(id + "?fields=first_name", HttpMethod.GET, result => {
+				if (result.Error != null) {
+					return;
+				}
+
+				if (result.ResultDictionary.TryGetValue("first_name", out playerName)) {
+					Name.text = playerName;
+					FacebookCache.ScoreNames.Add(id, playerName);
+				}
+			});
+		}
+
 		Texture picture;
-		if (FacebookCache.ScoreImages.TryGetValue((string) score.id, out picture)) {
+		if (FacebookCache.ScoreImages.TryGetValue(id, out picture)) {
 			ProfilePicture.texture = picture;
 		} else {
-			GraphUtil.LoadImgFromID(score.id, pictureTexture => {
-				FacebookCache.ScoreImages.Add(score.id, pictureTexture);
+			GraphUtil.LoadImgFromID(id, pictureTexture => {
+				FacebookCache.ScoreImages.Add(id, pictureTexture);
 				ProfilePicture.texture = pictureTexture;
 			});
 		}
-		
 	}
 
 }
