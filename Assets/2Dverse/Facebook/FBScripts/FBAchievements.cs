@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Facebook.Unity;
 
 public static class FBAchievements {
@@ -48,4 +49,45 @@ public static class FBAchievements {
 		FacebookCache.CompletedAchievements = GraphUtil.DeserializeAchievements(result.ResultDictionary);
 	}
 
+	public static void GetAchievements (Action callback = null) {
+		if (FacebookCache.Achievements != null) {
+			if (callback != null) callback();
+			return;
+		}
+		FB.API("/app/achievements?fields=title,description", HttpMethod.GET, result => {
+			if (result.Error != null) {
+				return;
+			}
+
+			// Parse scores info
+			var achievementsList = new List<object>();
+
+			object achievementsh;
+			if (result.ResultDictionary.TryGetValue("data", out achievementsh)) {
+				achievementsList = (List<object>) achievementsh;
+			}
+
+			// Parse score data
+			var structuredAchievements = new List<object>();
+			foreach (object achievementItem in achievementsList) {
+				var entry = (Dictionary<string, object>) achievementItem;
+
+				string achievementID = (string) entry["id"];
+				
+				GraphUtil.LoadImgFromID(achievementID, pictureTexture => {
+					if (pictureTexture != null) {
+						FacebookCache.AchievementsImages.Add(achievementID, pictureTexture);
+					}
+				});
+				
+
+				structuredAchievements.Add(entry);
+			}
+
+			FacebookCache.Achievements = structuredAchievements;
+
+			if (callback != null) callback();
+		});
+	}
+	
 }

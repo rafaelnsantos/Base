@@ -10,16 +10,16 @@ public class AchievementElement : MonoBehaviour {
 //	public Image Background;
 	public RawImage AchievementPicture;
 
-	public Text Title;
-	public Text Description;
+	public TextController Title;
+	public TextController Description;
 	public Text CompleteDate;
 	public bool Completed { get; private set; }
 
 	public void SetupElement (object entryObj) {
 		var entry = (Dictionary<string, object>) entryObj;
 
-		Title.text = (string) entry["title"];
-		Description.text = (string) entry["description"];
+		Title.SetKey((string) entry["title"]);
+		Description.SetKey((string) entry["description"]);
 
 		Texture picture;
 

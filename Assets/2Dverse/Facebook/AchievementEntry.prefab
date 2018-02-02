@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 224544030042256258}
   - component: {fileID: 222587558798478740}
   - component: {fileID: 114050000465423544}
+  - component: {fileID: 114417746200934988}
   m_Layer: 5
   m_Name: Title
   m_TagString: Untagged
@@ -72,6 +73,7 @@ GameObject:
   - component: {fileID: 224979784695414730}
   - component: {fileID: 222653077481488048}
   - component: {fileID: 114937518434666960}
+  - component: {fileID: 114645547255475474}
   m_Layer: 5
   m_Name: Description
   m_TagString: Untagged
@@ -205,6 +207,18 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Completado em 21/11/2015
+--- !u!114 &114417746200934988
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1054322964144510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17fbd9c6eb6d63243bf613ae4a5faa32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Key: 
 --- !u!114 &114439168502509236
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -217,9 +231,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AchievementPicture: {fileID: 114042775537255200}
-  Title: {fileID: 114050000465423544}
-  Description: {fileID: 114937518434666960}
+  Title: {fileID: 114417746200934988}
+  Description: {fileID: 114645547255475474}
   CompleteDate: {fileID: 114180767555010042}
+--- !u!114 &114645547255475474
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1441966365247440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17fbd9c6eb6d63243bf613ae4a5faa32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Key: 
 --- !u!114 &114884253398794608
 MonoBehaviour:
   m_ObjectHideFlags: 1

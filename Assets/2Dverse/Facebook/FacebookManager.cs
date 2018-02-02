@@ -21,6 +21,7 @@ public class FacebookManager : MonoBehaviour {
 				APIGraphQL.Token = AccessToken.CurrentAccessToken.TokenString;
 			}
 		}
+		
 	}
 
 	private void InitCallback () {

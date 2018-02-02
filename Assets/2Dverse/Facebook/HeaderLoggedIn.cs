@@ -14,6 +14,8 @@ public class HeaderLoggedIn : MonoBehaviour {
 	private void OnEnable () {
 		UpdateUI();
 		FBAchievements.GetCompletedAchievements();
+		FBAchievements.GetAchievements();
+		Nicename.GetScores();
 	}
 
 	private void Start () {

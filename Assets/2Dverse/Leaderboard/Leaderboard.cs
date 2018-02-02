@@ -10,50 +10,22 @@ public class Leaderboard : MonoBehaviour {
 	public GameObject LeaderboardItemPrefab;
 	public ScrollRect LeaderboardScrollRect;
 
-	public class Score {
-
-		public int score;
-		public Dictionary<string, string> user;
-
+	private void OnEnable () {		
+		Nicename.GetScores(DrawUI);
 	}
 
-	private string query =
-		@"query {
-			GetScores {
-				score
-				user {
-					id
-				}
-			}
-		}";
-
-	private List<Score> scores;
-
-	private void OnEnable () {
-		EraseUI();
-		
-		APIGraphQL.Query(query, null, result => {
-			scores = result.Get<List<Score>>("GetScores");
-			DrawUI();
-		});
-	}
-
-	private void EraseUI () {
+	private void DrawUI () {
 		Transform[] childLBElements = LeaderboardPanel.GetComponentsInChildren<Transform>();
 		foreach (Transform childObject in childLBElements) {
 			if (!LeaderboardPanel.transform.IsChildOf(childObject.transform)) {
 				Destroy(childObject.gameObject);
 			}
 		}
-	}
-
-	private void DrawUI () {
-		
 		// Populate leaderboard
-		for (int i = 0; i < scores.Count; i++) {
+		for (int i = 0; i < Nicename.Scores.Count; i++) {
 			GameObject LBgameObject = Instantiate(LeaderboardItemPrefab);
 			LeaderBoardElement LBelement = LBgameObject.GetComponent<LeaderBoardElement>();
-			LBelement.SetupElement(i + 1, scores[i]);
+			LBelement.SetupElement(i + 1, Nicename.Scores[i]);
 			LBelement.transform.SetParent(LeaderboardPanel.transform, false);
 		}
 

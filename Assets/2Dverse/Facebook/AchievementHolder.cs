@@ -10,18 +10,10 @@ public class AchievementHolder : MonoBehaviour {
 	public ScrollRect AchievementScrollRect;
 
 	private void OnEnable () {
-		if (!FB.IsLoggedIn) return;
-
-		if (FacebookCache.Achievements == null) {
-			FB.API("/app/achievements?fields=title,description", HttpMethod.GET, GetAchievementsCallback);
-		}
-		else {
-			EraseUI();
-			RedrawUI();
-		}
+		FBAchievements.GetAchievements(RedrawUI);
 	}
 
-	public void EraseUI () {
+	public void RedrawUI () {
 		// Clear out previous leaderboard
 		Transform[] childLBElements = AchievementPanel.GetComponentsInChildren<Transform>();
 		foreach (Transform childObject in childLBElements) {
@@ -29,10 +21,7 @@ public class AchievementHolder : MonoBehaviour {
 				Destroy(childObject.gameObject);
 			}
 		}
-	}
-
-	public void RedrawUI () {
-		EraseUI();
+		
 		var achievements = FacebookCache.Achievements;
 
 		if (achievements.Count <= 0) {
@@ -54,35 +43,6 @@ public class AchievementHolder : MonoBehaviour {
 
 		// Scroll to top
 		AchievementScrollRect.verticalNormalizedPosition = 1f;
-	}
-
-	private void GetAchievementsCallback (IGraphResult result) {
-		if (result.Error != null) {
-			return;
-		}
-
-		// Parse scores info
-		var achievementsList = new List<object>();
-
-		object achievementsh;
-		if (result.ResultDictionary.TryGetValue("data", out achievementsh)) {
-			achievementsList = (List<object>) achievementsh;
-		}
-
-		// Parse score data
-		var structuredAchievements = new List<object>();
-		foreach (object achievementItem in achievementsList) {
-			var entry = (Dictionary<string, object>) achievementItem;
-
-			string achievementID = (string) entry["id"];
-
-			structuredAchievements.Add(entry);
-		}
-
-		FacebookCache.Achievements = structuredAchievements;
-
-		// Redraw the UI
-		RedrawUI();
 	}
 
 }
