@@ -116,6 +116,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+	<data name="DescriptionAchievement1" xml:space="preserve">
+		<value>Description achievement 1</value>
+	</data>
+	<data name="DescriptionAchievement2" xml:space="preserve">
+		<value>Description achievement 2</value>
+	</data>
 	<data name="Facebook.DateAchievement" xml:space="preserve">
 		<value>Unlocked </value>
 	</data>
@@ -139,5 +145,11 @@
 	</data>
 	<data name="[type=TEXTURE]Settings.Language" xml:space="preserve">
 		<value>cf0da3ea5a42c42478a8463b4756dd2c</value>
+	</data>
+	<data name="TitleAchievement1" xml:space="preserve">
+		<value>Achievement 1</value>
+	</data>
+	<data name="TitleAchievement2" xml:space="preserve">
+		<value>Achievement 2</value>
 	</data>
 </root>
