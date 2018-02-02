@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Text;
 using Newtonsoft.Json;
+using UnityEngine;
 using UnityEngine.Networking;
 
 namespace GraphQL {
@@ -26,14 +27,13 @@ namespace GraphQL {
 				variables = variables,
 			};
 
-			string json = JsonConvert.SerializeObject(fullQuery);
-
+			string json = JsonConvert.SerializeObject(fullQuery, Formatting.None);
 			UnityWebRequest request = UnityWebRequest.Post(url, UnityWebRequest.kHttpVerbPOST);
 
-			byte[] payload = Encoding.UTF8.GetBytes(json);
-
+			byte[] payload = Encoding.UTF8.GetBytes(Convert.ToBase64String(RC4.Encrypt(json)));
 			request.uploadHandler = new UploadHandlerRaw(payload);
-			request.SetRequestHeader("Content-Type", "application/json");
+			request.SetRequestHeader("Content-Type", "application/twodversestudio.custom-type");
+			
 			if (token != null) request.SetRequestHeader("Authorization", "Bearer " + token);
 
 			return request;
@@ -53,6 +53,8 @@ namespace GraphQL {
 				}
 
 				string responseString = www.downloadHandler.text;
+				
+				responseString = RC4.Decrypt(Convert.FromBase64String(responseString));
 
 				var result = new GraphQLResponse(responseString);
 
