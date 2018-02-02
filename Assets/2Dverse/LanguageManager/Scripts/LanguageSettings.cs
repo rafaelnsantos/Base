@@ -23,7 +23,7 @@ public class LanguageSettings : Savable {
 	}
 
 	protected override void Load () {
-		int saved = SaveManager.GetInt("Language");
+		int saved = SaveManager.GetInt("Language", 1);
 		languageManager.ChangeLanguage(availableLanguages[saved]);
 	}
 
