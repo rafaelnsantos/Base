@@ -27,4 +27,9 @@ public class TextController : MonoBehaviour {
 		if (LanguageManager.HasInstance) languageManager.OnChangeLanguage -= ChangeText;
 	}
 
+	public void SetKey (string key) {
+		Key = key;
+		ChangeText();
+	}
+
 }
