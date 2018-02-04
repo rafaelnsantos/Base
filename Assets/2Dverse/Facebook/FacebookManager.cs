@@ -18,7 +18,6 @@ public class FacebookManager : MonoBehaviour {
 			} else {
 				SocialButton.interactable = true;
 				HeaderLoggedIn.SetActive(true);
-				APIGraphQL.Token = AccessToken.CurrentAccessToken.TokenString;
 			}
 		}
 		
@@ -29,7 +28,6 @@ public class FacebookManager : MonoBehaviour {
 		FB.ActivateApp();
 
 		if (FB.IsLoggedIn) {
-			APIGraphQL.Token = AccessToken.CurrentAccessToken.TokenString;
 			HeaderLoggedIn.SetActive(true);
 			SocialButton.interactable = true;
 		} else {
@@ -51,7 +49,6 @@ public class FacebookManager : MonoBehaviour {
 			HeaderNotLoggedIn.SetActive(true);
 			return;
 		}
-		APIGraphQL.Token = AccessToken.CurrentAccessToken.TokenString;
 		HeaderLoggedIn.SetActive(true);
 		SocialButton.interactable = true;
 	}
@@ -72,7 +69,6 @@ public class FacebookManager : MonoBehaviour {
 
 	public void LogOut () {
 		FB.LogOut();
-		APIGraphQL.Token = null;
 		HeaderNotLoggedIn.SetActive(true);
 		HeaderLoggedIn.SetActive(false);
 		SocialButton.interactable = false;

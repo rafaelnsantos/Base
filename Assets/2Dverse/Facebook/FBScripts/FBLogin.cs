@@ -50,7 +50,6 @@ public static class FBLogin {
 		FB.LogInWithReadPermissions(readPermissions, delegate (ILoginResult result) {
 //			Debug.Log("LoginCallback");
 			if (FB.IsLoggedIn) {
-				APIGraphQL.Token = AccessToken.CurrentAccessToken.TokenString;
 //				Debug.Log("Logged in with ID: " + AccessToken.CurrentAccessToken.UserId +
 //				          "\nGranted Permissions: " + AccessToken.CurrentAccessToken.Permissions.ToCommaSeparateList());
 			} else {

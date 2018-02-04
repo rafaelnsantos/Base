@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Text;
+using Facebook.Unity;
 using Newtonsoft.Json;
-using UnityEngine;
 using UnityEngine.Networking;
 
 namespace GraphQL {
@@ -21,7 +21,7 @@ namespace GraphQL {
 
 		}
 
-		private UnityWebRequest QueryRequest (string query, object variables, string token = null) {
+		private UnityWebRequest QueryRequest (string query, object variables) {
 			var fullQuery = new GraphQLQuery() {
 				query = query,
 				variables = variables,
@@ -33,16 +33,15 @@ namespace GraphQL {
 			byte[] payload = Encoding.UTF8.GetBytes(Convert.ToBase64String(RC4.Encrypt(json)));
 			request.uploadHandler = new UploadHandlerRaw(payload);
 			request.SetRequestHeader("Content-Type", "application/twodversestudio.custom-type");
-			
-			if (token != null) request.SetRequestHeader("Authorization", "Bearer " + token);
+
+			request.SetRequestHeader("Authorization", "Bearer " + AccessToken.CurrentAccessToken.TokenString);
+			request.SetRequestHeader("AppId", FB.AppId);
 
 			return request;
 		}
 
-		private IEnumerator SendRequest (string query, object variables = null,
-			Action<GraphQLResponse> callback = null,
-			string token = null) {
-			var request = QueryRequest(query, variables, token);
+		private IEnumerator SendRequest (string query, object variables = null, Action<GraphQLResponse> callback = null) {
+			var request = QueryRequest(query, variables);
 
 			using (UnityWebRequest www = request) {
 				yield return www.SendWebRequest();
@@ -53,7 +52,7 @@ namespace GraphQL {
 				}
 
 				string responseString = www.downloadHandler.text;
-				
+
 				responseString = RC4.Decrypt(Convert.FromBase64String(responseString));
 
 				var result = new GraphQLResponse(responseString);
@@ -64,9 +63,8 @@ namespace GraphQL {
 			request.Dispose();
 		}
 
-		public void Query (string query, object variables = null, Action<GraphQLResponse> callback = null,
-			string sToken = "") {
-			Coroutiner.StartCoroutine(SendRequest(query, variables, callback, sToken));
+		public void Query (string query, object variables = null, Action<GraphQLResponse> callback = null) {
+			Coroutiner.StartCoroutine(SendRequest(query, variables, callback));
 		}
 
 	}
