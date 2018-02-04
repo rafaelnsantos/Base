@@ -12,7 +12,7 @@ public class HeaderLoggedIn : MonoBehaviour {
 	public RawImage Picture;
 
 	private void OnEnable () {
-		UpdateUI();
+		StartCoroutine(Wait());
 		FBAchievements.GetCompletedAchievements();
 		FBAchievements.GetAchievements();
 		Nicename.GetScores();
@@ -20,6 +20,11 @@ public class HeaderLoggedIn : MonoBehaviour {
 
 	private void Start () {
 		LanguageManager.Instance.OnChangeLanguage += UpdateUI;
+	}
+
+	private IEnumerator Wait () {
+		yield return new WaitForSeconds(0.5f);
+		UpdateUI();
 	}
 
 	private void UpdateUI () {
