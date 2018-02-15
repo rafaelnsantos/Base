@@ -64,36 +64,36 @@ public static class CloudSave {
             )
         }";
 
-	public static void SetInt (string key, int value, Action<GraphQLResponse> callback = null) {
-		if (FB.IsLoggedIn) APIGraphQL.Query(mutationInteger, new {key, value}, callback);
+	public static void SetInt (string key, int value, Action<bool> callback) {
+		API.Query(mutationInteger, new {key, value}, saved => callback(saved.Get<bool>("SetInt")));
 	}
-
+	
 	public static void GetInt (string key, Action<int> callback) {
-		if (FB.IsLoggedIn) APIGraphQL.Query(queryInteger, new {key}, result => callback(result.Get<int>("GetInt")));
+		API.Query(queryInteger, new {key}, result => callback(result.Get<int>("GetInt")));
 	}
 
-	public static void SetString (string key, string value, Action<GraphQLResponse> callback = null) {
-		if (FB.IsLoggedIn) APIGraphQL.Query(mutationString, new {key, value}, callback);
+	public static void SetString (string key, string value, Action<bool> callback) {
+		API.Query(mutationString, new {key, value}, saved => callback(saved.Get<bool>("SetInt")));
 	}
 
 	public static void GetString (string key, Action<string> callback) {
-		if (FB.IsLoggedIn) APIGraphQL.Query(queryString, new {key}, result => callback(result.Get<string>("GetString")));
+		API.Query(queryString, new {key}, result => callback(result.Get<string>("GetString")));
 	}
 
-	public static void SetBool (string key, bool value, Action<GraphQLResponse> callback = null) {
-		if (FB.IsLoggedIn) APIGraphQL.Query(mutationBoolean, new {key, value}, callback);
+	public static void SetBool (string key, bool value, Action<bool> callback) {
+		API.Query(mutationBoolean, new {key, value}, saved => callback(saved.Get<bool>("SetInt")));
 	}
 
 	public static void GetBool (string key, Action<bool> callback) {
-		if (FB.IsLoggedIn) APIGraphQL.Query(queryBoolean, new {key}, result => callback(result.Get<bool>("GetBool")));
+		API.Query(queryBoolean, new {key}, result => callback(result.Get<bool>("GetBool")));
 	}
 
-	public static void SetFloat (string key, float value, Action<GraphQLResponse> callback = null) {
-		if (FB.IsLoggedIn) APIGraphQL.Query(mutationFloat, new {key, value}, callback);
+	public static void SetFloat (string key, float value, Action<bool> callback) {
+		API.Query(mutationFloat, new {key, value}, saved => callback(saved.Get<bool>("SetInt")));
 	}
 
 	public static void GetFloat (string key, Action<float> callback) {
-		if (FB.IsLoggedIn) APIGraphQL.Query(queryFloat, new {key}, result => callback(result.Get<float>("GetFloat")));
+		API.Query(queryFloat, new {key}, result => callback(result.Get<float>("GetFloat")));
 	}
 
 }

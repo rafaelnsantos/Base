@@ -19,6 +19,7 @@
  */
 
 using System.Text;
+using GraphQL;
 
 /**
  * RC4 Class
@@ -47,7 +48,7 @@ public class RC4 {
 	 * @access public
 	 * @return string
 	 */
-	public static byte[] Encrypt (string data, string pwd = "pqzbkKMGaTuE6Mnn") {
+	public static byte[] Encrypt (string data, string pwd) {
 		int a, i, j, k, tmp, pwd_length, data_length;
 		int[] key, box;
 		byte[] cipher;
@@ -85,7 +86,7 @@ public class RC4 {
 	}
 
 	public static string Decrypt (byte[] data) {
-		return Encoding.UTF8.GetString(Encrypt(Encoding.GetEncoding(1252).GetString(data)));
+		return Encoding.UTF8.GetString(Encrypt(Encoding.GetEncoding(1252).GetString(data), API.key));
 	}
 
 }

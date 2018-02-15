@@ -23,23 +23,23 @@ public class Money : MonoBehaviour {
 
 		coins += i;
 
-		CloudSave.SetInt("coin", coins, res => {
-			Coins.text = coins.ToString();
-			if (done != null) done(true);
+		CloudSave.SetInt("coin", coins, saved => {
+			if (saved) Coins.text = coins.ToString();
+			if (done != null) done(saved);
 		});
 	}
 
 	public void Debit (int i, Action<bool> done) {
-		if (i <= 0  || coins - i < 0) {
+		if (i <= 0 || coins - i < 0) {
 			done(false);
 			return;
 		}
 
 		coins -= i;
 
-		CloudSave.SetInt("coin", coins, res => {
-			Coins.text = coins.ToString();
-			done(true);
+		CloudSave.SetInt("coin", coins, saved => {
+			if (saved) Coins.text = coins.ToString();
+			done(saved);
 		});
 	}
 

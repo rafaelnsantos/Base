@@ -15,7 +15,6 @@ public class HeaderLoggedIn : MonoBehaviour {
 		StartCoroutine(Wait());
 		FBAchievements.GetCompletedAchievements();
 		FBAchievements.GetAchievements();
-		Nicename.GetScores();
 	}
 
 	private void Start () {

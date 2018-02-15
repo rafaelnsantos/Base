@@ -24,11 +24,11 @@ public class Score : MonoBehaviour {
 	}
 
 	private void OnDestroy () {
-		if (FacebookCache.HighScore!=null && score > FacebookCache.HighScore) {
-			CloudSave.SetInt("score", score);
-			FacebookCache.HighScore = score;
+		if (FacebookCache.HighScore != null && score > FacebookCache.HighScore) {
+			CloudSave.SetInt("score", score, saved => {
+				if (saved) FacebookCache.HighScore = score;
+			});
 		}
-		
 	}
 
 }

@@ -30,7 +30,7 @@ namespace GraphQL {
 			string json = JsonConvert.SerializeObject(fullQuery, Formatting.None);
 			UnityWebRequest request = UnityWebRequest.Post(url, UnityWebRequest.kHttpVerbPOST);
 
-			byte[] payload = Encoding.UTF8.GetBytes(Convert.ToBase64String(RC4.Encrypt(json)));
+			byte[] payload = Encoding.UTF8.GetBytes(API.encrypt ? Convert.ToBase64String(RC4.Encrypt(json, API.key)) : json);
 			request.uploadHandler = new UploadHandlerRaw(payload);
 			request.SetRequestHeader("Content-Type", "application/twodversestudio.custom-type");
 
@@ -53,7 +53,7 @@ namespace GraphQL {
 
 				string responseString = www.downloadHandler.text;
 
-				responseString = RC4.Decrypt(Convert.FromBase64String(responseString));
+				responseString = API.encrypt ? RC4.Decrypt(Convert.FromBase64String(responseString)) : responseString;
 
 				var result = new GraphQLResponse(responseString);
 
@@ -64,7 +64,7 @@ namespace GraphQL {
 		}
 
 		public void Query (string query, object variables = null, Action<GraphQLResponse> callback = null) {
-			Coroutiner.StartCoroutine(SendRequest(query, variables, callback));
+			if (FB.IsLoggedIn) Coroutiner.StartCoroutine(SendRequest(query, variables, callback));
 		}
 
 	}
