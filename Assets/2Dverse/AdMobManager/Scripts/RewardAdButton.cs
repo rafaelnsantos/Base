@@ -13,9 +13,9 @@ public class RewardAdButton : MonoBehaviour {
 #if UNITY_EDITOR || UNITY_WEBGL
 			return "unexpected_platform";
 #elif UNITY_IOS
- 			return AdMobiManager.Instance.Teste ? "ca-app-pub-3940256099942544/1712485313" : IphoneId;
+ 			return AdMobSettings.Teste ? "ca-app-pub-3940256099942544/1712485313" : IphoneId;
 #elif UNITY_ANDROID
- 			return AdMobiManager.Instance.Teste ? "ca-app-pub-3940256099942544/5224354917" : AndroidId;
+ 			return AdMobSettings.Teste ? "ca-app-pub-3940256099942544/5224354917" : AndroidId;
 #endif
 		}
 	}
@@ -63,7 +63,7 @@ public class RewardAdButton : MonoBehaviour {
 	}
 
 	private void RequestAd () {
-		rewardAd.LoadAd(AdMobiManager.Instance.AdRequest, RewardId);
+		rewardAd.LoadAd(AdMobSettings.AdRequest, RewardId);
 	}
 
 	private IEnumerator CheckAdLoaded () {

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using GoogleMobileAds.Api;
 using UnityEngine;
 
 public static class FacebookCache {
@@ -15,5 +17,8 @@ public static class FacebookCache {
 	public static List<object> Achievements;
 	public static Dictionary<string, Texture> AchievementsImages = new Dictionary<string, Texture>();
 	public static string ServerURL = "http://2dversestudio.com.br/";
+
+	public static DateTime? UserBirthday = null;
+	public static Gender? UserGender = null;
 
 }

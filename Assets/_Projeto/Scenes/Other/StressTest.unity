@@ -353,6 +353,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114122757498167250, guid: 17591a13455ef834c84dff8d45be8d4c,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 224334522455965860, guid: 17591a13455ef834c84dff8d45be8d4c,
         type: 2}
       propertyPath: m_LocalPosition.x
@@ -446,6 +451,20 @@ Prefab:
     - target: {fileID: 1414426209773652, guid: 17591a13455ef834c84dff8d45be8d4c, type: 2}
       propertyPath: m_Name
       value: RestartButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 1773472863764874, guid: 17591a13455ef834c84dff8d45be8d4c, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114122757498167250, guid: 17591a13455ef834c84dff8d45be8d4c,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114122757498167250, guid: 17591a13455ef834c84dff8d45be8d4c,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 17591a13455ef834c84dff8d45be8d4c, type: 2}

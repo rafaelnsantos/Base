@@ -24,9 +24,9 @@ public class AdBanner : MonoBehaviour {
 #if UNITY_EDITOR || UNITY_WEBGL
 			return "unexpected_platform";
 #elif UNITY_IOS
-			return AdMobiManager.Instance.Teste ? "ca-app-pub-3940256099942544/2934735716" : IphoneBannerId;
+			return AdMobSettings.Teste ? "ca-app-pub-3940256099942544/2934735716" : IphoneBannerId;
 #elif UNITY_ANDROID
-			return AdMobiManager.Instance.Teste ? "ca-app-pub-3940256099942544/6300978111" : AndroidBannerId;
+			return AdMobSettings.Teste ? "ca-app-pub-3940256099942544/6300978111" : AndroidBannerId;
 #endif
 		}
 	}
@@ -50,7 +50,7 @@ public class AdBanner : MonoBehaviour {
 
 	private void Start () {
 
-		if (AdMobiManager.Instance.NoAds) return;
+		if (AdMobSettings.NoAds) return;
 		
 		SceneLoader.Instance.OnSceneLoad += DestroyBanner;
 		SceneLoader.Instance.OnLoadedScene += DestroyBanner;
@@ -65,7 +65,7 @@ public class AdBanner : MonoBehaviour {
 		bannerView.OnAdLoaded += HandleBannerLoaded;
 		
 		// Load banner ad.
-		bannerView.LoadAd(AdMobiManager.Instance.AdRequest);
+		bannerView.LoadAd(AdMobSettings.AdRequest);
 	}
 
 	private void DestroyBanner () {
@@ -79,7 +79,7 @@ public class AdBanner : MonoBehaviour {
 	}
 
 	private void OnDestroy () {
-		if (AdMobiManager.Instance.NoAds) return;
+		if (AdMobSettings.NoAds) return;
 		SceneLoader.Instance.OnSceneLoad -= DestroyBanner;
 		SceneLoader.Instance.OnLoadedScene -= DestroyBanner;
 	}

@@ -31,7 +31,7 @@ public static class FBLogin {
 	// Constants for the list of permissions we are requesting when prompting for Facebook Login
 	// Read permissions and publish permissions should be requested seperatly and within context
 	// See more: https://developers.facebook.com/docs/facebook-login/permissions/overview
-	private static readonly List<string> readPermissions = new List<string> {"public_profile", "email"};
+	private static readonly List<string> readPermissions = new List<string> {"public_profile", "user_birthday"};
 
 	private static readonly List<string> publishPermissions = new List<string> {"publish_actions"};
 

@@ -20,7 +20,6 @@ public class FacebookManager : MonoBehaviour {
 				HeaderLoggedIn.SetActive(true);
 			}
 		}
-		
 	}
 
 	private void InitCallback () {

@@ -22,6 +22,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Facebook.Unity;
+using GoogleMobileAds.Api;
 using UnityEngine;
 
 // Utility class for useful operations when working with the Graph API
@@ -120,6 +121,32 @@ public class GraphUtil : ScriptableObject {
 
 				callback(result.Texture);
 			});
+	}
+
+	public static void TargetingAd () {
+		if (!FacebookCache.UserGender.Equals(null) && !FacebookCache.UserBirthday.Equals(null)) return;
+		FB.API("/me?fields=birthday,gender", HttpMethod.GET, callback);
+	}
+
+	private static void callback (IGraphResult result) {
+		string gender;
+		if (result.ResultDictionary.TryGetValue("gender", out gender)) {
+			switch (gender) {
+				case "male":
+					FacebookCache.UserGender = Gender.Male;
+					break;
+				case "female":
+					FacebookCache.UserGender = Gender.Female;
+					break;
+				default:
+					FacebookCache.UserGender = Gender.Unknown;
+					break;
+			}
+		}
+		string birthday;
+		if (result.ResultDictionary.TryGetValue("birthday", out birthday)) {
+			FacebookCache.UserBirthday = DateTime.Parse(birthday);
+		}
 	}
 
 }

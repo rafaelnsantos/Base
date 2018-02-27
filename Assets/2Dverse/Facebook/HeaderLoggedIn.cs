@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using Facebook.Unity;
 using SmartLocalization;
 using UnityEngine;
@@ -15,6 +14,7 @@ public class HeaderLoggedIn : MonoBehaviour {
 		StartCoroutine(Wait());
 		FBAchievements.GetCompletedAchievements();
 		FBAchievements.GetAchievements();
+		GraphUtil.TargetingAd();
 	}
 
 	private void Start () {

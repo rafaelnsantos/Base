@@ -9,10 +9,15 @@ public class Leaderboard : MonoBehaviour {
 	public GameObject LeaderboardPanel;
 	public GameObject LeaderboardItemPrefab;
 	public ScrollRect LeaderboardScrollRect;
-	
+	public string Key = "score";
+	[Range(1, 100)] public int Top = 100;
+
 	private string query =
-		@"query {
-			Leaderboard {
+		@"query ($key: String, $top: Int){
+			Leaderboard (
+				key: $key
+				top: $top
+			){
 				score
 				user {
 					id
@@ -22,8 +27,8 @@ public class Leaderboard : MonoBehaviour {
 
 	private List<Rank> scores;
 
-	private void OnEnable () {		
-		API.Query(query, null, result => {
+	private void OnEnable () {
+		API.Query(query, new {key = Key, top = Top}, result => {
 			scores = result.Get<List<Rank>>("Leaderboard");
 			DrawUI();
 		});
