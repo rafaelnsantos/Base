@@ -16,7 +16,7 @@ public class LeaderBoardElement : MonoBehaviour {
 		Rank.text = rank.ToString() + ".";
 		Score.text = "Smashed: " + score.score;
 
-		string userid = score.user.id;
+		string userid = score.id;
 		string username;
 		if (FacebookCache.ScoreNames.TryGetValue(userid, out username)) {
 			Name.text = username;

@@ -13,6 +13,8 @@ public class SceneLoader : MonoBehaviour {
 	public Slider ProgressSlider;
 	public Text ProgressText;
 
+	private bool loadingScene;
+
 	public delegate void OnSceneLoading ();
 
 	public event OnSceneLoading OnSceneLoad;
@@ -34,6 +36,10 @@ public class SceneLoader : MonoBehaviour {
 	}
 
 	public void LoadScene (string sceneName, float waitTime = 0) {
+		if (loadingScene) return;
+
+		loadingScene = true;
+		Time.timeScale = 1;
 		if (OnSceneLoad != null) OnSceneLoad();
 		AudioManager.StopMusic();
 		LoadingScreen.SetActive(true);
@@ -53,6 +59,7 @@ public class SceneLoader : MonoBehaviour {
 				if (OnLoadedScene != null) OnLoadedScene();
 				async.allowSceneActivation = true;
 				animator.SetTrigger("FinishedLoading");
+				loadingScene = false;
 			}
 			yield return null;
 		}
@@ -76,6 +83,7 @@ public class SceneLoader : MonoBehaviour {
 		animator.SetTrigger("FinishedLoading");
 		ProgressSlider.value = 1;
 		ProgressText.text = "100%";
+		loadingScene = false;
 	}
 	
 	private void OnApplicationPause (bool pauseStatus) {

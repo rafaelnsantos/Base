@@ -8,9 +8,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7333e0b958537429050e0841dc49a9, type: 3}
-  m_Name: CloudSaveSettings
+  m_Script: {fileID: 11500000, guid: 89e10297f34c4691b65410863e147aad, type: 3}
+  m_Name: GameStateVariables
   m_EditorClassIdentifier: 
-  url: http://localhost:3000/graphql
-  key: pqzbkKMGaTuE6Mnn
-  encrypted: 0
+  stringKeys: []
+  intKeys:
+  - coin
+  - score
+  boolKeys: []
+  floatKeys: []

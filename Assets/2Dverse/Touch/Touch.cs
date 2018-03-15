@@ -2,7 +2,7 @@
 
 public class Touch : Pausable {
 
-	protected override void PausableUpdate () {
+	private void Update () {
 #if UNITY_EDITOR || UNITY_WEBGL
 		if (Input.GetMouseButton(0)) ReadTouch();
 #else

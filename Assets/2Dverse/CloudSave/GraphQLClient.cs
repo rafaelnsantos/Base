@@ -3,6 +3,7 @@ using System.Collections;
 using System.Text;
 using Facebook.Unity;
 using Newtonsoft.Json;
+using UnityEngine;
 using UnityEngine.Networking;
 
 namespace GraphQL {
@@ -29,11 +30,9 @@ namespace GraphQL {
 
 			string json = JsonConvert.SerializeObject(fullQuery, Formatting.None);
 			UnityWebRequest request = UnityWebRequest.Post(url, UnityWebRequest.kHttpVerbPOST);
-
-//			byte[] payload = Encoding.UTF8.GetBytes(API.encrypt ? Convert.ToBase64String(RC4.Encrypt(json, API.key)) : json);
-			byte[] payload = Encoding.UTF8.GetBytes(Convert.ToBase64String(RC4.Encrypt(json, CloudSaveSettings.Key)));
+			byte[] payload = Encoding.UTF8.GetBytes(CloudSaveSettings.Encrypted ? Convert.ToBase64String(RC4.Encrypt(json, CloudSaveSettings.Key)) : json);
 			request.uploadHandler = new UploadHandlerRaw(payload);
-			request.SetRequestHeader("Content-Type", "application/twodversestudio.custom-type");
+			request.SetRequestHeader("Content-Type", "application/memorycloud.custom-type");
 
 			request.SetRequestHeader("Authorization", "Bearer " + AccessToken.CurrentAccessToken.TokenString);
 			request.SetRequestHeader("AppId", FB.AppId);
@@ -48,14 +47,12 @@ namespace GraphQL {
 				yield return www.SendWebRequest();
 
 				if (www.isNetworkError) {
-					if (callback != null) callback(new GraphQLResponse("", www.error));
+					if (callback != null) callback(new GraphQLResponse(null, www.error));
 					yield break;
 				}
 
 				string responseString = www.downloadHandler.text;
-
-//				responseString = API.encrypt ? RC4.Decrypt(Convert.FromBase64String(responseString)) : responseString;
-				responseString = RC4.Decrypt(Convert.FromBase64String(responseString));
+				responseString = CloudSaveSettings.Encrypted ? RC4.Decrypt(Convert.FromBase64String(responseString)) : responseString;
 
 				var result = new GraphQLResponse(responseString);
 

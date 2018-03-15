@@ -1,29 +1,40 @@
-﻿using System.Collections;
-using Facebook.Unity;
+﻿using Facebook.Unity;
 using SmartLocalization;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class HeaderLoggedIn : MonoBehaviour {
 
-	public Text ScoreText;
+	private HighScore highScore;
+	private Money money;
 	public Text Welcome;
 	public RawImage Picture;
 
+	private static bool loaded;
+
 	private void OnEnable () {
-		StartCoroutine(Wait());
 		FBAchievements.GetCompletedAchievements();
 		FBAchievements.GetAchievements();
 		GraphUtil.TargetingAd();
+		
+	}
+
+	private void Awake () {
+		highScore = GetComponentInChildren<HighScore>();
+		money = GetComponentInChildren<Money>();
 	}
 
 	private void Start () {
+		if (!loaded) {
+			GameState.Load(finished => {
+				UpdateUI();
+				loaded = true;
+			});
+		} else {
+			UpdateUI();
+			GameState.Save();
+		}
 		LanguageManager.Instance.OnChangeLanguage += UpdateUI;
-	}
-
-	private IEnumerator Wait () {
-		yield return new WaitForSeconds(0.5f);
-		UpdateUI();
 	}
 
 	private void UpdateUI () {
@@ -39,14 +50,18 @@ public class HeaderLoggedIn : MonoBehaviour {
 			});
 		}
 
-		if (FacebookCache.HighScore == null) {
-			CloudSave.GetInt("score", score => {
-				FacebookCache.HighScore = score;
-				ScoreText.text = LanguageManager.Instance.GetTextValue("Facebook.Score") + score;
-			});
-		} else {
-			ScoreText.text = LanguageManager.Instance.GetTextValue("Facebook.Score") + FacebookCache.HighScore;
-		}
+		highScore.ChangeText();
+
+		money.UpdateCoins();
+
+//		if (FacebookCache.HighScore == null) {
+//			CloudSave.GetInt("score", score => {
+//				FacebookCache.HighScore = score;
+//				ScoreText.text = LanguageManager.Instance.GetTextValue("Facebook.Score") + score;
+//			});
+//		} else {
+//			ScoreText.text = LanguageManager.Instance.GetTextValue("Facebook.Score") + FacebookCache.HighScore;
+//		}
 
 		if (!string.IsNullOrEmpty(FacebookCache.Username)) {
 			// Update Welcome Text

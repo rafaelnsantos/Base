@@ -6,6 +6,7 @@ namespace GraphQL {
 		public string Raw { get; private set; }
 		private readonly JObject data;
 		public string Exception { get; private set; }
+		public bool HasError {get { return Exception != null; }}
 
 		public GraphQLResponse (string text, string ex = null) {
 			Exception = ex;

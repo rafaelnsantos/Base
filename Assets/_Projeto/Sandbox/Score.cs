@@ -1,5 +1,4 @@
-﻿using Facebook.Unity;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class Score : MonoBehaviour {
@@ -8,6 +7,13 @@ public class Score : MonoBehaviour {
 
 	private Text text;
 	public int score { get; private set; }
+
+	private int highScore;
+	
+	public int HighScore {
+		get { return Instance.highScore; }
+		private set { Instance.highScore = value; }
+	}
 
 	private void Awake () {
 		text = GetComponent<Text>();
@@ -24,10 +30,8 @@ public class Score : MonoBehaviour {
 	}
 
 	private void OnDestroy () {
-		if (FacebookCache.HighScore != null && score > FacebookCache.HighScore) {
-			CloudSave.SetInt("score", score, saved => {
-				if (saved) FacebookCache.HighScore = score;
-			});
+		if (score > GameState.GetInt("score")) {
+			GameState.SetInt("score", score);
 		}
 	}
 

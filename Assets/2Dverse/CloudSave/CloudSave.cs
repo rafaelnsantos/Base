@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using Facebook.Unity;
 using GraphQL;
+using UnityEngine;
 
 public static class CloudSave {
 
@@ -64,56 +66,78 @@ public static class CloudSave {
             )
         }";
 
-	public static void SetInt (string key, int value, Action<bool> callback) {
-		if (FB.IsLoggedIn) API.Query(mutationInteger, new {key, value}, saved => callback(saved.Get<bool>("SetInt")));
-		else {
-			SaveManager.SetInt(key, value);
-			callback(true);
+	private static string queryCheck =
+		@"query {
+			Check
+		}";
+
+	private static void CheckInternetConnection (Action<bool> action) {
+		if (!FB.IsLoggedIn || Application.internetReachability == NetworkReachability.NotReachable) {
+			action(false);
+			return;
 		}
-	}
-	
-	public static void GetInt (string key, Action<int> callback) {
-		if (FB.IsLoggedIn) API.Query(queryInteger, new {key}, result => callback(result.Get<int>("GetInt")));
-		else callback(SaveManager.GetInt(key));
+
+		API.Query(queryCheck, null, result => action(result.Get<bool>("Check")));
 	}
 
-	public static void SetString (string key, string value, Action<bool> callback) {
-		if (FB.IsLoggedIn) API.Query(mutationString, new {key, value}, saved => callback(saved.Get<bool>("SetInt")));
-		else {
-			SaveManager.SetString(key, value);
-			callback(true);
-		}
+	public static void SetInt (string key, int value) {
+		API.Query(mutationInteger, new {key, value});
+		SaveManager.SetInt(key, value);
+	}
+
+	public static void GetInt (string key, Action<int> callback) {
+		CheckInternetConnection(connected => {
+			if (connected) {
+				API.Query(queryInteger, new {key}, result => callback(result.Get<int>("GetInt")));
+			} else {
+				callback(SaveManager.GetInt(key));
+			}
+		});
+	}
+
+	public static void SetString (string key, string value) {
+		API.Query(mutationString, new {key, value});
+		SaveManager.SetString(key, value);
 	}
 
 	public static void GetString (string key, Action<string> callback) {
-		if (FB.IsLoggedIn) API.Query(queryString, new {key}, result => callback(result.Get<string>("GetString")));
-		else callback(SaveManager.GetString(key));
+		CheckInternetConnection(connected => {
+			if (connected) {
+				API.Query(queryString, new {key}, result => callback(result.Get<string>("GetString")));
+			} else {
+				callback(SaveManager.GetString(key));
+			}
+		});
 	}
 
-	public static void SetBool (string key, bool value, Action<bool> callback) {
-		if (FB.IsLoggedIn) API.Query(mutationBoolean, new {key, value}, saved => callback(saved.Get<bool>("SetInt")));
-		else {
-			SaveManager.SetBool(key, value);
-			callback(true);
-		}
+	public static void SetBool (string key, bool value) {
+		API.Query(mutationBoolean, new {key, value});
+		SaveManager.SetBool(key, value);
 	}
 
 	public static void GetBool (string key, Action<bool> callback) {
-		if (FB.IsLoggedIn) API.Query(queryBoolean, new {key}, result => callback(result.Get<bool>("GetBool")));
-		else callback(SaveManager.GetBool(key));
+		CheckInternetConnection(connected => {
+			if (connected) {
+				API.Query(queryBoolean, new {key}, result => callback(result.Get<bool>("GetBool")));
+			} else {
+				callback(SaveManager.GetBool(key));
+			}
+		});
 	}
 
-	public static void SetFloat (string key, float value, Action<bool> callback) {
-		if (FB.IsLoggedIn) API.Query(mutationFloat, new {key, value}, saved => callback(saved.Get<bool>("SetInt")));
-		else {
-			SaveManager.SetFloat(key, value);
-			callback(true);
-		}
+	public static void SetFloat (string key, float value) {
+		API.Query(mutationFloat, new {key, value});
+		SaveManager.SetFloat(key, value);
 	}
 
 	public static void GetFloat (string key, Action<float> callback) {
-		if (FB.IsLoggedIn) API.Query(queryFloat, new {key}, result => callback(result.Get<float>("GetFloat")));
-		else callback(SaveManager.GetFloat(key));
+		CheckInternetConnection(connected => {
+			if (connected) {
+				API.Query(queryFloat, new {key}, result => callback(result.Get<float>("GetFloat")));
+			} else {
+				callback(SaveManager.GetFloat(key));
+			}
+		});
 	}
 
 }

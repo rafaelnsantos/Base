@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using Facebook.Unity.Settings;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CloudSaveSettings : ScriptableObject {
 
@@ -10,6 +8,7 @@ public class CloudSaveSettings : ScriptableObject {
 
 	[SerializeField] private string url;
 	[SerializeField] private string key;
+	[SerializeField] private bool encrypted;
 
 	public static string URL {
 		get { return Instance.url; }
@@ -19,6 +18,11 @@ public class CloudSaveSettings : ScriptableObject {
 	public static string Key {
 		get { return Instance.key; }
 		set { Instance.key = value; }
+	}
+
+	public static bool Encrypted {
+		get { return Instance.encrypted; }
+		set { Instance.encrypted = value; }
 	}
 
 	private static CloudSaveSettings instance;

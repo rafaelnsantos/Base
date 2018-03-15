@@ -5,7 +5,7 @@ using UnityEngine;
 [CustomEditor(typeof(CloudSaveSettings))]
 public class CloudSaveSettingsEditor : Editor {
 
-	[MenuItem("2Dverse/Edit CloudSave Settings")]
+	[MenuItem("Memory Cloud/Edit Settings")]
 	public static void Edit () {
 		var instance = CloudSaveSettings.NullableInstance;
 
@@ -27,18 +27,20 @@ public class CloudSaveSettingsEditor : Editor {
 
 	public override void OnInspectorGUI () {
 		CloudSaveSettings.URL = EditorGUILayout.TextField("URL", CloudSaveSettings.URL);
+		CloudSaveSettings.Encrypted = EditorGUILayout.BeginToggleGroup("Encrypted?", CloudSaveSettings.Encrypted);
 		CloudSaveSettings.Key = EditorGUILayout.PasswordField("Encryption key", CloudSaveSettings.Key);
+		EditorGUILayout.EndToggleGroup();
 		if (GUI.changed) EditorUtility.SetDirty((CloudSaveSettings) target);
 	}
 
-	[MenuItem("CloudSave/Developers Page")]
+	[MenuItem("Memory Cloud/Developers Page")]
 	static void Page () {
-		Application.OpenURL("https://github.com/rafaelnsantos/unity-cloudsave");
+		Application.OpenURL("https://github.com/memory-cloud");
 	}
 
-	[MenuItem("CloudSave/Report a Bug")]
+	[MenuItem("Memory Cloud/Report a Bug")]
 	static void BugPage () {
-		Application.OpenURL("https://github.com/rafaelnsantos/unity-cloudsave/issues");
+		Application.OpenURL("https://github.com/memory-cloud/docs/issues");
 	}
 
 }

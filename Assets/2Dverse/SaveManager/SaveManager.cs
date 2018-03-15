@@ -36,4 +36,14 @@ public static class SaveManager {
 		return PlayerPrefs.GetString(key, defaultValue);
 	}
 
+	public static void SetDateTime (string key, DateTime date) {
+		PlayerPrefs.SetString(key+"date", date.ToBinary().ToString());
+	}
+
+	public static DateTime GetDateTime (string key) {
+		DateTime defaultValue = DateTime.MinValue;
+		long temp = Convert.ToInt64(PlayerPrefs.GetString(key + "date", defaultValue.ToBinary().ToString()));
+		return DateTime.FromBinary(temp);
+	}
+
 }

@@ -1,42 +1,18 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Desativa o script quando o jogo pausa
+/// </summary>
 public abstract class Pausable : MonoBehaviour {
-
-	protected bool Paused;
-
 	private void Start () {
-		PauseButton.Instance.OnPause += HandlePause;
-		Paused = PauseButton.Instance.Paused;
+		PauseManager.Instance.HandlePauseSwitch += HandlePause;
 	}
 
-	private void Update () {
-		if (Paused) return;
-
-		PausableUpdate();
+	private void HandlePause (bool ispaused) {
+		enabled = !ispaused;
 	}
-
-	private void FixedUpdate () {
-		if (Paused) return;
-
-		PausableFixedUpdate();
-	}
-
-	private void LateUpdate () {
-		if (Paused) return;
-
-		PausableLateUpdate();
-	}
-
-	private void HandlePause (bool pause) {
-		Paused = pause;
-	}
-
-	protected virtual void PausableLateUpdate () { }
-	protected virtual void PausableFixedUpdate () { }
-	protected virtual void PausableUpdate () { }
 
 	private void OnDestroy () {
-		PauseButton.Instance.OnPause -= HandlePause;
+		PauseManager.Instance.HandlePauseSwitch -= HandlePause;
 	}
-
 }

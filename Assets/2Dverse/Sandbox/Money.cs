@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,11 +8,9 @@ public class Money : MonoBehaviour {
 
 	public int coins { get; private set; }
 
-	private void OnEnable () {
-		CloudSave.GetInt("coin", coin => {
-			coins = coin;
-			Coins.text = coins.ToString();
-		});
+	public void UpdateCoins () {
+		coins = GameState.GetInt("coin");
+		Coins.text = coins.ToString();
 	}
 
 	public void Credit (int i, Action<bool> done = null) {
@@ -24,10 +21,10 @@ public class Money : MonoBehaviour {
 
 		coins += i;
 
-		CloudSave.SetInt("coin", coins, saved => {
-			if (saved) Coins.text = coins.ToString();
-			if (done != null) done(saved);
-		});
+		GameState.SetInt("coin", coins);
+//		CloudSave.SetInt("coin", coins);
+		Coins.text = coins.ToString();
+		if (done != null) done(true);
 	}
 
 	public void Debit (int i, Action<bool> done) {
@@ -38,10 +35,10 @@ public class Money : MonoBehaviour {
 
 		coins -= i;
 
-		CloudSave.SetInt("coin", coins, saved => {
-			if (saved) Coins.text = coins.ToString();
-			done(saved);
-		});
+		GameState.SetInt("coin", coins);
+//		CloudSave.SetInt("coin", coins);
+		Coins.text = coins.ToString();
+		done(true);
 	}
 
 }

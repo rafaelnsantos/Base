@@ -19,9 +19,7 @@ public class Leaderboard : MonoBehaviour {
 				top: $top
 			){
 				score
-				user {
-					id
-				}
+				id
 			}
 		}";
 
@@ -58,13 +56,6 @@ public class Leaderboard : MonoBehaviour {
 public class Rank {
 
 	public int score;
-	public User user;
-
-}
-
-public class User {
-
 	public string id;
-	public string name;
 
 }

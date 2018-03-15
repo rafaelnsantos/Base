@@ -20,7 +20,7 @@ public class TextController : MonoBehaviour {
 	}
 
 	private void ChangeText () {
-		Text.text = languageManager.GetTextValue(Key);
+		if (Text != null) Text.text = languageManager.GetTextValue(Key);
 	}
 
 	private void OnDestroy () {
@@ -30,6 +30,10 @@ public class TextController : MonoBehaviour {
 	public void SetKey (string key) {
 		Key = key;
 		ChangeText();
+	}
+
+	public string GetString () {
+		return LanguageManager.Instance.GetTextValue(Key);
 	}
 
 }

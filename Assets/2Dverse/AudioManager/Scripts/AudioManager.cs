@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class AudioManager : Savable {
+public class AudioManager : MonoBehaviour {
 
 	private AudioSource musicSource, effectSource;
 
@@ -38,6 +38,10 @@ public class AudioManager : Savable {
 
 		musicSource = GetComponents<AudioSource>()[0];
 		effectSource = GetComponents<AudioSource>()[1];
+	}
+	
+	private void Start () {
+		LoadSettings();
 	}
 
 	/// <summary>
@@ -107,18 +111,26 @@ public class AudioManager : Savable {
 		if (Instance.HandleEffectSwitch != null) Instance.HandleEffectSwitch(Instance.EffectOn);
 	}
 
-	protected override void Load () {
+	private void LoadSettings () {
 		MusicOn = SaveManager.GetBool("MusicOn", true);
 		EffectOn = SaveManager.GetBool("EffectOn", true);
 		musicSource.volume = SaveManager.GetFloat("MusicVolume", 1);
 		effectSource.volume = SaveManager.GetFloat("EffectVolume", 1);
 	}
 
-	protected override void Save () {
+	private void SaveSettings () {
 		SaveManager.SetBool("MusicOn", MusicOn);
 		SaveManager.SetBool("EffectOn", EffectOn);
 		SaveManager.SetFloat("MusicVolume", musicSource.volume);
 		SaveManager.SetFloat("EffectVolume", effectSource.volume);
+	}
+	
+	private void OnApplicationQuit () {
+		SaveSettings();
+	}
+
+	private void OnApplicationPause (bool pauseStatus) {
+		if (pauseStatus) SaveSettings();
 	}
 
 }

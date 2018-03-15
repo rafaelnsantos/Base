@@ -270,7 +270,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1019166967}
   - component: {fileID: 1019166966}
-  - component: {fileID: 1019166965}
   - component: {fileID: 1019166964}
   - component: {fileID: 1019166963}
   m_Layer: 0
@@ -288,13 +287,6 @@ AudioListener:
   m_GameObject: {fileID: 1019166962}
   m_Enabled: 1
 --- !u!124 &1019166964
-Behaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1019166962}
-  m_Enabled: 1
---- !u!92 &1019166965
 Behaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -450,6 +442,10 @@ Prefab:
     - target: {fileID: 1138913315448192, guid: 17591a13455ef834c84dff8d45be8d4c, type: 2}
       propertyPath: m_Name
       value: HUD
+      objectReference: {fileID: 0}
+    - target: {fileID: 1773472863764874, guid: 17591a13455ef834c84dff8d45be8d4c, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 17591a13455ef834c84dff8d45be8d4c, type: 2}
