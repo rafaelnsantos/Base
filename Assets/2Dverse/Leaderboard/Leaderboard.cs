@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Facebook.Unity;
 using GraphQL;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,24 +11,21 @@ public class Leaderboard : MonoBehaviour {
 	public GameObject LeaderboardItemPrefab;
 	public ScrollRect LeaderboardScrollRect;
 	public string Key = "score";
-	[Range(1, 100)] public int Top = 100;
 
-	private string query =
-		@"query ($key: String, $top: Int){
-			Leaderboard (
-				key: $key
-				top: $top
-			){
-				score
-				id
-			}
-		}";
+	public string QueryLeaderboard () {
+		string query = "query ($" + Key + ": String!) {\n";
+		query += "\tLeaderboard(key: $" + Key + ") { leaderboard { id score } position } \n}";
+		return query;
+	}
 
-	private List<Rank> scores;
+	private Lista scores;
 
 	private void OnEnable () {
-		API.Query(query, new {key = Key, top = Top}, result => {
-			scores = result.Get<List<Rank>>("Leaderboard");
+		JObject variables = new JObject();
+		variables[Key] = Key;
+		API.Query(QueryLeaderboard(), variables, result => {
+			scores = result.Get<Lista>("Leaderboard");
+
 			DrawUI();
 		});
 	}
@@ -40,10 +38,10 @@ public class Leaderboard : MonoBehaviour {
 			}
 		}
 		// Populate leaderboard
-		for (int i = 0; i < scores.Count; i++) {
+		for (int i = 0; i < scores.leaderboard.Count; i++) {
 			GameObject LBgameObject = Instantiate(LeaderboardItemPrefab);
 			LeaderBoardElement LBelement = LBgameObject.GetComponent<LeaderBoardElement>();
-			LBelement.SetupElement(i + 1, scores[i]);
+			LBelement.SetupElement(i + 1, scores.leaderboard[i]);
 			LBelement.transform.SetParent(LeaderboardPanel.transform, false);
 		}
 
@@ -53,7 +51,14 @@ public class Leaderboard : MonoBehaviour {
 
 }
 
-public class Rank {
+struct Lista {
+
+	public List<Rank> leaderboard;
+	public int position;
+
+}
+
+public struct Rank {
 
 	public int score;
 	public string id;

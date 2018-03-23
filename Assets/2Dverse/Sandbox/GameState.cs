@@ -70,16 +70,28 @@ public static class GameState {
 		return Booleans[key];
 	}
 
-	public static void Save (Action<bool> finished = null) {
-		if (!NeedSave && !LocalAhead()) return;
+	public static void Save () {
+		if (!NeedSave && !LocalAhead) return;
 
-		if (LocalAhead() || NeedSave) SaveOnline(finished);
-		if (NeedSave) SaveOffline();
+		if (LocalAhead || NeedSave) SaveOnline(callback => {
+			if (callback) {
+				NeedSave = false;
+			}
+		});
+		
+		if (!NeedSave) {
+			return;
+		}
+
+		SaveOffline();
+		NeedSave = false;
 	}
 
 	public static void Load (Action<bool> finished) {
-		if (LocalAhead()) {
-			LoadOffline();
+		LoadOffline();
+
+		if (LocalAhead) {
+			SaveOnline();
 			finished(true);
 			return;
 		}
@@ -270,7 +282,7 @@ public static class GameState {
 				query += "}";
 			}
 		}
-
+		
 		return query;
 	}
 
@@ -341,10 +353,9 @@ public static class GameState {
 
 		return mutation;
 	}
-
-	private static bool LocalAhead () {
-		int compare = SaveManager.GetDateTime("LastSavedOnline").CompareTo(SaveManager.GetDateTime("LastSavedLocal"));
-		return compare == -1;
+	
+	private static bool LocalAhead {
+		get { return SaveManager.GetDateTime("LastSavedOnline").CompareTo(SaveManager.GetDateTime("LastSavedLocal")) == -1; }
 	}
 
 }

@@ -12,7 +12,7 @@ public class GameStateVariables : ScriptableObject {
 	[SerializeField] private List<string> intKeys;
 	[SerializeField] private List<string> boolKeys;
 	[SerializeField] private List<string> floatKeys;
-
+	
 	public static List<string> StringKeys {
 		get { return Instance.stringKeys; }
 		set { Instance.stringKeys = value; }
@@ -32,7 +32,7 @@ public class GameStateVariables : ScriptableObject {
 		get { return Instance.floatKeys; }
 		set { Instance.floatKeys = value; }
 	}
-
+	
 	private static GameStateVariables instance;
 
 	public static GameStateVariables Instance {

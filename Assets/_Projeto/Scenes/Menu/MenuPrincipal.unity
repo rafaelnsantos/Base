@@ -513,6 +513,20 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: Hide
       objectReference: {fileID: 0}
+    - target: {fileID: 1476200501862324, guid: 0b2a038692c069f488892f06a0c00fc4, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224568848620340344, guid: 0b2a038692c069f488892f06a0c00fc4,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -168.0625
+      objectReference: {fileID: 0}
+    - target: {fileID: 114714933731702526, guid: 0b2a038692c069f488892f06a0c00fc4,
+        type: 2}
+      propertyPath: Key
+      value: coin
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0b2a038692c069f488892f06a0c00fc4, type: 2}
   m_IsPrefabParent: 0
@@ -2667,7 +2681,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &663855085
 MonoBehaviour:
   m_ObjectHideFlags: 0
