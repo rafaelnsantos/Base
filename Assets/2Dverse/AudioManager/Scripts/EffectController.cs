@@ -14,7 +14,7 @@ public class EffectController : MonoBehaviour {
 
 	private void Start () {
 		ChangeSprite(AudioManager.Instance.EffectOn);
-		AudioManager.Instance.HandleEffectSwitch += ChangeSprite;
+		AudioManager.Instance.OnEffectSwitch += ChangeSprite;
 		slider.onValueChanged.AddListener(ChangeVolume);
 		slider.value = AudioManager.Instance.EffectVolume;
 	}
@@ -25,7 +25,7 @@ public class EffectController : MonoBehaviour {
 	}
 
 	private void OnDestroy () {
-		AudioManager.Instance.HandleEffectSwitch -= ChangeSprite;
+		AudioManager.Instance.OnEffectSwitch -= ChangeSprite;
 	}
 
 	public void SwitchEffect () {

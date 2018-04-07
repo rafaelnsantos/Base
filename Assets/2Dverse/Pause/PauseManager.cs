@@ -1,13 +1,12 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class PauseManager : MonoBehaviour {
 	public static PauseManager Instance { get; private set; }
 
-	public delegate void OnPauseSwitch (bool isPaused);
-
-	public event OnPauseSwitch HandlePauseSwitch;
-
 	public GameObject pauseCanvas;
+
+	public static Action<bool> onPause;
 
 	private bool isPaused;
 
@@ -22,7 +21,7 @@ public class PauseManager : MonoBehaviour {
 
 		pauseCanvas.SetActive(isPaused);
 
-		if (HandlePauseSwitch != null) HandlePauseSwitch(isPaused);
+		if (onPause != null) onPause(isPaused);
 	}
 
 }

@@ -25,13 +25,13 @@ public class FacebookManager : MonoBehaviour {
 	private void InitCallback () {
 		AndroidJNIHelper.debug = false;
 		FB.ActivateApp();
-
 		if (FB.IsLoggedIn) {
 			HeaderLoggedIn.SetActive(true);
 			SocialButton.interactable = true;
 		} else {
 			HeaderNotLoggedIn.SetActive(true);
 		}
+		GameState.Load();
 	}
 
 	public void OnLoginClick () {
@@ -50,6 +50,7 @@ public class FacebookManager : MonoBehaviour {
 		}
 		HeaderLoggedIn.SetActive(true);
 		SocialButton.interactable = true;
+		GameState.Load();
 	}
 
 	public void OnBragClicked () {

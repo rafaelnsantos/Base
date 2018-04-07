@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class AudioManager : MonoBehaviour {
@@ -19,13 +20,9 @@ public class AudioManager : MonoBehaviour {
 		set { effectSource.volume = value; }
 	}
 
-	public delegate void OnMusicSwitch (bool musicOn);
+	public Action<bool> OnMusicSwitch;
 
-	public event OnMusicSwitch HandleMusicSwitch;
-
-	public delegate void OnEffectSwitch (bool effectOn);
-
-	public event OnEffectSwitch HandleEffectSwitch;
+	public Action<bool> OnEffectSwitch;
 
 	private void Awake () {
 		// Singleton Pattern
@@ -99,7 +96,7 @@ public class AudioManager : MonoBehaviour {
 		else
 			Instance.musicSource.Play();
 
-		if (Instance.HandleMusicSwitch != null) Instance.HandleMusicSwitch(Instance.MusicOn);
+		if (Instance.OnMusicSwitch != null) Instance.OnMusicSwitch(Instance.MusicOn);
 	}
 
 	/// <summary>
@@ -108,7 +105,7 @@ public class AudioManager : MonoBehaviour {
 	/// <returns>Returns actual state.</returns>
 	public static void SwitchEffect () {
 		Instance.EffectOn = !Instance.EffectOn;
-		if (Instance.HandleEffectSwitch != null) Instance.HandleEffectSwitch(Instance.EffectOn);
+		if (Instance.OnEffectSwitch != null) Instance.OnEffectSwitch(Instance.EffectOn);
 	}
 
 	private void LoadSettings () {
@@ -127,6 +124,7 @@ public class AudioManager : MonoBehaviour {
 	
 	private void OnApplicationQuit () {
 		SaveSettings();
+		GameState.Save();
 	}
 
 	private void OnApplicationPause (bool pauseStatus) {

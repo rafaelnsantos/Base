@@ -1,11 +1,8 @@
 ﻿using UnityEngine;
 
-/// <summary>
-/// Desativa o script quando o jogo pausa
-/// </summary>
 public abstract class Pausable : MonoBehaviour {
 	private void Start () {
-		PauseManager.Instance.HandlePauseSwitch += HandlePause;
+		PauseManager.onPause += HandlePause;
 	}
 
 	private void HandlePause (bool ispaused) {
@@ -13,6 +10,6 @@ public abstract class Pausable : MonoBehaviour {
 	}
 
 	private void OnDestroy () {
-		PauseManager.Instance.HandlePauseSwitch -= HandlePause;
+		PauseManager.onPause -= HandlePause;
 	}
 }

@@ -1,4 +1,5 @@
-﻿using Facebook.Unity;
+﻿using System;
+using Facebook.Unity;
 using SmartLocalization;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,15 +26,7 @@ public class HeaderLoggedIn : MonoBehaviour {
 	}
 
 	private void Start () {
-		if (!loaded) {
-			GameState.Load(finished => {
-				UpdateUI();
-				loaded = true;
-			});
-		} else {
-			UpdateUI();
-			GameState.Save();
-		}
+		UpdateUI();
 		LanguageManager.Instance.OnChangeLanguage += UpdateUI;
 	}
 
@@ -49,19 +42,6 @@ public class HeaderLoggedIn : MonoBehaviour {
 				Picture.texture = texture;
 			});
 		}
-
-		highScore.ChangeText();
-
-		money.UpdateCoins();
-
-//		if (FacebookCache.HighScore == null) {
-//			CloudSave.GetInt("score", score => {
-//				FacebookCache.HighScore = score;
-//				ScoreText.text = LanguageManager.Instance.GetTextValue("Facebook.Score") + score;
-//			});
-//		} else {
-//			ScoreText.text = LanguageManager.Instance.GetTextValue("Facebook.Score") + FacebookCache.HighScore;
-//		}
 
 		if (!string.IsNullOrEmpty(FacebookCache.Username)) {
 			// Update Welcome Text
@@ -81,6 +61,7 @@ public class HeaderLoggedIn : MonoBehaviour {
 
 	private void OnDestroy () {
 		if (LanguageManager.HasInstance) LanguageManager.Instance.OnChangeLanguage -= UpdateUI;
+		GameState.onLoad -= UpdateUI;
 	}
 
 }

@@ -11,6 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f7333e0b958537429050e0841dc49a9, type: 3}
   m_Name: CloudSaveSettings
   m_EditorClassIdentifier: 
-  url: http://localhost:3000/graphql
+  url: https://unity-cloudsave-development.herokuapp.com/graphql
   key: pqzbkKMGaTuE6Mnn
   encrypted: 0

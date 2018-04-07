@@ -23,7 +23,6 @@ public class AchievementHolder : MonoBehaviour {
 		}
 		
 		var achievements = FacebookCache.Achievements;
-
 		if (achievements.Count <= 0) {
 			return;
 		}

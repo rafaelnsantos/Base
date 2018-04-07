@@ -13,8 +13,8 @@ public class Leaderboard : MonoBehaviour {
 	public string Key = "score";
 
 	public string QueryLeaderboard () {
-		string query = "query ($" + Key + ": String!) {\n";
-		query += "\tLeaderboard(key: $" + Key + ") { leaderboard { id score } position } \n}";
+		string query = "query ($key: String!) {\n";
+		query += "\tLeaderboard(key: $key) { leaderboard { id score } position } \n}";
 		return query;
 	}
 
@@ -22,8 +22,13 @@ public class Leaderboard : MonoBehaviour {
 
 	private void OnEnable () {
 		JObject variables = new JObject();
-		variables[Key] = Key;
+		variables["key"] = Key;
 		API.Query(QueryLeaderboard(), variables, result => {
+			if (result.HasError) {
+				Debug.Log(result.Raw);
+				return;
+			}
+			
 			scores = result.Get<Lista>("Leaderboard");
 
 			DrawUI();

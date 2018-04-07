@@ -37,6 +37,7 @@ public static class FBAchievements {
 	}
 
 	public static void GetCompletedAchievements () {
+        // TODO: BROKE https://developers.facebook.com/docs/graph-api/changelog/breaking-changes/#4-4-2018
 		string queryString = "/me?fields=achievements{data{achievement{id}},end_time}";
 		FB.API(queryString, HttpMethod.GET, GetCompletedAchievementsCallback);
 	}

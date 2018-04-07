@@ -11,20 +11,23 @@ public class HighScore : MonoBehaviour {
 	public string localizationKey;
 	public string cloudSaveKey;
 
-	private void Awake () {
-		scoreText = GetComponent<Text>();
+
+	private void OnEnable () {
+		GameState.onLoad += ChangeText;
+		LanguageManager.Instance.OnChangeLanguage += ChangeText;
+
 	}
 
-	private void Start () {
-		LanguageManager.Instance.OnChangeLanguage += ChangeText;
-		ChangeText();
+	private void Awake () {
+		scoreText = GetComponent<Text>();
 	}
 
 	public void ChangeText () {
 		scoreText.text = LanguageManager.Instance.GetTextValue(localizationKey) + GameState.GetInt(cloudSaveKey);
 	}
 
-	private void OnDestroy () {
+	private void OnDisable () {
+		GameState.onLoad -= ChangeText;
 		if(LanguageManager.HasInstance) LanguageManager.Instance.OnChangeLanguage -= ChangeText;
 	}
 

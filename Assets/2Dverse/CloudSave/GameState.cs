@@ -12,6 +12,8 @@ public static class GameState {
 	private static Dictionary<string, float> Floats;
 	private static Dictionary<string, bool> Booleans;
 
+	public static Action onLoad;
+	
 	static GameState () {
 		Strings = new Dictionary<string, string>();
 		Integers = new Dictionary<string, int>();
@@ -73,28 +75,21 @@ public static class GameState {
 	public static void Save () {
 		if (!NeedSave && !LocalAhead) return;
 
-		if (LocalAhead || NeedSave) SaveOnline(callback => {
-			if (callback) {
-				NeedSave = false;
-			}
-		});
-		
-		if (!NeedSave) {
-			return;
-		}
+        SaveOnline(success => {
+	        if (success) NeedSave = false;
+        });
 
 		SaveOffline();
 		NeedSave = false;
 	}
 
-	public static void Load (Action<bool> finished) {
+	public static void Load () {
 		LoadOffline();
 
-		if (LocalAhead) {
-			SaveOnline();
-			finished(true);
-			return;
-		}
+//		if (LocalAhead) {
+//			SaveOnline();
+//			return;
+//		}
 
 		JObject variables = new JObject();
 		foreach (var VAR in Strings) {
@@ -115,8 +110,7 @@ public static class GameState {
 
 		API.Query(QueryBuilder(), variables, callback => {
 			if (callback.Exception != null) {
-				LoadOffline();
-				finished(true);
+				if (onLoad != null) onLoad();
 				return;
 			}
 
@@ -136,7 +130,7 @@ public static class GameState {
 				Booleans[key] = callback.Get<bool>("bool" + key);
 			}
 
-			finished(true);
+			if (onLoad != null) onLoad();
 		});
 	}
 
@@ -166,6 +160,7 @@ public static class GameState {
 			if (callback.HasError) {
 				// not saved online
 				Debug.Log(callback.Exception);
+				if (finished != null) finished(false);
 				return;
 			}
 
@@ -210,6 +205,7 @@ public static class GameState {
 		foreach (var key in GameStateVariables.BoolKeys) {
 			Booleans[key] = SaveManager.GetBool(key);
 		}
+		if (onLoad != null) onLoad();
 	}
 
 	public static string QueryBuilder () {
@@ -282,7 +278,7 @@ public static class GameState {
 				query += "}";
 			}
 		}
-		
+
 		return query;
 	}
 
@@ -353,7 +349,7 @@ public static class GameState {
 
 		return mutation;
 	}
-	
+
 	private static bool LocalAhead {
 		get { return SaveManager.GetDateTime("LastSavedOnline").CompareTo(SaveManager.GetDateTime("LastSavedLocal")) == -1; }
 	}

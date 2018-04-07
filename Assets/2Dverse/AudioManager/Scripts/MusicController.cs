@@ -15,7 +15,7 @@ public class MusicController : MonoBehaviour {
 	private void Start () {
 		ChangeSprite(AudioManager.Instance.MusicOn);
 		GetComponent<Button>().onClick.AddListener(SwitchMusic);
-		AudioManager.Instance.HandleMusicSwitch += ChangeSprite;
+		AudioManager.Instance.OnMusicSwitch += ChangeSprite;
 		slider.onValueChanged.AddListener(ChangeVolume);
 		slider.value = AudioManager.Instance.MusicVolume;
 	}
@@ -26,7 +26,7 @@ public class MusicController : MonoBehaviour {
 	}
 
 	private void OnDestroy () {
-		AudioManager.Instance.HandleMusicSwitch -= ChangeSprite;
+		AudioManager.Instance.OnMusicSwitch -= ChangeSprite;
 	}
 
 	private void SwitchMusic () {

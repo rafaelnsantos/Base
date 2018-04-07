@@ -19,7 +19,6 @@
  */
 
 using System.Text;
-using GraphQL;
 
 /**
  * RC4 Class
